@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+html {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  color-scheme: light;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

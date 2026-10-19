@@ -1,0 +1,35 @@
+/*
+ * The site's material. One palette, no light/dark branch: the ground is a
+ * chosen colour and everything is measured against it once. Values here
+ * are PLACEHOLDERS until the specimen page is approved; then they are
+ * extracted from the approved page, not the other way round.
+ */
+@theme {
+  --color-ground: #f4f1ea;
+  --color-ink: #1a1a18;
+  --color-ink-2: #4b4a46;
+  --color-ink-3: #8a8884;
+  --color-line: #dcd8cf;
+  --color-accent: #1a1a18;
+
+  --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-display: 3rem;
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-title: 1.5rem;
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.01em;
+  --text-body: 1rem;
+  --text-body--line-height: 1.55;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+}

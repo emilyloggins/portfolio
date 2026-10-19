@@ -1,0 +1,1 @@
+Read design.md before building or changing any page. Decisions about the site itself are logged in content/decisions/ with project: site. Emily writes all prose; never add copy on her behalf, use placeholders marked TODO(emily).
