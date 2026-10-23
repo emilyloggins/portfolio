@@ -93,19 +93,52 @@ p {
   transform: translateY(-1.55em);
 }
 
-/* The orb: breathes on a slow loop; the grain lives in the SVG filter. */
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.94; }
-  50%      { transform: scale(1.04); opacity: 1; }
+/*
+ * The orb: three bodies of cobalt under one heavy blur, drifting on long
+ * unequal loops. Only `transform` animates, so it stays on the GPU; the
+ * blur is on the parent and is computed once per frame for the whole
+ * layer. No texture of its own: the page grain lies over it.
+ */
+.orb-layer {
+  filter: blur(64px) saturate(1.25);
+  will-change: mask-image;
 }
-.orb-svg {
-  animation: breathe 5.2s ease-in-out infinite;
-  transform-origin: center;
+.orb-body {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
 }
-
-/* The orb sits UNDER the page (z-0, no pointer events); the page
-   content sits above it. No clip: a clip was what drew the rim. */
-
+.orb-a {
+  inset: 22%;
+  background: radial-gradient(circle at 45% 40%, #3d5cff 0%, #1f3fd1 50%, rgb(31 63 209 / 0.6) 100%);
+  animation: drift-a 26s ease-in-out infinite;
+}
+.orb-b {
+  inset: 30% 18% 18% 30%;
+  background: radial-gradient(circle at 50% 50%, #2a4bf0 0%, rgb(31 63 209 / 0.7) 60%, rgb(31 63 209 / 0) 100%);
+  animation: drift-b 33s ease-in-out infinite;
+}
+.orb-c {
+  inset: 16% 32% 34% 16%;
+  background: radial-gradient(circle at 50% 50%, #5a78ff 0%, rgb(61 92 255 / 0.55) 55%, rgb(61 92 255 / 0) 100%);
+  animation: drift-c 41s ease-in-out infinite;
+}
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(4%, -3%) scale(1.06); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-6%, 4%) scale(1.1); }
+  66%      { transform: translate(3%, 6%) scale(0.95); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%      { transform: translate(7%, 5%) scale(1.12); }
+  70%      { transform: translate(-4%, -5%) scale(1.02); }
+}
 @media (prefers-reduced-motion: reduce) {
-  .orb-svg { animation: none; }
+  .orb-body { animation: none; }
 }
+
+
