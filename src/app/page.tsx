@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <main className="arrive mx-auto flex w-full max-w-[34rem] flex-1 flex-col gap-16 px-6 py-24">
       <header className="flex flex-col">
-        <Name link={false} />
+        <Name />
         <p className="text-body text-ink-2">
           <Todo>TODO(emily): role line, a few words</Todo>
         </p>

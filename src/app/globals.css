@@ -93,18 +93,34 @@ p {
   transform: translateY(-1.55em);
 }
 
-/* The name: regular and heavier stacked, crossfaded on hover/focus. */
-.name-a, .name-b {
-  transition: opacity 120ms var(--ease-out);
+/* The orb: breathes on a slow loop; the grain lives in the SVG filter. */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50%      { transform: scale(1.07); opacity: 1; }
 }
-.name-b {
-  font-weight: 600;
-  letter-spacing: -0.01em;
+.orb-svg {
+  animation: breathe 5.2s ease-in-out infinite;
+  transform-origin: center;
+}
+.orb:hover .orb-svg,
+.orb:focus-visible .orb-svg {
+  animation-duration: 2.6s;
+}
+
+/* The card unfolds from the orb: scale and fade, 220ms out, 160ms back. */
+.orb-card {
   opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
 }
-a:hover .name-b, a:focus-visible .name-b, h1:hover .name-b {
+.orb-card[data-open] {
   opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-duration: 220ms;
 }
-a:hover .name-a, a:focus-visible .name-a, h1:hover .name-a {
-  opacity: 0;
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-svg { animation: none; }
 }
