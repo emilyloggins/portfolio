@@ -10,7 +10,7 @@ export default function Page() {
         <Name />
       </nav>
       <header className="flex flex-col gap-2">
-        <h1 className="text-title font-medium text-ink">Easy Care</h1>
+        <h1 className="text-title font-medium text-accent">Easy Care</h1>
         <p className="text-body text-ink-2">
           <Todo>TODO(emily): the case study lands here</Todo>
         </p>

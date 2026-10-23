@@ -1,17 +1,17 @@
 /*
  * The site's material. One palette, no light/dark branch: the ground is a
  * chosen colour and everything is measured against it once.
- * Oct 23: unbleached paper, warm ink, one signal accent (Claude's
- * recommendation, pending Emily's tweak pass).
+ * Oct 23 (Emily): whiter paper with grain; cobalt for every bold word.
  */
 @theme {
-  --color-ground: #eeebe4;
-  --color-ground-2: #e6e2da; /* hover tint on a row */
+  --color-ground: #f7f6f2;
+  --color-ground-2: #ebe9e3; /* hover tint on a row */
   --color-ink: #1c1b19;
   --color-ink-2: #5c5a55;
   --color-ink-3: #8c8984;
-  --color-line: #d9d5cc;
-  --color-accent: #d8431f;
+  --color-line: #ddd9d0;
+  /* Cobalt: the one colour. Every heading and bold word wears it. */
+  --color-accent: #1f3fd1;
 
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
 
