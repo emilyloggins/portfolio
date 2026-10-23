@@ -102,6 +102,8 @@ p {
  */
 .orb-layer {
   filter: blur(56px) saturate(1.3);
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 .orb-shove {
   position: absolute;
