@@ -47,7 +47,7 @@ export function List({ children }: { children: ReactNode }) {
     >
       <div
         aria-hidden
-        className="pill pointer-events-none absolute -inset-x-3 rounded-sm bg-ground-2"
+        className="pointer-events-none absolute -inset-x-3 rounded-sm bg-ground-2"
         style={{
           top: 0,
           height: pill.height,
