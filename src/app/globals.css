@@ -95,33 +95,47 @@ p {
 
 /*
  * The orb: three bodies of cobalt under one heavy blur, drifting on long
- * unequal loops. Only `transform` animates, so it stays on the GPU; the
- * blur is on the parent and is computed once per frame for the whole
- * layer. No texture of its own: the page grain lies over it.
+ * unequal loops. The drift is a keyframe on the inner body; the shove
+ * away from the pointer is a transform on the outer wrapper, so the two
+ * never fight. Only transforms animate, so it stays on the GPU. No
+ * texture of its own: the page grain lies over it.
  */
 .orb-layer {
-  filter: blur(72px) saturate(1.3);
-  will-change: mask-image;
+  filter: blur(56px) saturate(1.3);
+}
+.orb-shove {
+  position: absolute;
+  will-change: transform;
 }
 .orb-body {
   position: absolute;
+  inset: 0;
   border-radius: 9999px;
   will-change: transform;
 }
-.orb-a {
-  inset: 26%;
+.orb-a { inset: 26%; }
+.orb-a .orb-body {
   background: radial-gradient(circle at 45% 40%, #3d5cff 0%, #1f3fd1 35%, rgb(31 63 209 / 0.35) 70%, rgb(31 63 209 / 0) 100%);
   animation: drift-a 26s ease-in-out infinite;
 }
-.orb-b {
-  inset: 32% 20% 20% 32%;
+.orb-b { inset: 32% 20% 20% 32%; }
+.orb-b .orb-body {
   background: radial-gradient(circle at 50% 50%, #2a4bf0 0%, rgb(31 63 209 / 0.5) 45%, rgb(31 63 209 / 0) 85%);
   animation: drift-b 33s ease-in-out infinite;
 }
-.orb-c {
-  inset: 20% 34% 36% 20%;
+.orb-c { inset: 20% 34% 36% 20%; }
+.orb-c .orb-body {
   background: radial-gradient(circle at 50% 50%, #5a78ff 0%, rgb(61 92 255 / 0.4) 40%, rgb(61 92 255 / 0) 85%);
   animation: drift-c 41s ease-in-out infinite;
+}
+/* The meniscus: a ring of brighter, more saturated blue that gathers
+   round the pool, the way liquid bunches at the edge of a finger. */
+.orb-rim {
+  width: 360px;
+  height: 360px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgb(90 120 255 / 0) 0%, rgb(90 120 255 / 0) 30%, rgb(90 120 255 / 0.9) 42%, rgb(61 92 255 / 0.35) 58%, rgb(61 92 255 / 0) 72%);
+  will-change: transform, opacity;
 }
 @keyframes drift-a {
   0%, 100% { transform: translate(0, 0) scale(1); }
