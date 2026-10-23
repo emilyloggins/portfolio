@@ -65,7 +65,7 @@ p {
 .swap {
   display: flex;
   flex-direction: column;
-  transition: transform 220ms var(--ease-out);
+  transition: transform 380ms var(--ease-out);
 }
 .swap > span {
   display: block;

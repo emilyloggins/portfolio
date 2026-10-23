@@ -5,7 +5,7 @@ import { rowClass } from "@/components/row";
 
 /**
  * The Email row copies the address instead of opening a mail client.
- * The description swaps to "Copied" for 1.2s with a 4px vertical slide,
+ * The description swaps to "Copied" for 1.8s with a vertical slide (380ms),
  * then back. Falls through to mailto: where the clipboard is unavailable.
  */
 export function EmailRow({ address }: { address: string }) {
@@ -32,7 +32,7 @@ export function EmailRow({ address }: { address: string }) {
         }
         setCopied(true);
         if (timer.current) window.clearTimeout(timer.current);
-        timer.current = window.setTimeout(() => setCopied(false), 1200);
+        timer.current = window.setTimeout(() => setCopied(false), 1800);
       }}
     >
       <span className="text-body text-ink">Email</span>
