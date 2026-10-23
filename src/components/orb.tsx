@@ -17,10 +17,10 @@ import { useEffect, useRef, useState } from "react";
  * rides in the pool.
  */
 
-const SIZE = 896; // px
-const CORE = 0.42; // the lit body's radius, as a fraction of half the box
-const POOL = 180; // px, pool radius
-const FEATHER = 110; // px, how softly the pool's edge fades
+const SIZE = 672; // px
+const CORE = 0.36; // the lit body's radius, as a fraction of half the box
+const POOL = 120; // px, pool radius
+const FEATHER = 80; // px, how softly the pool's edge fades
 const EASE = 0.12;
 
 export function Orb() {
@@ -109,7 +109,7 @@ export function Orb() {
       ref={box}
       aria-hidden
       className="pointer-events-none fixed z-0"
-      style={{ width: SIZE, height: SIZE, bottom: -SIZE * 0.3, left: -SIZE * 0.28 }}
+      style={{ width: SIZE, height: SIZE, bottom: -SIZE * 0.42, left: -SIZE * 0.4 }}
     >
       <div ref={layer} className="orb-layer absolute inset-0">
         <div className="orb-body orb-a" />
@@ -119,11 +119,11 @@ export function Orb() {
 
       <div
         ref={label}
-        className="pointer-events-none absolute top-0 left-0 w-60 text-center text-meta text-ink-2"
+        className="pointer-events-none absolute top-0 left-0 w-44 text-center text-[0.75rem] leading-[1.35] text-ink-2"
         style={{ opacity: 0, visibility: inside ? "visible" : "hidden" }}
       >
         <p className="text-ink">Brooklyn, NY{time ? <span className="text-ink-3"> · {time}</span> : null}</p>
-        <p className="mt-1 text-ink-3">[TODO(emily): a sentence or two for the pool]</p>
+        <p className="mt-0.5 text-ink-3">[TODO(emily): one short sentence]</p>
       </div>
     </div>
   );

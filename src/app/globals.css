@@ -100,7 +100,7 @@ p {
  * layer. No texture of its own: the page grain lies over it.
  */
 .orb-layer {
-  filter: blur(64px) saturate(1.25);
+  filter: blur(72px) saturate(1.3);
   will-change: mask-image;
 }
 .orb-body {
@@ -109,18 +109,18 @@ p {
   will-change: transform;
 }
 .orb-a {
-  inset: 22%;
-  background: radial-gradient(circle at 45% 40%, #3d5cff 0%, #1f3fd1 50%, rgb(31 63 209 / 0.6) 100%);
+  inset: 26%;
+  background: radial-gradient(circle at 45% 40%, #3d5cff 0%, #1f3fd1 35%, rgb(31 63 209 / 0.35) 70%, rgb(31 63 209 / 0) 100%);
   animation: drift-a 26s ease-in-out infinite;
 }
 .orb-b {
-  inset: 30% 18% 18% 30%;
-  background: radial-gradient(circle at 50% 50%, #2a4bf0 0%, rgb(31 63 209 / 0.7) 60%, rgb(31 63 209 / 0) 100%);
+  inset: 32% 20% 20% 32%;
+  background: radial-gradient(circle at 50% 50%, #2a4bf0 0%, rgb(31 63 209 / 0.5) 45%, rgb(31 63 209 / 0) 85%);
   animation: drift-b 33s ease-in-out infinite;
 }
 .orb-c {
-  inset: 16% 32% 34% 16%;
-  background: radial-gradient(circle at 50% 50%, #5a78ff 0%, rgb(61 92 255 / 0.55) 55%, rgb(61 92 255 / 0) 100%);
+  inset: 20% 34% 36% 20%;
+  background: radial-gradient(circle at 50% 50%, #5a78ff 0%, rgb(61 92 255 / 0.4) 40%, rgb(61 92 255 / 0) 85%);
   animation: drift-c 41s ease-in-out infinite;
 }
 @keyframes drift-a {
