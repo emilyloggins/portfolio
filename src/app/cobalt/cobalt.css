@@ -1,0 +1,29 @@
+/* Scoped demos for where cobalt goes. Not shipped; /cobalt only. */
+
+/* 1: cobalt means responding to you */
+[data-demo="responding"] .pill { background: color-mix(in oklab, var(--color-accent) 9%, transparent); }
+[data-demo="responding"] ::selection { background: color-mix(in oklab, var(--color-accent) 22%, transparent); }
+[data-demo="responding"] .copied { color: var(--color-accent); }
+[data-demo="responding"] a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+[data-demo="responding"] .name-b { color: var(--color-accent); }
+
+/* 2: cobalt means live */
+[data-demo="live"] .live { color: var(--color-accent); }
+[data-demo="live"] .name-b { color: var(--color-ink); }
+
+/* 3: cobalt means my call */
+[data-demo="mycall"] .star { color: var(--color-accent); }
+[data-demo="mycall"] .name-b { color: var(--color-ink); }
+
+/* 4: one object per page */
+[data-demo="one"] .one { color: var(--color-accent); }
+[data-demo="one"] .name-b { color: var(--color-ink); }
+
+/* 5: cobalt in the material */
+[data-demo="material"] { --line: color-mix(in oklab, var(--color-accent) 28%, var(--color-line)); position: relative; }
+[data-demo="material"] hr { border-color: var(--line); }
+[data-demo="material"]::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  background: color-mix(in oklab, var(--color-accent) 3%, transparent);
+}
+[data-demo="material"] .name-b { color: var(--color-ink); }
