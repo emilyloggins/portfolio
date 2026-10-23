@@ -103,11 +103,8 @@ p {
   transform-origin: center;
 }
 
-/* Under the orb's box but outside the sphere, the page must still be
-   usable: the box only takes the pointer where the blue is. */
-.orb {
-  clip-path: circle(calc(50% * 0.5 + 40px) at 50% 50%);
-}
+/* The orb sits UNDER the page (z-0, no pointer events); the page
+   content sits above it. No clip: a clip was what drew the rim. */
 
 @media (prefers-reduced-motion: reduce) {
   .orb-svg { animation: none; }

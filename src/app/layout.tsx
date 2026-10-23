@@ -30,7 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col">
         <Orb />
-        <ViewTransition>{children}</ViewTransition>
+        <div className="relative z-10 flex min-h-full flex-1 flex-col">
+          <ViewTransition>{children}</ViewTransition>
+        </div>
       </body>
     </html>
   );

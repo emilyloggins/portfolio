@@ -79,6 +79,8 @@ export function Orb() {
     };
     const el = box.current;
     if (!el) return;
+    // The box takes no pointer events (it sits under the page). The
+    // pointer is read from the window and tested against the sphere.
     const onMove = (e: PointerEvent) => {
       const b = el.getBoundingClientRect();
       const x = e.clientX - b.left;
@@ -86,7 +88,7 @@ export function Orb() {
       const dx = x - SIZE / 2;
       const dy = y - SIZE / 2;
       const within = Math.hypot(dx, dy) <= (SIZE / 2) * R + 40;
-      target.current = { x, y, r: within ? POOL : 0 };
+      target.current = within ? { x, y, r: POOL } : { ...target.current, r: 0 };
       setInside(within);
       wake();
     };
@@ -95,11 +97,11 @@ export function Orb() {
       setInside(false);
       wake();
     };
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerleave", onLeave);
+    window.addEventListener("pointermove", onMove);
+    document.documentElement.addEventListener("pointerleave", onLeave);
     return () => {
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("pointermove", onMove);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -108,20 +110,20 @@ export function Orb() {
     <div
       ref={box}
       aria-hidden
-      className="orb pointer-events-auto fixed z-20"
+      className="orb pointer-events-none fixed z-0"
       style={{ width: SIZE, height: SIZE, bottom: -SIZE * 0.36, left: -SIZE * 0.32 }}
     >
       <svg viewBox="0 0 200 200" className="orb-svg size-full overflow-visible">
         <defs>
           <filter id={`${id}-grain`} x="-60%" y="-60%" width="220%" height="220%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="3" result="noise" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3" result="noise" />
             <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="soft" />
-            <feDisplacementMap in="soft" in2="noise" scale="34" xChannelSelector="R" yChannelSelector="G" />
+            <feDisplacementMap in="soft" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G" />
           </filter>
           <radialGradient id={`${id}-fill`} cx="44%" cy="40%" r="50%">
             <stop offset="0%" stopColor="#4a6cff" />
-            <stop offset="45%" stopColor="#1f3fd1" />
-            <stop offset="78%" stopColor="#1f3fd1" stopOpacity="0.55" />
+            <stop offset="35%" stopColor="#1f3fd1" />
+            <stop offset="65%" stopColor="#1f3fd1" stopOpacity="0.45" />
             <stop offset="100%" stopColor="#1f3fd1" stopOpacity="0" />
           </radialGradient>
           {/* The pool: a soft-edged hole cut out of the sphere. The mask is
