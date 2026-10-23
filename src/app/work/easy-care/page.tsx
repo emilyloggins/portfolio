@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Name } from "@/components/name";
 import { Todo } from "@/components/row";
 
 export const metadata = { title: "Easy Care" };
@@ -6,10 +6,8 @@ export const metadata = { title: "Easy Care" };
 export default function Page() {
   return (
     <main className="arrive mx-auto flex w-full max-w-[34rem] flex-1 flex-col gap-16 px-6 py-24">
-      <nav className="text-body">
-        <Link href="/" className="text-ink-2 transition-colors duration-(--duration-fast) hover:text-ink">
-          Emily Loggins
-        </Link>
+      <nav>
+        <Name />
       </nav>
       <header className="flex flex-col gap-2">
         <h1 className="text-title font-medium text-ink">Easy Care</h1>

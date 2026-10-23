@@ -39,3 +39,54 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+.no-arrive .arrive {
+  animation: none;
+}
+
+/* Route changes crossfade. 180ms, decelerating; the arrival ritual is
+   for the first page only. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: var(--ease-out);
+}
+
+/* Press feedback on every link and button: down fast, up slower. */
+.press {
+  transition: transform 160ms var(--ease-out);
+}
+.press:active {
+  transform: scale(0.985);
+  transition-duration: 80ms;
+}
+
+/* Two lines stacked in a one-line window; `data-on` slides to the second. */
+.swap {
+  display: flex;
+  flex-direction: column;
+  transition: transform 220ms var(--ease-out);
+}
+.swap > span {
+  display: block;
+  height: 1.55em;
+}
+.swap[data-on] {
+  transform: translateY(-1.55em);
+}
+
+/* The name: regular and heavier stacked, crossfaded on hover/focus. */
+.name-a, .name-b {
+  transition: opacity 120ms var(--ease-out);
+}
+.name-b {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  opacity: 0;
+}
+a:hover .name-b, a:focus-visible .name-b, h1:hover .name-b {
+  opacity: 1;
+}
+a:hover .name-a, a:focus-visible .name-a, h1:hover .name-a {
+  opacity: 0;
+}

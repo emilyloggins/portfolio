@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import localFont from "next/font/local";
+import { ArriveOnce } from "@/components/arrive-once";
 import "./globals.css";
 
 /**
@@ -22,7 +24,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sans.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <head>
+        <ArriveOnce />
+      </head>
+      <body className="flex min-h-full flex-col">
+        <ViewTransition>{children}</ViewTransition>
+      </body>
     </html>
   );
 }

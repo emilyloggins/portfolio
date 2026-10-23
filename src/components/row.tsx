@@ -3,10 +3,13 @@ import type { ReactNode } from "react";
 
 /**
  * One entry in a list: a title and a one-line description, the whole row
- * a link. On hover the row tints and nothing else happens; the padding
- * is pulled out past the column edge so the tint reads as a highlight
- * on the list, not a box around the text.
+ * a link. The hover tint is painted by the parent `List`, which slides a
+ * single pill between rows; the row itself only reports its bounds via
+ * `data-row`. Press feedback (`.press`) is global: see globals.css.
  */
+export const rowClass =
+  "press -mx-3 flex flex-col rounded-sm px-3 py-2.5 no-underline focus-visible:outline-none";
+
 export function Row({
   href,
   title,
@@ -18,8 +21,6 @@ export function Row({
   children?: ReactNode;
   external?: boolean;
 }) {
-  const className =
-    "-mx-3 flex flex-col rounded-sm px-3 py-2.5 no-underline transition-colors duration-(--duration-fast) ease-(--ease-out) hover:bg-ground-2 focus-visible:bg-ground-2 focus-visible:outline-none";
   const body = (
     <>
       <span className="text-body text-ink">{title}</span>
@@ -27,18 +28,18 @@ export function Row({
     </>
   );
   return external ? (
-    <a href={href} className={className} target="_blank" rel="noreferrer">
+    <a href={href} data-row className={rowClass} target="_blank" rel="noreferrer">
       {body}
     </a>
   ) : (
-    <Link href={href} className={className}>
+    <Link href={href} data-row className={rowClass}>
       {body}
     </Link>
   );
 }
 
-/** A labelled section: small heading, then rows or prose. */
-export function Section({ title, children }: { title: string; children: ReactNode }) {
+/** A labelled section: heading (or any node), then rows or prose. */
+export function Section({ title, children }: { title: ReactNode; children: ReactNode }) {
   return (
     <section className="flex flex-col gap-2">
       <h2 className="mb-2 text-body font-medium text-ink">{title}</h2>
