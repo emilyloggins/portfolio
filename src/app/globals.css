@@ -95,30 +95,18 @@ p {
 
 /* The orb: breathes on a slow loop; the grain lives in the SVG filter. */
 @keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.92; }
-  50%      { transform: scale(1.07); opacity: 1; }
+  0%, 100% { transform: scale(1); opacity: 0.94; }
+  50%      { transform: scale(1.04); opacity: 1; }
 }
 .orb-svg {
   animation: breathe 5.2s ease-in-out infinite;
   transform-origin: center;
 }
-.orb:hover .orb-svg,
-.orb:focus-visible .orb-svg {
-  animation-duration: 2.6s;
-}
 
-/* The card unfolds from the orb: scale and fade, 220ms out, 160ms back. */
-.orb-card {
-  opacity: 0;
-  transform: translateY(-4px) scale(0.98);
-  pointer-events: none;
-  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
-}
-.orb-card[data-open] {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
-  transition-duration: 220ms;
+/* Under the orb's box but outside the sphere, the page must still be
+   usable: the box only takes the pointer where the blue is. */
+.orb {
+  clip-path: circle(calc(50% * 0.62 + 24px) at 50% 50%);
 }
 
 @media (prefers-reduced-motion: reduce) {
