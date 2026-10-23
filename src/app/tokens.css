@@ -4,13 +4,13 @@
  * Oct 23 (Emily): whiter paper with grain; cobalt for every bold word.
  */
 @theme {
-  --color-ground: #f7f6f2;
-  --color-ground-2: #ebe9e3; /* hover tint on a row */
+  --color-ground: #fbfaf8;
+  --color-ground-2: #eeece7; /* hover tint on a row */
   --color-ink: #1c1b19;
   --color-ink-2: #5c5a55;
   --color-ink-3: #8c8984;
   --color-line: #ddd9d0;
-  /* Cobalt: the one colour. Every heading and bold word wears it. */
+  /* Cobalt: the one colour. Where it goes is being decided. */
   --color-accent: #1f3fd1;
 
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;

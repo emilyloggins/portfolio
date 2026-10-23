@@ -44,7 +44,7 @@ export function Row({
 export function Section({ title, children }: { title: ReactNode; children: ReactNode }) {
   return (
     <section className="flex flex-col gap-2">
-      <h2 className="mb-2 text-body font-medium text-accent">{title}</h2>
+      <h2 className="mb-2 text-body font-medium text-ink">{title}</h2>
       {children}
     </section>
   );

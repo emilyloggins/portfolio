@@ -28,11 +28,8 @@ body::before {
   background-size: 240px 240px;
 }
 
-/* Every bold word is cobalt: weight and colour always arrive together.
-   Headings carry `text-accent` in markup; this covers prose. */
 strong, b {
   font-weight: 500;
-  color: var(--color-accent);
 }
 
 h1, h2, h3 {
