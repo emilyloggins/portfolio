@@ -1,27 +1,27 @@
 /*
  * The site's material. One palette, no light/dark branch: the ground is a
- * chosen colour and everything is measured against it once. Values here
- * are PLACEHOLDERS until the specimen page is approved; then they are
- * extracted from the approved page, not the other way round.
+ * chosen colour and everything is measured against it once.
+ * Oct 23: unbleached paper, warm ink, one signal accent (Claude's
+ * recommendation, pending Emily's tweak pass).
  */
 @theme {
-  --color-ground: #f4f1ea;
-  --color-ink: #1a1a18;
-  --color-ink-2: #4b4a46;
-  --color-ink-3: #8a8884;
-  --color-line: #dcd8cf;
-  --color-accent: #1a1a18;
+  --color-ground: #eeebe4;
+  --color-ground-2: #e6e2da; /* hover tint on a row */
+  --color-ink: #1c1b19;
+  --color-ink-2: #5c5a55;
+  --color-ink-3: #8c8984;
+  --color-line: #d9d5cc;
+  --color-accent: #d8431f;
 
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --text-display: 3rem;
-  --text-display--line-height: 1.05;
+  --text-display: 2.5rem;
+  --text-display--line-height: 1.1;
   --text-display--letter-spacing: -0.02em;
   --text-title: 1.5rem;
   --text-title--line-height: 1.2;
   --text-title--letter-spacing: -0.01em;
-  --text-body: 1rem;
+  --text-body: 1.0625rem;
   --text-body--line-height: 1.55;
   --text-meta: 0.8125rem;
   --text-meta--line-height: 1.4;

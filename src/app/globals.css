@@ -22,7 +22,18 @@ p {
   text-wrap: pretty;
 }
 
+/* The one ritual: the page arrives out of focus and settles. Once, on
+   load; route changes crossfade via View Transitions instead. */
+@keyframes arrive {
+  from { opacity: 0; filter: blur(10px); transform: translateY(4px); }
+  to   { opacity: 1; filter: blur(0);   transform: none; }
+}
+.arrive {
+  animation: arrive 560ms var(--ease-out) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .arrive { animation: none; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;

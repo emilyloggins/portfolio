@@ -1,0 +1,22 @@
+import Link from "next/link";
+import { Todo } from "@/components/row";
+
+export const metadata = { title: "Basin" };
+
+export default function Page() {
+  return (
+    <main className="arrive mx-auto flex w-full max-w-[34rem] flex-1 flex-col gap-16 px-6 py-24">
+      <nav className="text-body">
+        <Link href="/" className="text-ink-2 transition-colors duration-(--duration-fast) hover:text-ink">
+          Emily Loggins
+        </Link>
+      </nav>
+      <header className="flex flex-col gap-2">
+        <h1 className="text-title font-medium text-ink">Basin</h1>
+        <p className="text-body text-ink-2">
+          <Todo>TODO(emily): the case study lands here</Todo>
+        </p>
+      </header>
+    </main>
+  );
+}
