@@ -3,9 +3,9 @@
 import { useEffect, useId, useRef, useState } from "react";
 
 /**
- * The orb. A large cobalt sphere spilling off the top-right corner,
- * diffused and grainy at its edge (a blurred circle whose edge is pushed
- * around by SVG turbulence, so it breaks up like ink on paper), breathing
+ * The orb. A large cobalt sphere spilling off the bottom-left corner,
+ * with no edge at all: it fades out through a wide blur and the grain (a blurred circle whose edge is pushed
+ * breaks that fade up like ink bleeding into paper), breathing
  * on a slow loop. The one blue thing on the site.
  *
  * Move the mouse into it and the blue runs from the cursor: a pool of
@@ -14,9 +14,9 @@ import { useEffect, useId, useRef, useState } from "react";
  * Everything moves on an eased follow (lerp per frame), never snaps.
  */
 
-const SIZE = 448; // px, the orb's box
-const R = 0.62; // the sphere's radius as a fraction of half the box
-const POOL = 150; // px, the open pool's radius
+const SIZE = 896; // px, the orb's box
+const R = 0.5; // the sphere's radius as a fraction of half the box (the rest is fuzz)
+const POOL = 170; // px, the open pool's radius
 const EASE = 0.14; // per-frame follow; lower is lazier
 
 export function Orb() {
@@ -85,7 +85,7 @@ export function Orb() {
       const y = e.clientY - b.top;
       const dx = x - SIZE / 2;
       const dy = y - SIZE / 2;
-      const within = Math.hypot(dx, dy) <= (SIZE / 2) * R + 24;
+      const within = Math.hypot(dx, dy) <= (SIZE / 2) * R + 40;
       target.current = { x, y, r: within ? POOL : 0 };
       setInside(within);
       wake();
@@ -109,19 +109,20 @@ export function Orb() {
       ref={box}
       aria-hidden
       className="orb pointer-events-auto fixed z-20"
-      style={{ width: SIZE, height: SIZE, top: -SIZE * 0.34, right: -SIZE * 0.3 }}
+      style={{ width: SIZE, height: SIZE, bottom: -SIZE * 0.36, left: -SIZE * 0.32 }}
     >
       <svg viewBox="0 0 200 200" className="orb-svg size-full overflow-visible">
         <defs>
-          <filter id={`${id}-grain`} x="-40%" y="-40%" width="180%" height="180%">
+          <filter id={`${id}-grain`} x="-60%" y="-60%" width="220%" height="220%">
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="3" result="noise" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="soft" />
-            <feDisplacementMap in="soft" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="soft" />
+            <feDisplacementMap in="soft" in2="noise" scale="34" xChannelSelector="R" yChannelSelector="G" />
           </filter>
-          <radialGradient id={`${id}-fill`} cx="42%" cy="38%" r="62%">
+          <radialGradient id={`${id}-fill`} cx="44%" cy="40%" r="50%">
             <stop offset="0%" stopColor="#4a6cff" />
-            <stop offset="55%" stopColor="#1f3fd1" />
-            <stop offset="100%" stopColor="#1f3fd1" stopOpacity="0.6" />
+            <stop offset="45%" stopColor="#1f3fd1" />
+            <stop offset="78%" stopColor="#1f3fd1" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#1f3fd1" stopOpacity="0" />
           </radialGradient>
           {/* The pool: a soft-edged hole cut out of the sphere. The mask is
               applied INSIDE the grain filter's group, so the pool's edge
@@ -131,7 +132,7 @@ export function Orb() {
             <circle ref={hole} cx="100" cy="100" r="0" fill="black" filter={`url(#${id}-feather)`} />
           </mask>
           <filter id={`${id}-feather`} x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="6" />
+            <feGaussianBlur stdDeviation="14" />
           </filter>
         </defs>
         <g filter={`url(#${id}-grain)`}>
