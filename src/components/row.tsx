@@ -7,8 +7,10 @@ import type { ReactNode } from "react";
  * single pill between rows; the row itself only reports its bounds via
  * `data-row`. Press feedback (`.press`) is global: see globals.css.
  */
+/** Every row is the same height, with or without a description, so a
+ *  list reads as a grid and the sliding highlight never changes size. */
 export const rowClass =
-  "press -mx-3 flex flex-col rounded-sm px-3 py-2.5 no-underline focus-visible:outline-none";
+  "press -mx-3 flex min-h-[4.25rem] flex-col justify-center rounded-sm px-3 no-underline focus-visible:outline-none";
 
 export function Row({
   href,
