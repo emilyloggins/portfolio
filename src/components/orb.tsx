@@ -43,9 +43,12 @@ export function Orb() {
   const label = useRef<HTMLDivElement>(null);
   const [inside, setInside] = useState(false);
   const [time, setTime] = useState<string | null>(null);
+  // `/?tune` shows the sliders. Read after mount so the server and client
+  // render the same thing first.
   const [tune, setTune] = useState(false);
   useEffect(() => {
-    setTune(new URLSearchParams(window.location.search).has("tune"));
+    const on = new URLSearchParams(window.location.search).has("tune");
+    if (on) queueMicrotask(() => setTune(true));
   }, []);
 
   // Pointer target vs. the eased position actually drawn; `r` is the pool.
