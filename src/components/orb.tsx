@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * The orb, small again: a cobalt sphere in the top-left corner made of
+ * The orb, small again: a cobalt sphere in the top-right corner made of
  * dots. A few hundred points packed densely at the centre and thinning
  * toward the rim, so the edge is grain rather than a line; the whole
  * thing breathes on a slow loop.
@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
  */
 
 const SIZE = 112; // px, the orb at rest
-const CANVAS = 320; // px, room to scatter into
+const CANVAS = 640; // px, room to scatter into (dots fade before they reach it)
 const COUNT = 720;
 const DOT = 1.6; // px radius at rest
 
@@ -95,10 +95,12 @@ export function Orb() {
         }
         d.x += d.vx;
         d.y += d.vy;
-        // Keep them on the canvas.
-        d.x = Math.min(CANVAS - 2, Math.max(2, d.x));
-        d.y = Math.min(CANVAS - 2, Math.max(2, d.y));
-        ctx.globalAlpha = d.a;
+        // No hard wall: a dot fades out as it nears the canvas edge, so
+        // the cloud thins into nothing instead of piling up on a line.
+        const edge = Math.min(d.x, d.y, CANVAS - d.x, CANVAS - d.y);
+        const fade = Math.min(1, Math.max(0, (edge - 10) / 90));
+        if (fade <= 0) continue;
+        ctx.globalAlpha = d.a * fade;
         ctx.beginPath();
         ctx.arc(d.x, d.y, DOT, 0, Math.PI * 2);
         ctx.fill();
@@ -141,7 +143,7 @@ export function Orb() {
         width: CANVAS,
         height: CANVAS,
         top: 24 - (CANVAS - SIZE) / 2,
-        left: 24 - (CANVAS - SIZE) / 2,
+        right: 24 - (CANVAS - SIZE) / 2,
       }}
     >
       <canvas ref={canvas} style={{ width: CANVAS, height: CANVAS }} />
