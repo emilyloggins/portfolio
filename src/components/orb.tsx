@@ -299,8 +299,8 @@ export function Orb() {
           data-open={inside ? "" : undefined}
           style={{ transitionDelay: inside ? `${T.textDelay}ms` : "120ms" }}
         >
-          <p className="text-ink">Brooklyn, NY{time ? <span className="text-ink-3"> · {time}</span> : null}</p>
-          <p className="mt-0.5 w-36 text-ink-3">[TODO(emily): one short sentence]</p>
+          <p className="text-weather">Brooklyn, NY{time ? <span className="text-weather-2"> · {time}</span> : null}</p>
+          <p className="mt-0.5 w-36 text-weather-2">[TODO(emily): one short sentence]</p>
         </div>
       </div>
 

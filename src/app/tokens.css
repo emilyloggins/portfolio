@@ -10,8 +10,11 @@
   --color-ink-2: #5c5a55;
   --color-ink-3: #8c8984;
   --color-line: #ddd9d0;
-  /* Cobalt: the one colour. Worn by the name and its star, nothing else (Oct 23). */
+  /* Cobalt: the one colour. Worn by the orb (Oct 26). */
   --color-accent: #1f3fd1;
+  /* The orb's revealed text, tunable apart from body ink. */
+  --color-weather: var(--color-ink);
+  --color-weather-2: var(--color-ink-3);
 
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
 
