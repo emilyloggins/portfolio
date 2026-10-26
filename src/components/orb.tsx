@@ -22,9 +22,30 @@ export const DEFAULTS = {
   spread: 1.1, // rim raggedness (1 = clean circle)
   alphaMin: 0.55, // faintest dot
   color: "#1f3fd1",
+  color2: "#7a8dff", // second tone
+  color3: "#0b1f7a", // third tone
+  tones: 1, // 1, 2 or 3 colours in play
+  toneBy: 1, // 1 = tones run from centre (color) to rim (color2/3); 0 = scattered at random
+  toneBlend: 1, // 1 = smooth blend between tones; 0 = hard bands
   // breathing
   breathe: 0.035, // how much it swells
   breatheSec: 5.2, // seconds per breath
+  // resting motion: each dot wanders around its home on its own slow loop
+  wander: 2.5, // px, how far a dot strays at rest
+  wanderSpeed: 0.35, // loops per second-ish; lower is lazier
+  swirl: 0, // slow rotation of the whole cloud, degrees per second (0 = still)
+  // weather (live from Brooklyn; the tuner can override)
+  weatherLive: 1, // 1 = use the real weather, 0 = use the sliders below
+  wind: 0, // km/h
+  windDir: 270, // degrees the wind comes FROM (meteorological)
+  rain: 0, // mm in the last hour
+  temp: 15, // °C
+  windPush: 0.012, // how much wind leans the resting dots, per km/h
+  windGust: 0.02, // how much wind bends the scatter
+  rainFall: 0.05, // downward pull per mm
+  rainJitter: 0.25, // extra jitter per mm
+  coldGrey: 0.6, // how grey the colour goes below 5°C (0 = none)
+  heatTight: 0.15, // how much tighter the cloud packs per 10°C above 20
   // scatter
   enter: 1.15, // how far outside the orb the cursor counts as "in" (× radius)
   throwForce: 2.4, // how hard a dot is thrown from the cursor
@@ -43,11 +64,32 @@ export const DEFAULTS = {
 };
 export type Tune = typeof DEFAULTS;
 
-type Dot = { hx: number; hy: number; x: number; y: number; vx: number; vy: number; a: number };
+/** The colour for a dot at `u` (0 centre .. 1 rim) under the tone settings. */
+function tone(T: Tune, u: number): string {
+  const n = Math.round(T.tones);
+  if (n <= 1) return T.color;
+  const stops = n === 2 ? [T.color, T.color2] : [T.color, T.color2, T.color3];
+  const pos = u * (stops.length - 1);
+  const i = Math.min(stops.length - 2, Math.floor(pos));
+  const k = pos - i;
+  if (T.toneBlend < 0.5) return k < 0.5 ? stops[i] : stops[i + 1];
+  return mix(stops[i], stops[i + 1], k);
+}
+
+/** Blend two hex colours; `k` toward the second. */
+function mix(a: string, b: string, k: number): string {
+  const pa = [1, 3, 5].map((i) => parseInt(a.slice(i, i + 2), 16));
+  const pb = [1, 3, 5].map((i) => parseInt(b.slice(i, i + 2), 16));
+  return "#" + pa.map((v, i) => Math.round(v + (pb[i] - v) * k).toString(16).padStart(2, "0")).join("");
+}
+
+type Dot = { hx: number; hy: number; x: number; y: number; vx: number; vy: number; a: number; p: number; q: number; f: number; col: string };
 
 export function Orb() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const tune = useRef<Tune>({ ...DEFAULTS });
+  /** The real weather in Brooklyn, when it has loaded. */
+  const live = useRef<{ wind: number; windDir: number; rain: number; temp: number } | null>(null);
   const [panel, setPanel] = useState<Tune | null>(null);
   const [inside, setInside] = useState(false);
   const [time, setTime] = useState<string | null>(null);
@@ -63,6 +105,38 @@ export function Orb() {
     tick();
     const i = window.setInterval(tick, 30_000);
     return () => window.clearInterval(i);
+  }, []);
+
+  // Brooklyn's weather, from Open-Meteo (no key, CORS open), cached for
+  // 30 minutes in this browser. Nothing in the UI says it is happening;
+  // the dots just behave like the day does.
+  useEffect(() => {
+    const KEY = "orb-weather";
+    try {
+      const cached = JSON.parse(sessionStorage.getItem(KEY) ?? "null");
+      if (cached && Date.now() - cached.at < 30 * 60_000) {
+        live.current = cached.w;
+        return;
+      }
+    } catch {}
+    const url =
+      "https://api.open-meteo.com/v1/forecast?latitude=40.73&longitude=-73.95&current=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m&timezone=America%2FNew_York";
+    fetch(url)
+      .then((r) => r.json())
+      .then((j) => {
+        const c = j.current;
+        const w = {
+          wind: Number(c.wind_speed_10m) || 0,
+          windDir: Number(c.wind_direction_10m) || 0,
+          rain: Number(c.precipitation) || 0,
+          temp: Number(c.temperature_2m) || 15,
+        };
+        live.current = w;
+        try {
+          sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), w }));
+        } catch {}
+      })
+      .catch(() => {});
   }, []);
 
   // `/?tune` opens the panel, restoring the last values from this browser.
@@ -101,7 +175,16 @@ export function Orb() {
         const ang = Math.random() * Math.PI * 2;
         const hx = C + Math.cos(ang) * r;
         const hy = C + Math.sin(ang) * r;
-        return { hx, hy, x: hx, y: hy, vx: 0, vy: 0, a: T.alphaMin + Math.random() * (1 - T.alphaMin) };
+        // Where this dot sits on the tone ramp: by radius, or at random.
+        const u = T.toneBy >= 0.5 ? Math.min(1, r / R) : Math.random();
+        return {
+          hx, hy, x: hx, y: hy, vx: 0, vy: 0,
+          col: tone(T, u),
+          a: T.alphaMin + Math.random() * (1 - T.alphaMin),
+          p: Math.random() * Math.PI * 2, // wander phase, x
+          q: Math.random() * Math.PI * 2, // wander phase, y
+          f: 0.6 + Math.random() * 0.8, // wander rate, per dot
+        };
       });
       built = rebuild.current;
     };
@@ -116,18 +199,39 @@ export function Orb() {
       const C = T.room / 2;
       const t = (now - t0) / 1000;
       const breathe = reduced ? 1 : 1 + T.breathe * Math.sin((t * Math.PI * 2) / T.breatheSec);
+
+      // The weather: live, or the sliders.
+      const W = T.weatherLive >= 0.5 && live.current ? live.current : { wind: T.wind, windDir: T.windDir, rain: T.rain, temp: T.temp };
+      // Wind blows TOWARD windDir + 180; canvas y is down.
+      const blow = ((W.windDir + 180) * Math.PI) / 180;
+      const wx = Math.sin(blow) * W.wind;
+      const wy = -Math.cos(blow) * W.wind;
+      const tight = 1 - Math.max(0, (W.temp - 20) / 10) * T.heatTight; // hotter packs tighter
+      const cold = Math.min(1, Math.max(0, (5 - W.temp) / 10)) * T.coldGrey; // below 5°C, greyer
+      const swirl = reduced ? 0 : (T.swirl * Math.PI / 180) * t;
+      const cs = Math.cos(swirl), sn = Math.sin(swirl);
+
       ctx.clearRect(0, 0, T.room, T.room);
-      ctx.fillStyle = T.color;
+      let lastCol = "";
       for (const d of dots) {
-        const hx = C + (d.hx - C) * breathe;
-        const hy = C + (d.hy - C) * breathe;
+        const col = cold > 0 ? mix(d.col, "#8a8f9c", cold) : d.col;
+        if (col !== lastCol) { ctx.fillStyle = col; lastCol = col; }
+        // Home, breathed, tightened by heat, turned by the swirl, then
+        // wandering on its own slow loop, then leaning with the wind.
+        let ox = (d.hx - C) * breathe * tight;
+        let oy = (d.hy - C) * breathe * tight;
+        if (swirl) { const rx = ox * cs - oy * sn; oy = ox * sn + oy * cs; ox = rx; }
+        const wobble = reduced ? 0 : T.wander;
+        const hx = C + ox + Math.sin(t * T.wanderSpeed * d.f * Math.PI * 2 + d.p) * wobble + wx * T.windPush * 10;
+        const hy = C + oy + Math.cos(t * T.wanderSpeed * d.f * Math.PI * 2 * 0.8 + d.q) * wobble + wy * T.windPush * 10 + W.rain * T.rainFall * 10;
         if (pointer.in) {
           const dx = d.x - pointer.x;
           const dy = d.y - pointer.y;
           const dist = Math.hypot(dx, dy) || 1;
           const f = Math.max(0, 1 - dist / T.throwRange) * T.throwForce;
-          d.vx += (dx / dist) * f + (d.x - C) * T.drift + (Math.random() - 0.5) * T.jitter;
-          d.vy += (dy / dist) * f + (d.y - C) * T.drift + (Math.random() - 0.5) * T.jitter;
+          const jit = T.jitter + W.rain * T.rainJitter;
+          d.vx += (dx / dist) * f + (d.x - C) * T.drift + (Math.random() - 0.5) * jit + wx * T.windGust;
+          d.vy += (dy / dist) * f + (d.y - C) * T.drift + (Math.random() - 0.5) * jit + wy * T.windGust + W.rain * T.rainFall;
           d.vx *= T.scatterDamping;
           d.vy *= T.scatterDamping;
         } else {
@@ -242,10 +346,42 @@ const GROUPS: { title: string; rows: Row[] }[] = [
     ],
   },
   {
+    title: "Tones",
+    rows: [
+      ["tones", "tones", 1, 3, 1, true],
+      ["toneBy", "by radius", 0, 1, 1, true],
+      ["toneBlend", "blend", 0, 1, 1, true],
+    ],
+  },
+  {
     title: "Breathing",
     rows: [
       ["breathe", "swell", 0, 0.2, 0.005],
       ["breatheSec", "seconds", 1, 15, 0.1],
+    ],
+  },
+  {
+    title: "Resting motion",
+    rows: [
+      ["wander", "wander", 0, 20, 0.1],
+      ["wanderSpeed", "wander speed", 0, 2, 0.01],
+      ["swirl", "swirl °/s", -30, 30, 0.5],
+    ],
+  },
+  {
+    title: "Weather (set live to 0 to override)",
+    rows: [
+      ["weatherLive", "live", 0, 1, 1],
+      ["wind", "wind km/h", 0, 80, 1],
+      ["windDir", "wind from °", 0, 360, 5],
+      ["rain", "rain mm", 0, 10, 0.1],
+      ["temp", "temp °C", -15, 40, 1],
+      ["windPush", "wind lean", 0, 0.1, 0.001],
+      ["windGust", "wind gust", 0, 0.2, 0.002],
+      ["rainFall", "rain pull", 0, 0.4, 0.005],
+      ["rainJitter", "rain jitter", 0, 1.5, 0.01],
+      ["coldGrey", "cold grey", 0, 1, 0.01],
+      ["heatTight", "heat tight", 0, 0.5, 0.01],
     ],
   },
   {
@@ -313,16 +449,19 @@ function Panel({
           </button>
         </div>
       </div>
-      <label className="mb-3 flex items-center gap-2">
-        <span className="w-16 text-ink-2">color</span>
-        <input
-          type="color"
-          value={value.color}
-          onChange={(e) => onChange({ ...value, color: e.target.value }, false)}
-          className="h-6 w-10 cursor-pointer rounded-sm border-0 bg-transparent p-0"
-        />
-        <span className="tabular-nums text-ink-3">{value.color}</span>
-      </label>
+      {(["color", "color2", "color3"] as const).map((key, i) => (
+        <label key={key} className="mb-1.5 flex items-center gap-2">
+          <span className="w-16 text-ink-2">{["tone 1", "tone 2", "tone 3"][i]}</span>
+          <input
+            type="color"
+            value={value[key]}
+            onChange={(e) => onChange({ ...value, [key]: e.target.value }, true)}
+            className="h-6 w-10 cursor-pointer rounded-sm border-0 bg-transparent p-0"
+          />
+          <span className="tabular-nums text-ink-3">{value[key]}</span>
+        </label>
+      ))}
+      <div className="mb-3" />
       {GROUPS.map((g) => (
         <div key={g.title} className="mb-3">
           <p className="mb-1 text-[0.6875rem] tracking-wide text-ink-3 uppercase">{g.title}</p>
