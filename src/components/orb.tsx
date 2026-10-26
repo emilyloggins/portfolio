@@ -3,57 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * The orb: diffused light, not a drawn circle.
+ * The orb, small again: a cobalt sphere in the top-left corner made of
+ * dots. A few hundred points packed densely at the centre and thinning
+ * toward the rim, so the edge is grain rather than a line; the whole
+ * thing breathes on a slow loop.
  *
- * Three soft bodies of cobalt drift slowly over one another on long,
- * unequal loops under one heavy blur, so what you see is light moving on
- * paper: no edge, no outline, no texture of its own (the page's grain
- * lies over it like it lies over everything).
- *
- * Push the pointer into it and the light gives way like a liquid: each
- * body is shoved away from the cursor in proportion to how close it is
- * (so the light bulges and flows around the point rather than being cut
- * out), a bright meniscus gathers around the gap, and a small pool of
- * paper opens under the cursor for a line of text. Everything follows on
- * an eased lag and closes behind the pointer when it leaves.
+ * When the pointer comes in, the dots scatter: each one is thrown away
+ * from the cursor and keeps drifting while the cursor stays, and a line
+ * of text appears where the orb was. When the pointer leaves, every dot
+ * eases back to its place. All on canvas; nothing is a DOM node.
  */
 
-const SIZE = 672; // px
-const CORE = 0.36; // radius of the lit body as a fraction of half the box
+const SIZE = 112; // px, the orb at rest
+const CANVAS = 320; // px, room to scatter into
+const COUNT = 720;
+const DOT = 1.6; // px radius at rest
 
-/**
- * The feel, in numbers. Mutable on purpose: `/?tune` shows sliders bound
- * to these so the values can be found by hand and then written here.
- */
-export const TUNE = {
-  pool: 92, // px, the open pool's radius
-  feather: 18, // px, the pool's edge: small = a hard rim, mass displaced
-  push: 110, // px, how far a body is shoved when the cursor is on it
-  range: 300, // px, how far the shove reaches
-  swell: 1.18, // how much the whole orb expands while the pointer is in it
-  ease: 0.1, // per-frame follow; lower is lazier
-  blur: 56, // px
-};
+type Dot = { hx: number; hy: number; x: number; y: number; vx: number; vy: number; a: number };
 
 export function Orb() {
-  const box = useRef<HTMLDivElement>(null);
-  const layer = useRef<HTMLDivElement>(null);
-  const bodies = useRef<(HTMLDivElement | null)[]>([]);
-  const rim = useRef<HTMLDivElement>(null);
-  const label = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
   const [inside, setInside] = useState(false);
   const [time, setTime] = useState<string | null>(null);
-  // `/?tune` shows the sliders. Read after mount so the server and client
-  // render the same thing first.
-  const [tune, setTune] = useState(false);
-  useEffect(() => {
-    const on = new URLSearchParams(window.location.search).has("tune");
-    if (on) queueMicrotask(() => setTune(true));
-  }, []);
-
-  // Pointer target vs. the eased position actually drawn; `r` is the pool.
-  const target = useRef({ x: SIZE / 2, y: SIZE / 2, r: 0 });
-  const current = useRef({ x: SIZE / 2, y: SIZE / 2, r: 0 });
 
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-US", {
@@ -68,170 +39,120 @@ export function Orb() {
   }, []);
 
   useEffect(() => {
-    let raf = 0;
-    let running = false;
-    // While tuning, keep the loop alive so slider changes show at once.
-    const tuning = new URLSearchParams(window.location.search).has("tune");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const step = () => {
-      const t = target.current;
-      const c = current.current;
-      const k = reduced ? 1 : TUNE.ease;
-      c.x += (t.x - c.x) * k;
-      c.y += (t.y - c.y) * k;
-      c.r += (t.r - c.r) * k;
-      const strength = Math.min(1, c.r / TUNE.pool); // 0 closed .. 1 open
-
-      // The pool. Cleared entirely once closed, so nothing lingers.
-      if (layer.current) {
-        const m =
-          strength < 0.02
-            ? "none"
-            : `radial-gradient(circle at ${c.x}px ${c.y}px, transparent ${Math.max(0, c.r - TUNE.feather / 2)}px, black ${c.r + TUNE.feather / 2}px)`;
-        layer.current.style.maskImage = m;
-        layer.current.style.webkitMaskImage = m;
-        // The whole mass swells while the pointer is in it, from its centre.
-        layer.current.style.transform = `scale(${1 + (TUNE.swell - 1) * strength})`;
-        layer.current.style.filter = `blur(${TUNE.blur}px) saturate(1.3)`;
-      }
-
-      // The shove: each body moves away from the pointer, more the closer it is.
-      const b = box.current?.getBoundingClientRect();
-      if (b) {
-        for (const el of bodies.current) {
-          if (!el) continue;
-          const r = el.getBoundingClientRect();
-          const cx = r.left + r.width / 2 - b.left;
-          const cy = r.top + r.height / 2 - b.top;
-          const dx = cx - c.x;
-          const dy = cy - c.y;
-          const d = Math.hypot(dx, dy) || 1;
-          const f = Math.pow(Math.max(0, 1 - d / TUNE.range), 2) * TUNE.push * strength;
-          el.style.transform = `translate(${(dx / d) * f}px, ${(dy / d) * f}px) scale(${1 + 0.12 * (f / TUNE.push)})`;
-        }
-      }
-
-      // The meniscus and the text ride the eased pointer.
-      if (rim.current) {
-        rim.current.style.transform = `translate(${c.x}px, ${c.y}px) translate(-50%, -50%) scale(${0.6 + 0.4 * strength})`;
-        rim.current.style.opacity = String(strength);
-      }
-      if (label.current) {
-        label.current.style.transform = `translate(${c.x}px, ${c.y}px) translate(-50%, -50%)`;
-        label.current.style.opacity = String(Math.max(0, (strength - 0.5) * 2));
-      }
-
-      const still =
-        Math.abs(t.x - c.x) < 0.1 && Math.abs(t.y - c.y) < 0.1 && Math.abs(t.r - c.r) < 0.1;
-      if (still && !tuning) {
-        running = false;
-        return;
-      }
-      raf = requestAnimationFrame(step);
-    };
-    const wake = () => {
-      if (running) return;
-      running = true;
-      raf = requestAnimationFrame(step);
-    };
-
-    const el = box.current;
+    const el = canvas.current;
     if (!el) return;
+    const ctx = el.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    el.width = CANVAS * dpr;
+    el.height = CANVAS * dpr;
+    ctx.scale(dpr, dpr);
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const C = CANVAS / 2;
+    const R = SIZE / 2;
+
+    // Home positions: dense in the middle, sparse at the rim (sqrt bias
+    // inverted), so the edge thins out into grain.
+    const dots: Dot[] = Array.from({ length: COUNT }, () => {
+      const t = Math.random();
+      const r = R * Math.pow(t, 0.62) * (0.92 + Math.random() * 0.22);
+      const ang = Math.random() * Math.PI * 2;
+      const hx = C + Math.cos(ang) * r;
+      const hy = C + Math.sin(ang) * r;
+      return { hx, hy, x: hx, y: hy, vx: 0, vy: 0, a: 0.55 + Math.random() * 0.45 };
+    });
+
+    const pointer = { x: 0, y: 0, in: false };
+    let raf = 0;
+    let t0 = performance.now();
+
+    const draw = (now: number) => {
+      const t = (now - t0) / 1000;
+      const breathe = reduced ? 1 : 1 + 0.035 * Math.sin(t * (Math.PI * 2) / 5.2);
+      ctx.clearRect(0, 0, CANVAS, CANVAS);
+      ctx.fillStyle = "#1f3fd1";
+      for (const d of dots) {
+        const hx = C + (d.hx - C) * breathe;
+        const hy = C + (d.hy - C) * breathe;
+        if (pointer.in) {
+          // Scatter: thrown from the cursor, hard when near, plus a slow
+          // outward drift so the cloud keeps opening while the cursor stays.
+          const dx = d.x - pointer.x;
+          const dy = d.y - pointer.y;
+          const dist = Math.hypot(dx, dy) || 1;
+          const f = Math.max(0, 1 - dist / 140) * 2.4;
+          d.vx += (dx / dist) * f + (d.x - C) * 0.004 + (Math.random() - 0.5) * 0.4;
+          d.vy += (dy / dist) * f + (d.y - C) * 0.004 + (Math.random() - 0.5) * 0.4;
+          d.vx *= 0.9;
+          d.vy *= 0.9;
+        } else {
+          // Return: a spring to home, damped so it settles without bounce.
+          d.vx += (hx - d.x) * 0.06;
+          d.vy += (hy - d.y) * 0.06;
+          d.vx *= 0.78;
+          d.vy *= 0.78;
+        }
+        d.x += d.vx;
+        d.y += d.vy;
+        // Keep them on the canvas.
+        d.x = Math.min(CANVAS - 2, Math.max(2, d.x));
+        d.y = Math.min(CANVAS - 2, Math.max(2, d.y));
+        ctx.globalAlpha = d.a;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, DOT, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+
     const onMove = (e: PointerEvent) => {
       const b = el.getBoundingClientRect();
       const x = e.clientX - b.left;
       const y = e.clientY - b.top;
-      const within = Math.hypot(x - SIZE / 2, y - SIZE / 2) <= (SIZE / 2) * CORE + 40;
-      // Outside: the pool closes where it is; the pointer is not tracked.
-      target.current = within ? { x, y, r: TUNE.pool } : { ...target.current, r: 0 };
-      setInside(within);
-      wake();
+      const within = Math.hypot(x - C, y - C) <= R * 1.15;
+      // Once in, stay "in" while the pointer is anywhere over the cloud.
+      const stay = pointer.in && Math.hypot(x - C, y - C) <= CANVAS / 2;
+      pointer.x = x;
+      pointer.y = y;
+      pointer.in = within || stay;
+      setInside(pointer.in);
     };
     const onLeave = () => {
-      target.current = { ...target.current, r: 0 };
+      pointer.in = false;
       setInside(false);
-      wake();
     };
     window.addEventListener("pointermove", onMove);
     document.documentElement.addEventListener("pointerleave", onLeave);
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", onMove);
       document.documentElement.removeEventListener("pointerleave", onLeave);
-      cancelAnimationFrame(raf);
     };
   }, []);
 
   return (
     <div
-      ref={box}
       aria-hidden
-      className="pointer-events-none fixed z-0"
-      style={{ width: SIZE, height: SIZE, bottom: -SIZE * 0.42, left: -SIZE * 0.4 }}
+      className="pointer-events-none fixed z-20"
+      style={{
+        width: CANVAS,
+        height: CANVAS,
+        top: 24 - (CANVAS - SIZE) / 2,
+        left: 24 - (CANVAS - SIZE) / 2,
+      }}
     >
-      <div ref={layer} className="orb-layer absolute inset-0">
-        {/* Each body: an outer wrapper takes the shove, the inner one drifts. */}
-        {(["orb-a", "orb-b", "orb-c"] as const).map((cls, i) => (
-          <div
-            key={cls}
-            ref={(el) => {
-              bodies.current[i] = el;
-            }}
-            className={`orb-shove ${cls}`}
-          >
-            <div className="orb-body" />
-          </div>
-        ))}
-        {/* The meniscus: a brighter ring of light gathered around the pool. */}
-        <div ref={rim} className="orb-rim absolute top-0 left-0" style={{ opacity: 0 }} />
-      </div>
-
-      {tune ? <Tuner /> : null}
-
+      <canvas ref={canvas} style={{ width: CANVAS, height: CANVAS }} />
+      {/* The text takes the orb's place as the dots leave it. */}
       <div
-        ref={label}
-        className="pointer-events-none absolute top-0 left-0 w-40 text-center text-[0.75rem] leading-[1.35] text-ink-2"
-        style={{ opacity: 0, visibility: inside ? "visible" : "hidden" }}
+        className="orb-text absolute inset-0 flex flex-col items-center justify-center text-center text-[0.75rem] leading-[1.35] text-ink-2"
+        data-open={inside ? "" : undefined}
       >
         <p className="text-ink">Brooklyn, NY{time ? <span className="text-ink-3"> · {time}</span> : null}</p>
-        <p className="mt-0.5 text-ink-3">[TODO(emily): one short sentence]</p>
+        <p className="mt-0.5 w-36 text-ink-3">[TODO(emily): one short sentence]</p>
       </div>
-    </div>
-  );
-}
-
-/** Sliders bound to TUNE. Only on `/?tune`. Read the numbers off, send them. */
-function Tuner() {
-  const [, force] = useState(0);
-  const rows: [keyof typeof TUNE, number, number, number][] = [
-    ["pool", 40, 200, 1],
-    ["feather", 0, 160, 1],
-    ["push", 0, 300, 1],
-    ["range", 100, 600, 1],
-    ["swell", 1, 1.6, 0.01],
-    ["ease", 0.02, 0.4, 0.01],
-    ["blur", 20, 110, 1],
-  ];
-  return (
-    <div className="pointer-events-auto fixed right-4 bottom-4 z-50 w-56 rounded-md bg-ground p-3 text-[0.75rem] text-ink shadow-[0_0_0_1px_var(--color-line)]">
-      {rows.map(([key, min, max, step]) => (
-        <label key={key} className="mb-1.5 flex items-center gap-2">
-          <span className="w-14 text-ink-2">{key}</span>
-          <input
-            type="range"
-            min={min}
-            max={max}
-            step={step}
-            value={TUNE[key]}
-            onChange={(e) => {
-              TUNE[key] = Number(e.target.value);
-              force((n) => n + 1);
-            }}
-            className="flex-1"
-          />
-          <span className="w-10 text-right tabular-nums">{TUNE[key]}</span>
-        </label>
-      ))}
     </div>
   );
 }
