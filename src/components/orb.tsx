@@ -287,7 +287,7 @@ function Panel({
 }) {
   const [copied, setCopied] = useState(false);
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-h-[calc(100vh-2rem)] w-64 overflow-y-auto rounded-md bg-ground p-3 text-[0.75rem] text-ink shadow-[0_0_0_1px_var(--color-line),0_16px_40px_-20px_rgb(28_27_25/0.4)]">
+    <div className="fixed bottom-4 left-4 z-50 max-h-[calc(100vh-2rem)] w-64 overflow-y-auto rounded-md bg-ground p-3 text-[0.75rem] text-ink shadow-[0_0_0_1px_var(--color-line),0_16px_40px_-20px_rgb(28_27_25/0.4)]">
       <div className="mb-2 flex items-center justify-between">
         <span className="font-medium">Orb</span>
         <div className="flex gap-2">
