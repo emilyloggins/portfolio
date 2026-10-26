@@ -65,7 +65,7 @@ export function Orb() {
 
     const pointer = { x: 0, y: 0, in: false };
     let raf = 0;
-    let t0 = performance.now();
+    const t0 = performance.now();
 
     const draw = (now: number) => {
       const t = (now - t0) / 1000;
