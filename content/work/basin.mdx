@@ -1,0 +1,111 @@
+{/* Basin case study. Skeleton: every prose spot is a <Prompt> for Emily;
+    the opener carries her interview answers verbatim (claude/basin-opener-interview.md)
+    as a draft to edit. Screens are <Screen> placeholders until exports land in
+    public/work/basin/. Order follows claude/basin-case-study-outline.md, with
+    the problem first per her call on Oct 13. */}
+
+<Prompt>One line under the title. The app's own claim is "Your skincare, tested on the only face that matters." Keep it, or write yours.</Prompt>
+
+<Prompt>Top strip, as a short list: Solo (product, design, engineering) · Aug 1, 2026 to launch · Next.js, TypeScript, Tailwind v4, Motion, IndexedDB, Capacitor (iOS) · live at basin-six.vercel.app, App Store pending.</Prompt>
+
+## The problem
+
+<Prompt>Open on the stakes. Your words from the interview, to edit: "It was the difference between a morning where the first thing I do when I wake up is touch my face to feel for acne before I even get out of bed, and rolling over to my husband without shame. It's the difference between having to be caked in makeup or choosing if i want to wear it or not. It's the difference between feeling beautiful or not."</Prompt>
+
+<Prompt>Then the years. Your words: "I have struggled with my skin my whole life, and my desperation to fix it resulted in years of frantically adding and removing products from my routine in a desperate hope that something would eventually kick into place and calm it all down. I learned the hard way, after a rosacea type 2 diagnoses and outbreaks so bad that doctors thought it was staph, that the only way to do it was to strip it all the way down to basics and then slowly add things in. Doing this and slowly tracking my progress with careful observations was the only way that I was able to get my skin not only to a place of peace, but to a place of confidence." Decide whether the diagnosis stays on a public page.</Prompt>
+
+<Prompt>The method and where it broke. Your words: "I slowly added something and watched my face change, but it was hard to compare and oberve if things were really improving or not. So instead, I started taking pictures every day. But there was no way for me to carefully compare, and keeping track of the pictures dates, what I was testing, what I thought was laborsome"</Prompt>
+
+<Prompt>The thought at the mirror. Your words: "One day I was taking a picture and thought how nice it would be to line up my face with past pictures and slide it to compare. That started the whole idea"</Prompt>
+
+<Screen src="work/basin/00-compare-hero.jpg" alt="The compare slider mid-drag, two of Emily's own photos weeks apart" aspect="4 / 5" caption="TODO(emily): the hero. Real pair from the trial." />
+
+<Prompt>The problem stated as the product sees it: the feedback loop (act, observe, adjust) broken three ways in skincare. Signal is slow (6 to 12 weeks), invisible (you see your face daily; memory can't reconstruct March), confounded (stress, hormones, weather, diet move at once). From the Demo Story page; say it your way.</Prompt>
+
+## Who it's for
+
+<Prompt>One paragraph: someone changing something about their skin and wanting to know if it worked, on a bad skin day. And the non-target: not the derm-protocol power user, not routine-management people. User zero is you, since Sep 13.</Prompt>
+
+## How the work was done
+
+<Prompt>Two or three sentences: AI generates options and pressure-tests them; you make and justify the final call. Night One (Aug 1): idea to a fully shaped v1 in one session, with a decision log marking which calls were yours. The meta-story: every pressure test made the model smaller. Then design in Claude Design, hand off to code, trial, back.</Prompt>
+
+<Screen src="work/basin/process-loop.png" alt="Design tool, decision log, code, trial, back: the loop as a diagram" aspect="16 / 7" caption="TODO(emily): the loop" />
+
+<Prompt>Where you overrode the model. At least three are in the log: the routine state, the expectation windows, the parallel-trials model. Say so plainly; it's the credibility.</Prompt>
+
+## The decisions
+
+<Prompt>One sentence introducing the spine: a handful of decisions, each told the same way. What I believed, what I built, what I saw, what I changed.</Prompt>
+
+<Decision id="basin-one-timeline" />
+
+<Decision id="basin-photo-is-the-hinge" />
+
+<Decision id="basin-keep-never-captured" />
+
+<Decision id="basin-no-expectation-windows" />
+
+<Prompt>The bridge between those two: what the trial showed a month in. Trials sitting open, nobody deciding. Then:</Prompt>
+
+<Decision id="basin-four-week-check-in" />
+
+<Decision id="basin-first-photo-overlay" />
+
+<Decision id="basin-worked-didnt-work" />
+
+<Decision id="basin-privacy-is-the-product" />
+
+## The product
+
+<Prompt>One or two sentences, then let it run. This is the real build with your real photos; tell the reader what to try (drag the compare, open a day, start a trial).</Prompt>
+
+<Phone src="https://basin-six.vercel.app" title="Basin, live" caption="TODO(emily): one line: this is the real app." />
+
+<Strip>
+  <Screen src="work/basin/01-calendar.png" alt="The calendar: a month of days, photos as dots, today lit" aspect="9 / 19.5" caption="TODO(emily)" />
+  <Screen src="work/basin/02-camera.png" alt="The camera: overlay of the first photo, the shutter stack" aspect="9 / 19.5" caption="TODO(emily)" />
+  <Screen src="work/basin/03-trial-sheet.png" alt="Starting a trial: chips, the face map drawn with a finger" aspect="9 / 19.5" caption="TODO(emily)" />
+</Strip>
+
+<Strip>
+  <Screen src="work/basin/04-trial-card.png" alt="A running trial: started, days in, photos, the small face" aspect="9 / 19.5" caption="TODO(emily)" />
+  <Screen src="work/basin/05-check-in.png" alt="The four-week check-in: Still testing retinol?" aspect="9 / 19.5" caption="TODO(emily)" />
+  <Screen src="work/basin/06-history.png" alt="History: Worked / Didn't work, the span, the note" aspect="9 / 19.5" caption="TODO(emily)" />
+</Strip>
+
+## The material
+
+<Prompt>The glass direction in a few sentences: grainy glacier ground, frosted slabs, the lime kept for begin/now only; what got retired (the mirror shell, the white headings) and why. Two typefaces with a hard line: the wordmark face and Inter for everything a person reads.</Prompt>
+
+<Screen src="work/basin/tokens-specimen.png" alt="Surface tiers, ink levels with their contrast ratios, the type scale" aspect="16 / 9" caption="TODO(emily): specimen" />
+
+<Screen src="work/basin/logo-sheet.png" alt="The bowl mark and the drafts that were rejected" aspect="16 / 9" caption="TODO(emily): the rejected drafts are the process" />
+
+## The build
+
+<Prompt>Short: static export so one out/ ships to Vercel and inside the iOS binary; no server because the product has no server. The data model is the design model made literal: four stores, pixels split from metadata, no trials table, conclusions as the one human-written record. The compare wipe at native frame rate. Haptics, safe areas, Dynamic Type, a real Open Settings door.</Prompt>
+
+<Screen src="work/basin/data-model.png" alt="photo → tags → derived trials → history, as a diagram" aspect="16 / 7" caption="TODO(emily)" />
+
+## Edge states and tone
+
+<Prompt>The return after a long absence; the earned quiet room; first run; camera denied. Copy rules: never "upload"; the app's own verbs; no streaks; the hint said once. Tag examples span habits, environment changes, procedures and subtractions.</Prompt>
+
+<Strip>
+  <Screen src="work/basin/07-return.png" alt="The return line after a gap" aspect="9 / 19.5" caption="TODO(emily)" />
+  <Screen src="work/basin/08-quiet-room.png" alt="Nothing in question: every trial called" aspect="9 / 19.5" caption="TODO(emily)" />
+  <Screen src="work/basin/09-camera-denied.png" alt="Camera denied, with Open Settings" aspect="9 / 19.5" caption="TODO(emily)" />
+</Strip>
+
+## The trial
+
+<Prompt>Dated. What user zero changed, week by week, from Sep 13. Week one's four fixes (bottom actions, the keyboard, About, the overlay). Then the trial model, face areas, the glass pass, calendar as home, the camera stack, the crayon, the check-in. This is the section that makes it a shipped case study; keep it as a list with dates.</Prompt>
+
+## What I'd measure
+
+<Prompt>Four, yours to confirm or replace: variance in face position across a trial's photos (does the overlay work); photos per week over the first eight weeks with no streak mechanic (does the habit hold); share of trials reaching a verdict and median days to verdict (does the loop close); whether people open comparisons more than 60 days apart (does the Long Look land).</Prompt>
+
+## Reflection
+
+<Prompt>What you'd do differently; what's next (derm export, re-anchoring the overlay if the first photo is bad, multi-angle designed and waiting). And the thesis landing: less is the reward turned out to be true of the process, and the one thing the trial put back was put back in a form the principle allows.</Prompt>

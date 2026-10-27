@@ -2,6 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import { Screen, Strip } from "@/components/case/screen";
 import { Decision } from "@/components/case/decision";
 import { Prompt } from "@/components/case/prompt";
+import { Phone } from "@/components/case/phone";
 
 /**
  * Global MDX components. Case studies are written in markdown and drop
@@ -12,6 +13,7 @@ const components: MDXComponents = {
   Strip,
   Decision,
   Prompt,
+  Phone,
   h2: (props) => <h2 className="mt-8 text-title font-medium text-ink" {...props} />,
   h3: (props) => <h3 className="mt-4 text-body font-medium text-ink" {...props} />,
   p: (props) => <p className="text-body text-ink-2" {...props} />,
