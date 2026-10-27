@@ -1,0 +1,113 @@
+{/* Easy Care case study. Template: every prose spot is a <Prompt> for Emily;
+    screens are <Screen> placeholders until the exports land in
+    public/work/easy-care/. Order follows claude/easy-care-case-study-plan.md. */}
+
+<Prompt>One line under the title: what Easy Care is, in your words, no adjectives.</Prompt>
+
+<Prompt>Top strip, as a short list: your role; the timeline (Greenline build, then this redesign); the stack (HeroUI, Figma variables, MWI theme); one line saying this is a portfolio rebuild of a real shipped product.</Prompt>
+
+## The problem
+
+<Prompt>What Easy Care was and who used it: the clinic user at the counter, the doctor between patients. Then the hard problem in your own words (the "flexible enough for anyone in the clinic… enough guardrails" sentence).</Prompt>
+
+<Screen src="work/easy-care/00-original.png" alt="One screen of the original Greenline build" aspect="16 / 10" caption="TODO(emily): one-line caption, honest about what shipped" />
+
+<Prompt>Why you rebuilt it, and the rule you set: everything from the original can be challenged if it makes a better piece. Say what stayed real (the roles, the MWI partnership, the plan logic).</Prompt>
+
+## The system
+
+<Prompt>Two or three sentences on the method before any screen: the HeroUI kit, the MWI theme as variable aliases, design.md as the rules file, the decision log, the rule that components are edited in the kit before anything new is added.</Prompt>
+
+<Screen src="work/easy-care/system-theme.png" alt="Radio, button, input and option row in the kit's blue and in MWI purple, with the alias list" aspect="16 / 7" caption="TODO(emily): caption naming the 14 alias changes" />
+
+<Prompt>Six lines quoted from design.md section 7 (money and medical rules). Paste the real lines; don't paraphrase them.</Prompt>
+
+<Decision id="easy-care-components-edit-kit" />
+
+## Enrollment
+
+<Prompt>One paragraph: what the clinic user is doing, where they are, what the original nine-screen flow cost them, and the three-screen shape you chose.</Prompt>
+
+<Decision id="easy-care-three-screens" />
+
+### Who
+
+<Screen src="work/easy-care/01-who.png" alt="Enrollment step 1, Who: client, pets, weight" aspect="1440 / 980" />
+
+<Prompt>Two sentences: why the client confirmation is inline, why the enrolled pet shows but can't be picked.</Prompt>
+
+### What
+
+<Screen src="work/easy-care/02-what.png" alt="Enrollment step 2, What: plan, products by the clinic's categories, add-ons, cart" aspect="1440 / 1150" />
+
+<Prompt>The products problem in your words: categories the clinic set, the coverage rule, combo products, and why the earlier versions were wrong. This is the paragraph a reviewer stops on.</Prompt>
+
+<Decision id="easy-care-coverage-rule" />
+
+<Strip>
+  <Screen src="work/easy-care/02-what-products-empty.png" alt="Products section, nothing chosen, Continue disabled" aspect="4 / 3" caption="TODO(emily): empty" />
+  <Screen src="work/easy-care/02-what-products-combo.png" alt="Products section, Simparica Trio chosen" aspect="4 / 3" caption="TODO(emily): combo" />
+  <Screen src="work/easy-care/02-what-products-over.png" alt="Products section, Simparica Trio and Heartgard Plus both chosen" aspect="4 / 3" caption="TODO(emily): over-coverage" />
+</Strip>
+
+<Decision id="easy-care-products-categories" />
+
+### Sign-off
+
+<Screen src="work/easy-care/03-sign-off.png" alt="Enrollment step 3, Sign-off: doctor, prescription notes, payment, consent" aspect="1440 / 1040" />
+
+<Prompt>Two or three sentences on payment: what a recurring card checkout needs, why the processor owns the card fields, what the consent line does.</Prompt>
+
+<Decision id="easy-care-checkout-embedded" />
+
+### Success
+
+<Screen src="work/easy-care/04-success.png" alt="Enrollment complete: what happens next, print summary" aspect="1440 / 900" />
+
+<Prompt>One or two sentences: the paid-but-not-active gap and why the next steps are listed here. Why Print is the primary action.</Prompt>
+
+<Screen src="work/easy-care/05-error.png" alt="Continue pressed with a required coverage empty" aspect="16 / 6" caption="TODO(emily): the one error state shown for the whole flow" />
+
+## Look
+
+<Prompt>Short: the Linear-settings direction, what "expensive" meant in practice (fewer words, one surface, rows), what you kept at 14px and 44px for the counter, and why.</Prompt>
+
+<Decision id="easy-care-linear-restraint" />
+
+## Prescription approval
+
+<Prompt>The doctor's question: what they need to be sure of before signing. Your answer, once decided.</Prompt>
+
+<Screen src="work/easy-care/10-edit-and-sign.png" alt="Doctor's Edit and sign page" aspect="1440 / 1100" />
+
+<Strip>
+  <Screen src="work/easy-care/11-card-unsigned.png" alt="Product card, unsigned" aspect="4 / 3" caption="TODO(emily)" />
+  <Screen src="work/easy-care/11-card-signed.png" alt="Product card, signed" aspect="4 / 3" caption="TODO(emily)" />
+  <Screen src="work/easy-care/11-card-removed.png" alt="Product card, removed" aspect="4 / 3" caption="TODO(emily)" />
+</Strip>
+
+<Prompt>Decision card for the doctor's page goes here once it exists.</Prompt>
+
+## Client profile
+
+<Prompt>One paragraph: what the profile is for, the role constraints, where the paid-but-not-active state shows.</Prompt>
+
+<Screen src="work/easy-care/20-client-profile.png" alt="Client profile" aspect="1440 / 1100" />
+
+## What changed from the original
+
+<Prompt>Intro line for the table. The table itself is generated from the ★ decisions once the component exists; for now, three rows by hand: original / redesign / why.</Prompt>
+
+| Original | Redesign | Why |
+| --- | --- | --- |
+| TODO(emily) | | |
+| TODO(emily) | | |
+| TODO(emily) | | |
+
+## What I'd measure
+
+<Prompt>Decided after the redesign, not before. Two or three metrics and why those.</Prompt>
+
+## Considered and not chosen
+
+<Prompt>One sentence each: the one-page and full-screen-checkout wireframes; the four rejected products structures. No images.</Prompt>

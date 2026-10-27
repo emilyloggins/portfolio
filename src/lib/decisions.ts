@@ -12,7 +12,12 @@ import { z } from "zod";
 export const DecisionSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   project: z.enum(["basin", "easy-care", "site"]),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  // YAML parses an unquoted 2026-10-19 as a Date; accept either form and
+  // normalise to the plain string.
+  date: z.preprocess(
+    (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v),
+    z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  ),
   question: z.string().min(1),
   considered: z.array(z.string().min(1)).min(1),
   decided: z.string().min(1),
