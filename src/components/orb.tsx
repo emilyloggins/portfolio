@@ -15,25 +15,25 @@ import { useEffect, useRef, useState } from "react";
 
 export const DEFAULTS = {
   // shape
-  size: 112, // px, the orb at rest
-  count: 720, // dots
-  dot: 1.6, // px, dot radius
-  density: 0.62, // how the dots pack: lower = denser centre, grainier rim
-  spread: 1.1, // rim raggedness (1 = clean circle)
-  alphaMin: 0.55, // faintest dot
-  color: "#1f3fd1",
-  color2: "#7a8dff", // second tone
+  size: 125, // px, the orb at rest
+  count: 3000, // dots
+  dot: 1.4, // px, dot radius
+  density: 0.72, // how the dots pack: lower = denser centre, grainier rim
+  spread: 1.11, // rim raggedness (1 = clean circle)
+  alphaMin: 0.76, // faintest dot
+  color: "#0a2fc2",
+  color2: "#132dbe", // second tone
   color3: "#0b1f7a", // third tone
   tones: 1, // 1, 2 or 3 colours in play
   toneBy: 1, // 1 = tones run from centre (color) to rim (color2/3); 0 = scattered at random
   toneBlend: 1, // 1 = smooth blend between tones; 0 = hard bands
   // breathing
-  breathe: 0.035, // how much it swells
-  breatheSec: 5.2, // seconds per breath
+  breathe: 0.02, // how much it swells
+  breatheSec: 4.2, // seconds per breath
   // resting motion: each dot wanders around its home on its own slow loop
-  wander: 2.5, // px, how far a dot strays at rest
-  wanderSpeed: 0.35, // loops per second-ish; lower is lazier
-  swirl: 0, // slow rotation of the whole cloud, degrees per second (0 = still)
+  wander: 5.8, // px, how far a dot strays at rest
+  wanderSpeed: 0.12, // loops per second-ish; lower is lazier
+  swirl: -4, // slow rotation of the whole cloud, degrees per second (0 = still)
   // weather (live from Brooklyn; the tuner can override)
   weatherLive: 1, // 1 = use the real weather, 0 = use the sliders below
   wind: 0, // km/h
@@ -42,10 +42,10 @@ export const DEFAULTS = {
   temp: 15, // °C
   windPush: 0.012, // how much wind leans the resting dots, per km/h
   windGust: 0.02, // how much wind bends the scatter
-  rainFall: 0.05, // downward pull per mm
-  rainJitter: 0.25, // extra jitter per mm
-  coldGrey: 0.6, // how grey the colour goes below 5°C (0 = none)
-  heatTight: 0.15, // how much tighter the cloud packs per 10°C above 20
+  rainFall: 0, // downward pull per mm (Emily: off for now)
+  rainJitter: 0, // extra jitter per mm (off)
+  coldGrey: 0, // how grey the colour goes below 5°C (off)
+  heatTight: 0, // how much tighter the cloud packs per 10°C above 20 (off)
   // scatter
   enter: 1.15, // how far outside the orb the cursor counts as "in" (× radius)
   throwForce: 2.4, // how hard a dot is thrown from the cursor
@@ -54,13 +54,13 @@ export const DEFAULTS = {
   jitter: 0.4, // random motion while scattered
   scatterDamping: 0.9, // 1 = no friction; lower settles faster
   // return
-  spring: 0.06, // pull toward home
-  returnDamping: 0.78, // lower = settles faster, higher = bouncier
+  spring: 0.045, // pull toward home
+  returnDamping: 0.4, // lower = settles faster, higher = bouncier
   // field
-  room: 640, // px, canvas; dots fade before reaching its edge
-  fade: 90, // px, how wide the fade-out band at the edge is
+  room: 330, // px, canvas; dots fade before reaching its edge
+  fade: 38, // px, how wide the fade-out band at the edge is
   // text
-  textDelay: 260, // ms after scatter begins
+  textDelay: 710, // ms after scatter begins
 };
 export type Tune = typeof DEFAULTS;
 
@@ -230,8 +230,10 @@ export function Orb() {
           const dist = Math.hypot(dx, dy) || 1;
           const f = Math.max(0, 1 - dist / T.throwRange) * T.throwForce;
           const jit = T.jitter + W.rain * T.rainJitter;
-          d.vx += (dx / dist) * f + (d.x - C) * T.drift + (Math.random() - 0.5) * jit + wx * T.windGust;
-          d.vy += (dy / dist) * f + (d.y - C) * T.drift + (Math.random() - 0.5) * jit + wy * T.windGust + W.rain * T.rainFall;
+          // Wind and rain ride the throw (scaled by `f`), never as a
+          // standing force: a hovered cloud must not sail off downwind.
+          d.vx += (dx / dist) * f + (d.x - C) * T.drift + (Math.random() - 0.5) * jit + wx * T.windGust * f;
+          d.vy += (dy / dist) * f + (d.y - C) * T.drift + (Math.random() - 0.5) * jit + wy * T.windGust * f + W.rain * T.rainFall * f;
           d.vx *= T.scatterDamping;
           d.vy *= T.scatterDamping;
         } else {
