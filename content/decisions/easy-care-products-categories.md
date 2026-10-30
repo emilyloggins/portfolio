@@ -12,4 +12,4 @@ decided: "Rows are the clinic's categories as the clinic admin set them (Combo, 
 mine: true
 evidence: ["02-what", "02-what-products-combo", "02-what-products-over"]
 ---
-TODO(emily): why, in your words. Your two needs were: "they need to know that all options they want are going to be there" and "include everything that's included in the patient's coverage." Say why the three earlier versions were wrong.
+The user needs to know that every option they want is going to be there, and they need to see that everything the patient's coverage requires is included. I tried structures that computed coverage and rebuilt the list around it; they duplicated products and hid the shelf the clinic admin had set. Clinic favorites are the clinic's own categories. So the rows are those categories, each product once, the requirement stated once. Coverage is a lookup from the catalog, and it informs rather than disables: a vet may want a combo plus a separate dewormer for whipworm. The clinician decides; the doctor verifies at sign-off.

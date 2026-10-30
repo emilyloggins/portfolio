@@ -11,4 +11,4 @@ decided: "Three screens: Who (client, pet, weight), What (plan, products, add-on
 mine: true
 evidence: ["01-who", "02-what", "03-sign-off", "04-success"]
 ---
-TODO(emily): why, in your words. The log has: "a checkout process, essentially", the cart as the summary; the dependencies the stepper enforced still hold inside each screen; guardrails move from screen boundaries to field gating and the live cart.
+Enrollment is a checkout process, essentially, and the summary card is the cart. The dependencies the stepper enforced still hold inside each screen: the pet list waits on a client, the products wait on a weight. What the stepper added was a screen boundary around every one of them, which is nine Next buttons for a receptionist with a client at the counter. The guardrails move into the screens: field gating, the live cart, and Continue waiting on the required coverages.

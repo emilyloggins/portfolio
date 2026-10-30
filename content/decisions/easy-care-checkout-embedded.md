@@ -11,4 +11,4 @@ decided: "Embedded element. Easy Care owns the layout, the cart, name on card, b
 mine: false
 evidence: ["03-sign-off"]
 ---
-TODO(emily): why, in your words. Your instruction was "handle it in a professional, industry appropriate way"; the original had a placeholder because the processor was never chosen.
+Handle it in a professional, industry-appropriate way. For recurring card billing that means the processor renders the card fields inside our page, so card numbers never enter Easy Care and the clinic never takes one over the phone. We own the layout, the cart, name on card, billing address, the receipt, and the consent line that authorizes the schedule and the card on file.

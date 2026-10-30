@@ -10,4 +10,4 @@ decided: "Edit the kit before adding. Kit Select and Input gained a radius=sm va
 mine: true
 evidence: ["system-theme"]
 ---
-TODO(emily): why, in your words. Your rule: "if it's close enough to be a variant you can add to the existing kit, but if it's net new you can add a new component."
+If it's close enough to be a variant, add it to the existing kit; if it's net new, add a new component. The theming story only holds if the kit stays the kit. The Select and Input got a small-radius variant instead of local copies; the option row, check row, nav item and step are new because nothing in HeroUI does those jobs.

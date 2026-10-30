@@ -11,4 +11,4 @@ decided: "Linear's structure and restraint: one surface, sections by heading and
 mine: true
 evidence: ["01-who", "02-what", "03-sign-off", "04-success"]
 ---
-TODO(emily): why, in your words. The two things you said: "i want the app stylistically looking more like linear settings" and "it is still a lot of cluttered info on the page, i want it to feel more expensive."
+I wanted it to look like Linear settings, and when the first pass still read as cluttered, I wanted it to feel more expensive. Expensive turned out to mean fewer things with more room: one surface, sections by heading and hairline, every field a row, product names without their weight bands, a cart of four lines. Linear's type sizes were the one thing I didn't take whole. A receptionist uses this for two minutes with a client waiting, so body stays at 14 and anything tapped stays 44 tall.

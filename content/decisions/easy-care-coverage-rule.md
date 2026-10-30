@@ -11,4 +11,4 @@ decided: "The rule is about coverage, not count. Heartworm and flea/tick coverag
 mine: true
 evidence: ["02-what"]
 ---
-TODO(emily): your clarification, in your words: "at least one product, up to three. sometimes they are combo products. heartworm and flea tick are required but can either be picked together or separate."
+At least one product, up to three. Sometimes they are combo products. Heartworm and flea and tick are required, but can be picked together or separate. Written out, the rule is about coverage, not about how many products there are, and the original's "at least one" was just the case where a combo covers both required coverages. The screen is built on that rule.
