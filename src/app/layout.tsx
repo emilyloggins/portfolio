@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ViewTransition } from "react";
 import localFont from "next/font/local";
 import { ArriveOnce } from "@/components/arrive-once";
-import { Orb } from "@/components/orb";
 import { PageTuner } from "@/components/page-tuner";
 import "./globals.css";
 
@@ -30,7 +29,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ArriveOnce />
       </head>
       <body className="flex min-h-full flex-col">
-        <Orb />
         <PageTuner />
         <ViewTransition>{children}</ViewTransition>
       </body>
