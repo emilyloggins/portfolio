@@ -7,11 +7,14 @@ export const metadata = { title: "Easy Care" };
 export default function Page() {
   return (
     <main className="arrive mx-auto flex w-full max-w-[40rem] flex-1 flex-col gap-8 px-6 py-24">
-      <nav className="flex items-baseline gap-4">
+      <Link
+        href="/"
+        className="press fixed top-6 left-6 z-20 inline-flex items-center gap-1.5 text-meta text-ink-3 no-underline transition-colors duration-(--duration-fast) hover:text-ink"
+      >
+        <span aria-hidden>←</span> Home
+      </Link>
+      <nav>
         <Name as="p" />
-        <Link href="/" className="press text-meta text-ink-3 no-underline hover:text-ink">
-          Home
-        </Link>
       </nav>
       <header className="flex flex-col gap-2">
         <h1 className="text-title font-medium text-ink">Easy Care</h1>

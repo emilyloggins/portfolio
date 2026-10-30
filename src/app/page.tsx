@@ -35,13 +35,10 @@ export default function Home() {
         </List>
       </Section>
 
-      <Section title="Elsewhere">
-        <List>
-          <Row href="https://github.com/emilyloggins" title="GitHub" external />
-          <Row href="https://www.instagram.com/gildedwhim" title="@gildedwhim" external />
-          <EmailRow address="em.loggins7@gmail.com" />
-        </List>
-      </Section>
+      {/* Contact is one line, not a section: the email, copy on click. */}
+      <List>
+        <EmailRow address="em.loggins7@gmail.com" />
+      </List>
     </main>
   );
 }
