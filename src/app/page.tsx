@@ -2,7 +2,7 @@ import { EmailRow } from "@/components/email-row";
 import { List } from "@/components/list";
 import { Name } from "@/components/name";
 import { NowLabel } from "@/components/now-label";
-import { Row, Section, Todo } from "@/components/row";
+import { Row, Section } from "@/components/row";
 
 /**
  * Home. One narrow column, left-aligned, no hero: a name, a role line,
