@@ -1,8 +1,9 @@
-{/* Easy Care case study. Text through the end of Enrollment is a DRAFT
-    written from Emily's own words in the decision log and reference docs;
-    she edits. Everything after "Look" is still a template. Screens live in
-    public/work/easy-care/; a placeholder renders until the file exists.
-    Framing: this is the design of Easy Care, not a redesign. */}
+{/* Easy Care case study. Shape: one paragraph, then a heading, one line and
+    screens per area, like a gallery with captions. Prose through Enrollment is
+    a DRAFT in Emily's own words from the decision log; she edits. Decisions
+    live in content/decisions/ and are linked at the bottom, not inlined.
+    Screens live in public/work/easy-care/; a placeholder renders until the
+    file exists. Framing: this is the design of Easy Care, not a redesign. */}
 
 Wellness-plan software for veterinary clinics, built with MWI.
 
@@ -10,86 +11,39 @@ Wellness-plan software for veterinary clinics, built with MWI.
 - Where: Greenline, in partnership with MWI
 - Stack: HeroUI, Figma variables, an MWI theme on top of the kit
 
-## The problem
-
-Easy Care let a veterinary clinic enroll a pet in a yearly wellness plan: a monthly price covering a set of services and up to three preventive products, with the products shipped to the client's home by MWI. Two people used it. A clinic user, usually at the front desk with the client standing there, set the plan up. A doctor, between patients, edited and signed the prescriptions, which created the order.
-
-The hard problem: making this tool flexible enough to be used by anyone in the clinic at any time in the patient's experience or clinic's workflow, while providing enough guardrails to design an effective, safe medical plan for the next year of a pet's life.
-
-The constraints were real and stayed fixed: clinic roles with different permissions, the MWI partnership and its per-drug shipping cadence, plan templates owned by Easy Care and favorites set by each clinic, and the fact that the client pays before the doctor signs.
-
-## The system
-
-Before any screen, the rules. Easy Care is built on HeroUI, with the MWI theme applied as variable aliases: fourteen tokens repointed from the kit's blue ramp to a purple one, and the whole product rethemes. A design.md file holds the judgment rules and the measurements; a decision log holds every call, what was considered, and why. One rule governs components: edit the kit before adding anything. If a need is close enough to be a variant, it becomes a variant of the kit's component; only something net new becomes a new component.
-
-<Screen src="work/easy-care/system-theme.png" alt="Radio, button, input and option row in the kit's blue and in MWI purple, with the alias list" aspect="16 / 7" caption="The same components in HeroUI's defaults and in the MWI theme. The difference is fourteen aliases." />
-
-From design.md, the rules that shaped every screen that follows:
-
-- Every amount shows currency and cents, and its cadence.
-- The monthly total is one computed number; it never appears in two places with different values.
-- A product is always shown with its weight band; a weight is always shown with the date it was recorded.
-- Species and plan type stay visible on any screen where products are chosen.
-- A screen shows only the actions the current role can take.
-- "Plan" never means enrollment. "Prescription" never means order.
-
-<Decision id="easy-care-components-edit-kit" />
+Easy Care lets a clinic enroll a pet in a yearly wellness plan and ship its preventive products from MWI. The hard problem: making this tool flexible enough to be used by anyone in the clinic at any time in the patient's experience or clinic's workflow, while providing enough guardrails to design an effective, safe medical plan for the next year of a pet's life.
 
 ## Enrollment
 
-Enrollment is a checkout. A clinic user with a client at the counter picks a plan, picks the products, takes payment, and sends the result to a doctor. The dependencies are real: you can't pick a pet before a client, or a product before a weight. They hold inside a screen as well as between screens, so the flow is three: who, what, sign-off.
+Who, what, sign-off. A clinic user with a client at the counter.
 
-<Decision id="easy-care-three-screens" />
+<Screen src="work/easy-care/01-who.png" alt="Enrollment step 1, Who: client, pets, weight" aspect="1440 / 980" caption="Who. Phone and email next to the name catch the wrong Dillon Johnson; a pet already on a plan stays listed and can't be picked." />
 
-### Who
-
-<Screen src="work/easy-care/01-who.png" alt="Enrollment step 1, Who: client, pets, weight" aspect="1440 / 980" />
-
-The risk on this screen is enrolling the wrong Dillon Johnson. Phone and email next to the name catch that without a confirmation step. A pet that already has a plan stays in the list, showing its plan and end date, and can't be picked: one pet, one enrollment. Weight is entered here because it filters the products on the next screen; there's no staleness rule, because the client is present and the weight is being taken now.
-
-### What
-
-<Screen src="work/easy-care/02-what.png" alt="Enrollment step 2, What: plan, products by the clinic's categories, add-ons, cart" aspect="1440 / 1150" />
-
-Products took the most work. The rule is about coverage, not count. Heartworm coverage and flea-and-tick coverage are required; intestinal parasite coverage is optional; a combo product can cover more than one at once; three products at most.
-
-Then the structure. A clinic admin chooses favorites in categories they named. The user needs to know that every option they want is there, exactly as the clinic set it up. So the rows are the clinic's categories, each product listed once, and the requirement is stated once in the section head. Picking a combo satisfies two categories; the system can compute that from the catalog, and it informs rather than disables. The clinician decides, and the doctor verifies at sign-off.
-
-<Decision id="easy-care-coverage-rule" />
+<Screen src="work/easy-care/02-what.png" alt="Enrollment step 2, What: plan, products by the clinic's categories, add-ons, cart" aspect="1440 / 1150" caption="What. Products are the clinic's own categories, each product once. The rule is coverage, not count." />
 
 <Strip>
-  <Screen src="work/easy-care/02-what-products-empty.png" alt="Products section, nothing chosen, Continue disabled" aspect="4 / 3" caption="Nothing chosen. Continue waits on the two required coverages." />
-  <Screen src="work/easy-care/02-what-products-combo.png" alt="Products section, Simparica Trio chosen" aspect="4 / 3" caption="One combo covers heartworm and fleas and ticks." />
+  <Screen src="work/easy-care/02-what-products-empty.png" alt="Products section, nothing chosen, Continue disabled" aspect="4 / 3" caption="Nothing chosen." />
+  <Screen src="work/easy-care/02-what-products-combo.png" alt="Products section, Simparica Trio chosen" aspect="4 / 3" caption="One combo covers both required coverages." />
   <Screen src="work/easy-care/02-what-products-over.png" alt="Products section, Simparica Trio and Heartgard Plus both chosen" aspect="4 / 3" caption="Over-coverage is allowed. The doctor sees it." />
 </Strip>
 
-<Decision id="easy-care-products-categories" />
+<Screen src="work/easy-care/03-sign-off.png" alt="Enrollment step 3, Sign-off: doctor, prescription notes, payment, consent" aspect="1440 / 1040" caption="Sign-off. The processor's card element inside the page, consent to the monthly schedule in one line, the amount on the button." />
 
-### Sign-off
+<Screen src="work/easy-care/04-success.png" alt="Enrollment complete: what happens next, print summary" aspect="1440 / 900" caption="Payment isn't the end. What happens next, in order, and a summary to hand across the counter." />
 
-<Screen src="work/easy-care/03-sign-off.png" alt="Enrollment step 3, Sign-off: doctor, prescription notes, payment, consent" aspect="1440 / 1040" />
+## The system
 
-For a recurring charge the shape of checkout is settled regardless of processor: the processor's card element sits inside the page so card data never touches Easy Care, with name on card, billing address and receipt around it. Because billing is monthly, the card is saved on file, and the client consents to that and to the schedule in one line. The button names the amount.
+HeroUI, rethemed to MWI in fourteen variable aliases. Edit the kit before adding anything.
 
-<Decision id="easy-care-checkout-embedded" />
-
-### Success
-
-<Screen src="work/easy-care/04-success.png" alt="Enrollment complete: what happens next, print summary" aspect="1440 / 900" />
-
-Payment isn't the end. The doctor still has to sign, the first doses ship after that, and services start at the wellness visit. The client is locked in for a year from today either way, so the page says what happens next, in order. The primary action is printing the summary, because the client is standing at the counter and the next physical act is handing them something.
-
-<Screen src="work/easy-care/05-error.png" alt="Continue pressed with a required coverage empty" aspect="16 / 6" caption="The one error state shown for the flow: Continue with a required coverage empty. The row says what's missing; nothing else moves." />
+<Screen src="work/easy-care/system-theme.png" alt="Radio, button, input and option row in the kit's blue and in MWI purple, with the alias list" aspect="16 / 7" caption="The same components in HeroUI's defaults and in the MWI theme." />
 
 ## Look
 
-<Prompt>Short: the Linear-settings direction, what "expensive" meant in practice (fewer words, one surface, rows), what you kept at 14px and 44px for the counter, and why.</Prompt>
-
-<Decision id="easy-care-linear-restraint" />
+<Prompt>One line: the Linear-settings direction and what "expensive" meant in practice.</Prompt>
 
 ## Prescription approval
 
-<Prompt>The doctor's question: what they need to be sure of before signing. Your answer, once decided.</Prompt>
+<Prompt>One line: what the doctor needs to be sure of before signing.</Prompt>
 
 <Screen src="work/easy-care/10-edit-and-sign.png" alt="Doctor's Edit and sign page" aspect="1440 / 1100" />
 
@@ -99,19 +53,12 @@ Payment isn't the end. The doctor still has to sign, the first doses ship after 
   <Screen src="work/easy-care/11-card-removed.png" alt="Product card, removed" aspect="4 / 3" caption="TODO(emily)" />
 </Strip>
 
-<Prompt>Decision card for the doctor's page goes here once it exists.</Prompt>
-
 ## Client profile
 
-<Prompt>One paragraph: what the profile is for, the role constraints, where the paid-but-not-active state shows.</Prompt>
+<Prompt>One line: what the profile is for and where paid-but-not-active shows.</Prompt>
 
 <Screen src="work/easy-care/20-client-profile.png" alt="Client profile" aspect="1440 / 1100" />
 
 ## Decisions
 
-<Prompt>One line introducing the full decision list for this project (generated from content/decisions/ once the list component exists).</Prompt>
-
-## What I'd measure
-
-<Prompt>Two or three metrics and why those.</Prompt>
-
+<Prompt>One line and a link to the full decision log for this project, once the decisions page exists. The six Easy Care decisions are in content/decisions/.</Prompt>
