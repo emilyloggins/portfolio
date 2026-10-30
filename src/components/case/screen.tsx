@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { Lightbox } from "./lightbox";
 
 /**
  * A full screen or a crop from a case study. Renders the image when it
@@ -22,8 +23,7 @@ export function Screen({
   return (
     <figure className="flex flex-col gap-2">
       {exists ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/${src}`} alt={alt} className="w-full rounded-md border border-line" />
+        <Lightbox src={`/${src}`} alt={alt} />
       ) : (
         <div
           role="img"
