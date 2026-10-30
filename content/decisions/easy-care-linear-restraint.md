@@ -2,7 +2,7 @@
 id: easy-care-linear-restraint
 project: easy-care
 date: 2026-10-23
-question: What does the redesigned product look like, beyond the MWI theme?
+question: What does the product look like, beyond the MWI theme?
 considered:
   - HeroUI defaults, cards on a grey page
   - Linear-settings restraint at Linear's type sizes
@@ -11,4 +11,4 @@ decided: "Linear's structure and restraint: one surface, sections by heading and
 mine: true
 evidence: ["01-who", "02-what", "03-sign-off", "04-success"]
 ---
-I wanted it to look like Linear settings, and when the first pass still read as cluttered, I wanted it to feel more expensive. Expensive turned out to mean fewer things with more room: one surface, sections by heading and hairline, every field a row, product names without their weight bands, a cart of four lines. Linear's type sizes were the one thing I didn't take whole. A receptionist uses this for two minutes with a client waiting, so body stays at 14 and anything tapped stays 44 tall.
+I wanted it to look like Linear settings, and to feel expensive. Expensive turned out to mean fewer things with more room: one surface, sections by heading and hairline, every field a row, product names without their weight bands, a cart of four lines. Linear's type sizes were the one thing I didn't take whole. A receptionist uses this for two minutes with a client waiting, so body stays at 14 and anything tapped stays 44 tall.
