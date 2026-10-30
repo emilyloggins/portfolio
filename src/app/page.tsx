@@ -30,7 +30,7 @@ export default function Home() {
             Your skincare, tested on the only face that matters.
           </Row>
           <Row href="/work/easy-care" title="Easy Care">
-            <Todo>TODO(emily): one line</Todo>
+            A year of your pet&apos;s preventive care, set up in one vet visit.
           </Row>
         </List>
       </Section>
