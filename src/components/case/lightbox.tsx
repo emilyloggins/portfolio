@@ -31,7 +31,7 @@ export function Lightbox({ src, alt }: { src: string; alt: string }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Open ${alt} full size`}
-        className="block w-full cursor-zoom-in rounded-md border border-line transition-opacity duration-150 ease-out hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="block w-full rounded-md border border-line transition-opacity duration-150 ease-out hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} className="block w-full rounded-md" />
@@ -43,14 +43,15 @@ export function Lightbox({ src, alt }: { src: string; alt: string }) {
           aria-modal="true"
           aria-label={alt}
           onClick={() => setOpen(false)}
-          className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-ink/80 p-6 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/80 p-6 backdrop-blur-sm"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={src}
             alt={alt}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-full max-w-full cursor-default rounded-md shadow-2xl"
+            style={{ maxWidth: "min(1200px, 100%)", maxHeight: "85vh" }}
+            className="rounded-md shadow-2xl"
           />
           <button
             type="button"
