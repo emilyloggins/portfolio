@@ -44,12 +44,53 @@ export function CompareWipe({
     });
   }, []);
 
+  const touchedRef = useRef(false);
+  const sweepRef = useRef<number | null>(null);
+
   useEffect(() => {
     rootRef.current?.style.setProperty("--wipe", `${initial}%`);
     return () => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+      if (sweepRef.current != null) cancelAnimationFrame(sweepRef.current);
     };
   }, [initial]);
+
+  // Once, when it first scrolls into view: sweep from the left edge to a
+  // resting point on its own, then hand over. Says "this is live" before
+  // anyone touches it. A touch cancels it; reduced motion skips it.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const REST = 58;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        if (touchedRef.current) return;
+        if (reduce) {
+          write(REST);
+          return;
+        }
+        const DUR = 1500;
+        const DELAY = 350;
+        const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+        const t0 = performance.now() + DELAY;
+        const tick = (now: number) => {
+          if (touchedRef.current) return;
+          const t = Math.min(1, Math.max(0, (now - t0) / DUR));
+          write(ease(t) * REST);
+          if (t < 1) sweepRef.current = requestAnimationFrame(tick);
+          else sweepRef.current = null;
+        };
+        write(0);
+        sweepRef.current = requestAnimationFrame(tick);
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [write]);
 
   const fromEvent = (e: React.PointerEvent) => {
     const r = rectRef.current;
@@ -65,6 +106,7 @@ export function CompareWipe({
     } catch {
       /* not every pointer type supports capture; dragging still works */
     }
+    touchedRef.current = true;
     setTouched(true);
     fromEvent(e);
   };
@@ -82,6 +124,7 @@ export function CompareWipe({
     else if (e.key === "End") write(100);
     else return;
     e.preventDefault();
+    touchedRef.current = true;
     setTouched(true);
   };
 

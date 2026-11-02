@@ -22,7 +22,7 @@ export default function Page() {
           Your skincare, tested on the only face that matters.
         </p>
       </header>
-      <article className="flex flex-col gap-6">
+      <article className="flex flex-col gap-6" data-accent="lime">
         <Content />
       </article>
     </main>
