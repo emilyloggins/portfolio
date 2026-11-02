@@ -19,7 +19,7 @@ export default function Page() {
       <header className="flex flex-col gap-2">
         <h1 className="text-title font-medium text-ink">Basin</h1>
         <p className="text-body text-ink-2">
-          Your skincare, tested on the only face that matters.
+          A skincare companion app
         </p>
       </header>
       <article className="flex flex-col gap-6" data-accent="lime">
