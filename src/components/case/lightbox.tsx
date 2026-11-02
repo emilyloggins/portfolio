@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
  * click, Escape, or the close control. Motion uses the site's easing and
  * duration tokens only.
  */
-export function Lightbox({ src, alt }: { src: string; alt: string }) {
+/** `bare`: the image carries its own frame (a phone shot on the page ground), so no border. */
+export function Lightbox({ src, alt, bare = false }: { src: string; alt: string; bare?: boolean }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function Lightbox({ src, alt }: { src: string; alt: string }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Open ${alt} full size`}
-        className="block w-full rounded-md border border-line transition-opacity duration-150 ease-out hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className={`block w-full rounded-md transition-opacity duration-150 ease-out hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${bare ? "" : "border border-line"}`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} className="block w-full rounded-md" />

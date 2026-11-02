@@ -13,17 +13,23 @@ export function Screen({
   alt,
   aspect = "4 / 3",
   caption,
+  bare = false,
+  narrow = false,
 }: {
   src: string;
   alt: string;
   aspect?: string;
   caption?: string;
+  /** The image carries its own frame and shadow; draw no border. */
+  bare?: boolean;
+  /** A single phone shot: hold it to phone width, centred. */
+  narrow?: boolean;
 }) {
   const exists = fs.existsSync(path.join(process.cwd(), "public", src));
   return (
-    <figure className="flex flex-col gap-2">
+    <figure className={`flex flex-col gap-2 ${narrow ? "mx-auto w-full max-w-[22rem]" : ""}`}>
       {exists ? (
-        <Lightbox src={`/${src}`} alt={alt} />
+        <Lightbox src={`/${src}`} alt={alt} bare={bare} />
       ) : (
         <div
           role="img"
