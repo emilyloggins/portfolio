@@ -85,68 +85,89 @@ export function CompareWipe({
     setTouched(true);
   };
 
+  const drag = { onPointerDown, onPointerMove };
+
   return (
     <div
       ref={rootRef}
-      role="slider"
-      tabIndex={0}
-      aria-label={`Wipe between ${beforeLabel} and ${afterLabel}`}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={Math.round(percent)}
-      aria-valuetext={`${Math.round(percent)}% toward ${afterLabel}`}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onKeyDown={onKeyDown}
-      style={{ aspectRatio: aspect, cursor: "ew-resize" }}
-      className="relative w-full touch-none overflow-hidden rounded-md bg-ground-2 select-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
+      className="flex w-full flex-col gap-3"
+      style={{ ["--wipe" as string]: `${initial}%`, ["--lime" as string]: "#d6eb6e" }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={after}
-        alt={alt}
-        draggable={false}
-        className="pointer-events-none absolute inset-0 size-full object-cover"
-        style={{ transform: "translateZ(0)" }}
-      />
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{ clipPath: "inset(0 calc(100% - var(--wipe)) 0 0)", willChange: "clip-path" }}
+        role="presentation"
+        {...drag}
+        style={{ aspectRatio: aspect, cursor: "ew-resize" }}
+        className="relative w-full touch-none overflow-hidden rounded-md bg-ground-2 select-none"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={before}
-          alt=""
+          src={after}
+          alt={alt}
           draggable={false}
-          className="absolute inset-0 size-full object-cover"
+          className="pointer-events-none absolute inset-0 size-full object-cover"
           style={{ transform: "translateZ(0)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{ clipPath: "inset(0 calc(100% - var(--wipe)) 0 0)", willChange: "clip-path" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={before}
+            alt=""
+            draggable={false}
+            className="absolute inset-0 size-full object-cover"
+            style={{ transform: "translateZ(0)" }}
+          />
+        </div>
+
+        {/* The seam: thin, unlit, marks where the photos meet. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 w-0.5 bg-ground/85"
+          style={{ left: "calc(var(--wipe) - 1px)" }}
         />
       </div>
 
-      {/* The seam: thin, unlit, marks where the photos meet. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 w-0.5 bg-ground/85"
-        style={{ left: "calc(var(--wipe) - 1px)" }}
-      />
-
-      {/* Date chips, one per side, so the reader knows which is which. */}
-      <span className="pointer-events-none absolute top-3 left-3 rounded-full bg-ink/55 px-2.5 py-1 text-meta font-medium text-ground backdrop-blur-md">
-        {beforeLabel}
-      </span>
-      <span className="pointer-events-none absolute top-3 right-3 rounded-full bg-ink/55 px-2.5 py-1 text-meta font-medium text-ground backdrop-blur-md">
-        {afterLabel}
-      </span>
+      {/* The app's slider: labels either side, a track, lime fill and a lime knob.
+          Lime is the one saturated colour in Basin, kept for the thing to act on. */}
+      <div className="flex items-center gap-3">
+        <span className="min-w-12 text-meta font-medium text-ink-2">{beforeLabel}</span>
+        <div
+          role="slider"
+          tabIndex={0}
+          aria-label={`Wipe between ${beforeLabel} and ${afterLabel}`}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(percent)}
+          aria-valuetext={`${Math.round(percent)}% toward ${afterLabel}`}
+          onKeyDown={onKeyDown}
+          {...drag}
+          style={{ cursor: "ew-resize" }}
+          className="relative h-10 flex-1 touch-none rounded-md select-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-ink/12" />
+          <div
+            className="pointer-events-none absolute top-1/2 left-0 h-1.5 -translate-y-1/2 rounded-full"
+            style={{ width: "var(--wipe)", background: "var(--lime)" }}
+          />
+          <div
+            className="pointer-events-none absolute top-1/2 size-6 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-[0_1px_3px_rgba(28,27,25,0.25)] ring-2 ring-ground"
+            style={{ left: "var(--wipe)", background: "var(--lime)" }}
+          />
+        </div>
+        <span className="min-w-12 text-right text-meta font-medium text-ink-2">{afterLabel}</span>
+      </div>
 
       {/* One hint, gone on first touch. */}
-      <span
+      <p
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-3 text-center text-meta text-ground/85 transition-opacity duration-(--duration-base)"
+        className="-mt-1 text-center text-meta text-ink-3 transition-opacity duration-(--duration-base)"
         style={{ opacity: touched ? 0 : 1 }}
       >
         Drag to compare
-      </span>
+      </p>
     </div>
   );
 }

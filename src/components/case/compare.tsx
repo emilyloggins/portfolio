@@ -27,7 +27,7 @@ export function Compare({
     fs.existsSync(path.join(process.cwd(), "public", p)),
   );
   return (
-    <figure className="flex flex-col gap-2">
+    <figure className="mx-auto flex w-full max-w-[22rem] flex-col gap-2">
       {ready ? (
         <CompareWipe
           before={`/${before}`}
