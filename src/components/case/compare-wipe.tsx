@@ -129,6 +129,15 @@ export function CompareWipe({
   };
 
   const drag = { onPointerDown, onPointerMove };
+  // On the photo itself, only a mouse drags: a finger on the photo should
+  // scroll the page, not wipe, so touch goes to the slider track alone.
+  const photoDrag = {
+    onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => {
+      if (e.pointerType !== "mouse") return;
+      onPointerDown(e);
+    },
+    onPointerMove,
+  };
 
   return (
     <div
@@ -138,9 +147,9 @@ export function CompareWipe({
     >
       <div
         role="presentation"
-        {...drag}
+        {...photoDrag}
         style={{ aspectRatio: aspect, cursor: "ew-resize" }}
-        className="relative w-full touch-none overflow-hidden rounded-md bg-ground-2 select-none"
+        className="relative w-full overflow-hidden rounded-md bg-ground-2 select-none"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
