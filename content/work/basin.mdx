@@ -1,6 +1,5 @@
-{/* Basin case study. Same shape as Easy Care: a short list, one paragraph,
-    then a heading, one line and screens per area, like a gallery with
-    captions. The opener is Emily's (Nov 2). Captions are drafts.
+{/* Basin case study. Order (Emily, Nov 2): intro, then loading / onboarding / trials
+    fanned, start a trial, take a picture (video), compare, call it, private. The opener is Emily's (Nov 2). Captions are drafts.
     Decisions live in content/decisions/ and are linked at the bottom, not
     inlined. The hero is the real compare wipe (00-before.jpg, 00-after.jpg).
     Screens live in public/work/basin/; a placeholder renders until
@@ -9,51 +8,22 @@
 - Product designer, engineer
 - Solo. Live at basin-six.vercel.app, App Store pending
 
-<Compare before="work/basin/00-before.jpg" after="work/basin/00-after.jpg" beforeLabel="Sep 16" afterLabel="Sep 30" alt="Two of Emily's own photos weeks apart, lined up on the same face" aspect="4 / 5" caption="Two photos weeks apart, lined up on the same face. Drag to see what changed." />
-
 Standing in front of the mirror each morning is a gamble when you have bad skin. For most of my life, before I even get out of bed, I wonder: "did that product I put on last night work?"
 
 Desperate for clear skin and a clear head, I bought products and tested them like a machine. My conclusions were often guesses. It wasn't until I stripped my skincare routine back to basics and slowly integrated new products, that I discovered what worked.
 
 Basin is the witness to the expedition for clear skin.
 
-## The method
-
-Three steps, the way the app teaches them on first open.
-
-<Steps
-  steps={[
-    { image: "work/basin/onboarding-1.jpg", alt: "A single swipe of cream on a plain surface", text: "Pick one thing to test: a product, a habit, anything." },
-    { image: "work/basin/onboarding-2.jpg", alt: "A person applying cream to their cheek", text: "Take a photo of your face as often as you can." },
-    { image: "work/basin/onboarding-3.jpg", alt: "A cart crowded with skincare bottles", text: "Watch what actually changes, then call it." },
+<Fan
+  screens={[
+    { src: "work/basin/20-loading.webp", alt: "Basin loading: the wordmark on glass" },
+    { src: "work/basin/21-onboarding.webp", alt: "Onboarding: Your skincare, tested on the only face that matters" },
+    { src: "work/basin/04-trial-card.webp", alt: "Trials: Start a trial, and a running Volufiline card" },
   ]}
+  caption="First open. TODO(emily): one line."
 />
 
-## Compare
-
-The reason the app exists.
-
-
-<Clip src="work/basin/clip-compare.mp4" alt="Screen recording: dragging the compare between two photos" caption="The wipe, at native frame rate." />
-
-<Strip>
-  <Screen src="work/basin/00-compare-screen.webp" alt="The compare screen in the app, mid-wipe, Sep 16 to Sep 30" aspect="900 / 1833" caption="In the app. The slider wears the one saturated colour, because here it is the thing to act on." bare />
-  <Screen src="work/basin/01-day-peek.webp" alt="A day opened: the Oct 6 photo, the trials running that day, Compare from here" aspect="900 / 1833" caption="Any day opens to its photo and what was running. Compare from here." bare />
-</Strip>
-
-## Camera
-
-One photo a day, in the same place.
-
-<Screen src="work/basin/02-camera.png" alt="The camera: the first photo as a faint overlay, the shutter stack below" aspect="900 / 1833" caption="The first photo sits over the viewfinder as a ghost so every photo after it lines up. Today's date is the shutter; it gets a check once the photo is taken." bare narrow />
-
-## Calendar
-
-Home. A month of days, a dot where a photo landed.
-
-<Screen src="work/basin/01-calendar.webp" alt="The calendar: a month of days, photos as dots, the shutter with today's date" aspect="900 / 1833" caption="Opens here. No streaks, no count; the dots are the record. The shutter carries today's date." bare narrow />
-
-## Trials
+## Start a trial
 
 A trial is a thing you changed and the day you changed it.
 
@@ -62,17 +32,22 @@ A trial is a thing you changed and the day you changed it.
   <Screen src="work/basin/03-face-map.webp" alt="The face map with eyes and chin coloured in by finger" aspect="900 / 1833" caption="Where it goes, drawn on like a crayon. Everywhere is one tap." bare />
 </Strip>
 
-<Clip src="work/basin/clip-face-map.mp4" alt="Screen recording: colouring the face map with a finger" caption="Where it goes, drawn on." />
+## Take a picture
 
-<Screen src="work/basin/04-trial-card.webp" alt="Trials tab: Start a trial, and a running Volufiline card six weeks in" aspect="900 / 1833" caption="A running trial: when it started, how many weeks and photos in. Look back, or call it." bare narrow />
+One photo a day, in the same place.
 
-## Check-in
+<Clip src="work/basin/clip-camera.mp4" alt="Screen recording: the camera with the first photo as a ghost overlay, then the shutter" caption="The first photo sits over the viewfinder so every photo after it lines up. Today's date is the shutter." />
 
-Four weeks in, the app asks.
+## Compare
 
-<Screen src="work/basin/05-check-in.png" alt="The four-week check-in: Still testing retinol?" aspect="900 / 1833" caption="Still testing retinol? Yes, or call it. The one thing the trial put back after I'd designed it out." bare narrow />
+The reason the app exists.
 
-## History
+<Strip>
+  <Screen src="work/basin/01-calendar.webp" alt="The calendar: a month of days, photos as dots, the shutter with today's date" aspect="900 / 1833" caption="Home. No streaks, no count; the dots are the record." bare />
+  <Compare before="work/basin/00-before.jpg" after="work/basin/00-after.jpg" beforeLabel="Sep 16" afterLabel="Sep 30" alt="Two of Emily's own photos weeks apart, lined up on the same face" aspect="4 / 5" caption="Two photos weeks apart, lined up on the same face. Drag to see what changed." />
+</Strip>
+
+## Call it
 
 Two verdicts, in plain words.
 
@@ -83,14 +58,6 @@ Two verdicts, in plain words.
 On this phone, and nowhere else.
 
 <Screen src="work/basin/10-privacy.webp" alt="About: On this phone, and nowhere else. Exported, Erase everything" aspect="900 / 1833" caption="No server, no account, no copy anywhere else. Export is yours; so is the delete." bare narrow />
-
-## The system
-
-Glass over a grainy glacier ground. Lime for begin and now, nothing else.
-
-<Screen src="work/basin/tokens-specimen.png" alt="Surface tiers, ink levels with their contrast ratios, the type scale" aspect="16 / 9" caption="Surfaces, ink and type. Inter for everything a person reads; the wordmark face for the wordmark." />
-
-<Screen src="work/basin/logo-sheet.png" alt="The bowl mark and the drafts that were rejected" aspect="16 / 9" caption="The bowl, and the marks it beat." />
 
 ## Live
 

@@ -5,8 +5,7 @@ import { Prompt } from "@/components/case/prompt";
 import { Phone } from "@/components/case/phone";
 import { Compare } from "@/components/case/compare";
 import { Clip } from "@/components/case/clip";
-import { Lede } from "@/components/case/lede";
-import { Steps } from "@/components/case/steps";
+import { Fan } from "@/components/case/fan";
 
 /**
  * Global MDX components. Case studies are written in markdown and drop
@@ -20,8 +19,7 @@ const components: MDXComponents = {
   Phone,
   Compare,
   Clip,
-  Lede,
-  Steps,
+  Fan,
   h2: (props) => <h2 className="mt-8 text-body font-medium text-ink" {...props} />,
   h3: (props) => <h3 className="mt-4 text-body font-medium text-ink" {...props} />,
   p: (props) => <p className="text-body text-ink-2" {...props} />,
