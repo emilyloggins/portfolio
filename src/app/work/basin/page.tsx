@@ -22,7 +22,7 @@ export default function Page() {
           A skincare companion app
         </p>
       </header>
-      <article className="case flex flex-col gap-6" data-accent="lime">
+      <article className="flex flex-col gap-6" data-accent="lime">
         <Content />
       </article>
     </main>

@@ -20,7 +20,7 @@ const components: MDXComponents = {
   Compare,
   Clip,
   Fan,
-  h2: (props) => <h2 className="mt-8 text-body font-medium text-ink" {...props} />,
+  h2: (props) => <h2 className="mt-8 text-title font-medium text-ink" {...props} />,
   h3: (props) => <h3 className="mt-4 text-body font-medium text-ink" {...props} />,
   p: (props) => <p className="text-body text-ink-2" {...props} />,
   ul: (props) => <ul className="flex list-disc flex-col gap-1 pl-5 text-body text-ink-2" {...props} />,

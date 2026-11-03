@@ -22,7 +22,7 @@ export default function Page() {
           A year of your pet&apos;s preventive care, set up in one vet visit.
         </p>
       </header>
-      <article className="case flex flex-col gap-6">
+      <article className="flex flex-col gap-6">
         <Content />
       </article>
     </main>

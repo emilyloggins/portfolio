@@ -115,14 +115,3 @@ p {
   background: var(--color-thread);
   box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-thread) 60%, var(--color-ink));
 }
-
-/* Case study: same scale as the home page. One larger heading (the page
-   title); section headings, prose and rows stay at body. The facts list
-   is meta, like the Now label. */
-.case > ul:first-child {
-  font-size: var(--text-meta);
-  line-height: var(--text-meta--line-height);
-  list-style: none;
-  padding-left: 0;
-  color: var(--color-ink-3);
-}
