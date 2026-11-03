@@ -4,8 +4,8 @@
  * Oct 23 (Emily): whiter paper with grain; cobalt for every bold word.
  */
 @theme {
-  --color-ground: #fbfaf8;
-  --color-ground-2: #eeece7; /* hover tint on a row */
+  --color-ground: #fdfdfc;
+  --color-ground-2: #f1f0ed; /* hover tint on a row */
   --color-ink: #1c1b19;
   --color-ink-2: #5c5a55;
   --color-ink-3: #8c8984;
