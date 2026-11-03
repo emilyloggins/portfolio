@@ -8,7 +8,9 @@
 - Product designer, engineer
 - Solo. Live at basin-six.vercel.app, App Store pending
 
-<Compare before="work/basin/00-before.jpg" after="work/basin/00-after.jpg" beforeLabel="Sep 16" afterLabel="Sep 30" alt="Two of Emily's own photos weeks apart, lined up on the same face" aspect="4 / 5" caption="Two photos weeks apart, lined up on the same face. Drag to see what changed." />
+<div className="h-10" />
+
+<Compare before="work/basin/00-before.jpg" after="work/basin/00-after.jpg" beforeLabel="Sep 16" afterLabel="Sep 30" alt="Two of Emily's own photos weeks apart, lined up on the same face" aspect="4 / 5" />
 
 Standing in front of the mirror each morning is a gamble when you have bad skin. For most of my life, before I even get out of bed, I wonder: "did that product I put on last night work?"
 
@@ -16,62 +18,57 @@ Desperate for clear skin and a clear head, I bought products and tested them lik
 
 Basin is the witness to the expedition for clear skin.
 
+<div className="h-10" />
+
 <Fan
   screens={[
     { src: "work/basin/20-loading.webp", alt: "Opening: the wordmark alone on the glacier surface" },
     { src: "work/basin/21-onboarding.webp", alt: "Here's how: three steps, pick one thing, take a photo, watch what changes" },
     { src: "work/basin/04-trial-card.webp", alt: "Trials: Start a trial, and a running Volufiline card" },
   ]}
-  caption="First open: the wordmark, the three steps, then Trials. TODO(emily): one line."
 />
 
 ## Start a trial
 
-A trial is a thing you changed and the day you changed it.
+Anytime you want to try out a new product, habit, or change, start a trial to track progress in your skin.
 
-<Clip src="work/basin/clip-face-map.mp4" alt="Screen recording: tapping Start a trial, naming it, then colouring where it goes on the face map" aspect="720 / 1478" caption="Name it, or tap one. Then draw where it goes, like a crayon. Everywhere is one tap." />
+<Clip src="work/basin/clip-face-map.mp4" alt="Screen recording: tapping Start a trial, naming it, then colouring where it goes on the face map" aspect="720 / 1478" />
 
 ## Take a picture
 
-One photo a day, in the same place.
+Then take a picture of your face everyday (or whenever you can), preferably in the same light.
 
-<Clip src="work/basin/clip-camera.mp4" alt="Screen recording: the camera with the first photo as a ghost overlay, then the shutter" aspect="720 / 1478" caption="The first photo sits over the viewfinder so every photo after it lines up. What's being tested stays in view." />
+<Clip src="work/basin/clip-camera.mp4" alt="Screen recording: the camera with the first photo as a ghost overlay, then the shutter" aspect="720 / 1478" caption="The first photo taken can be used as an overlay on the camera, so that comparing pictures is easy breezy." />
 
 ## Compare
 
-The reason the app exists.
+See with your own eyes what's changed.
 
 <Strip>
-  <Screen src="work/basin/01-calendar.webp" alt="The calendar: a month of days, photos as dots, today glowing" aspect="900 / 1833" caption="Home. No streaks, no count; the dots are the record. Hold a day, tap another." bare />
-  <Screen src="work/basin/00-compare-screen.webp" alt="The compare screen in the app, mid-wipe, Sep 16 to Sep 30" aspect="900 / 1833" caption="Two days, one face, a slider. Neither photo is labelled better." bare />
+  <Screen src="work/basin/01-calendar.webp" alt="The calendar: a month of days, photos as dots, today glowing" aspect="900 / 1833" caption="The calendar is home base for your progress. Every dot is a record. Since you can have many trials going at once, filter by change to only compare only those photos." bare />
+  <Screen src="work/basin/00-compare-screen.webp" alt="The compare screen in the app, mid-wipe, Sep 16 to Sep 30" aspect="900 / 1833" caption="Hold two photos on the calendar to compare them side by side." bare />
 </Strip>
 
 ## Call it
 
-Two verdicts, in plain words.
+Decide what worked and what didn't, at your pace.
 
-<Screen src="work/basin/06-history.webp" alt="History: Botox and Eadem worked, retinol didn't; spans and notes" aspect="900 / 1833" caption="Worked or didn't work, the span it ran, and the note you wrote. The only record the app asks you to write." bare narrow />
+<Screen src="work/basin/06-history.webp" alt="History: Botox and Eadem worked, retinol didn't; spans and notes" aspect="900 / 1833" caption="All of your past trials live in one place, for easy reference." bare narrow />
 
-## Private
+## And because skin is sensitive
 
-On this phone, and nowhere else.
+All your photos live on your phone. Privacy is a feature. Export all your progress pictures whenever you want to.
 
 <Screen src="work/basin/10-privacy.webp" alt="About: On this phone, and nowhere else. Exported, Erase everything" aspect="900 / 1833" caption="No server, no account, no copy anywhere else. Export is yours; so is the delete." bare narrow />
 
 ## Decisions
 
-{/* DRAFT (Claude, Nov 3) from Emily's own logged lines in content/decisions/;
-    she edits. The point of the section: the model generated options at every
-    fork, and the calls below are hers, several of them against the model. */}
+This project taught me how to use discernment in an AI forward workflow. These are some human decisions that were made along the way.
 
-Basin was built with an AI in the room from the first night. It generated options at every fork and argued for most of them. These are the five calls I made, and what I was looking at when I made them.
+**Never let AI pick up the pen.** I think letting AI take the lead on microcopy makes a product feel like no one made it.
 
-**One timeline, not one per trial.** The model proposed parallel trials, each with its own photo series. I kept one timeline: a photo belongs to a date, and a trial is whatever span of dates carried that tag, derived when you look. There is no trials table, on purpose. A second record of "what am I testing" is a second thing that can disagree with the photos.
+**One photo, one timeline.** The model suggested running parallel trials with their own photos, but I knew from the start that I wanted a single photo to be the cornerstone. Like coming to the sink basin every day and looking in the mirror to check your skin. We have enough going on, let's only do it once.
 
-**The photo is the hinge.** You cannot start a trial without taking a photo; the only function in the app that creates a trial takes an image. A trial that exists before its day-one photo has nowhere to write itself. Starting one on a past day attaches it to that day's photo and carries it forward.
+**The user goes at their own pace.** The model also wanted to implement check-ins and streaks to keep the user engaged daily. None of that shipped. As the heart of this product is compassion, I rejected anything that could be guilt inducing. I implemented a monthly check-in for trials that don't have a verdict yet, which can be dismissed permanently by the user upon first in-app notification. The user can test as long as they like.
 
-**The user is the only clock, and then a check-in.** The model wanted expectation windows per product type, check-ins at weeks 2, 4, 8 and 12, a countdown. None of it shipped. Basin does not decide when someone is allowed to look at their own face. Then I used it for a month and watched my own trials sit open with nobody deciding. So one thing came back, in the form the rule allows: a four-week check-in that asks "Still testing?", where "still testing" is a complete answer. Four weeks is one skin-cell turnover, the floor for judging almost anything.
-
-**Worked / Didn't work.** The first verdicts were Kept and Stopped: facts about what you did, because "worked" is a claim the photos can't prove. I changed them. People say things worked or didn't work for them all the time; it's a person's verdict about their own face, in the words they'd use. No colour carries the verdict, either.
-
-**On this phone, and nowhere else.** No account, no server, nothing uploaded. Export everything as a zip with a letter; hold to erase, with no dialog. The About page is a heading, one sentence and two buttons, because privacy is a feature here, not a policy page.
+**On this phone and nowhere else.** Nothing is uploaded, intentionally. I wanted privacy to be a feature, and the experience to feel unbridled by an account.
