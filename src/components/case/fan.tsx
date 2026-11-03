@@ -11,7 +11,7 @@ import path from "node:path";
 export function Fan({
   screens,
   caption,
-  aspect = "900 / 1833",
+  aspect = "900 / 1886",
 }: {
   screens: { src: string; alt: string }[];
   caption?: string;
