@@ -32,7 +32,8 @@ export function Fan({
               style={{
                 width: "38%",
                 marginLeft: i === 0 ? 0 : "-11%",
-                transform: `rotate(${d * 6}deg) translateY(${Math.abs(d) * 3}%) scale(${d === 0 ? 1.04 : 0.96})`,
+                // Outer two identical: same width, same scale, mirrored tilt.
+                transform: `rotate(${d * 6}deg) translateY(${Math.abs(d) * 3}%) scale(${d === 0 ? 1.08 : 0.94})`,
                 transformOrigin: "50% 60%",
                 zIndex: d === 0 ? 2 : 1,
                 position: "relative",
