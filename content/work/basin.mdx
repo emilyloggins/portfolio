@@ -29,12 +29,7 @@ Basin is the witness to the expedition for clear skin.
 
 A trial is a thing you changed and the day you changed it.
 
-<Strip>
-  <Screen src="work/basin/03-trial-sheet.webp" alt="Starting a trial: name it, or tap an example chip" aspect="900 / 1833" caption="Name it or tap one. Examples span products, habits and procedures: retinol, drinking more water, microneedling." bare />
-  <Screen src="work/basin/03-face-map.webp" alt="The face map with eyes and chin coloured in by finger" aspect="900 / 1833" caption="Where it goes, drawn on like a crayon. Everywhere is one tap." bare />
-</Strip>
-
-<Clip src="work/basin/clip-face-map.mp4" alt="Screen recording: colouring the forehead and a cheek on the face map with a finger" aspect="720 / 1478" caption="Drawn on, not picked from a list." />
+<Clip src="work/basin/clip-face-map.mp4" alt="Screen recording: tapping Start a trial, naming it, then colouring where it goes on the face map" aspect="720 / 1478" caption="Name it, or tap one. Then draw where it goes, like a crayon. Everywhere is one tap." />
 
 ## Take a picture
 
@@ -46,7 +41,10 @@ One photo a day, in the same place.
 
 The reason the app exists.
 
-<Screen src="work/basin/01-calendar.webp" alt="The calendar: a month of days, photos as dots, the shutter with today's date" aspect="900 / 1833" caption="Home. No streaks, no count; the dots are the record." bare narrow />
+<Strip>
+  <Screen src="work/basin/01-calendar.webp" alt="The calendar: a month of days, photos as dots, today glowing" aspect="900 / 1833" caption="Home. No streaks, no count; the dots are the record. Hold a day, tap another." bare />
+  <Screen src="work/basin/00-compare-screen.webp" alt="The compare screen in the app, mid-wipe, Sep 16 to Sep 30" aspect="900 / 1833" caption="Two days, one face, a slider. Neither photo is labelled better." bare />
+</Strip>
 
 ## Call it
 
@@ -60,12 +58,20 @@ On this phone, and nowhere else.
 
 <Screen src="work/basin/10-privacy.webp" alt="About: On this phone, and nowhere else. Exported, Erase everything" aspect="900 / 1833" caption="No server, no account, no copy anywhere else. Export is yours; so is the delete." bare narrow />
 
-## Live
-
-<Prompt>One line: this is the real app with real photos, and what to try first (drag the compare, open a day, start a trial).</Prompt>
-
-<Phone src="https://basin-six.vercel.app" title="Basin, live" caption="Basin, running. Everything stays on the device." />
-
 ## Decisions
 
-<Prompt>One line and a link to the full decision log for this project, once the decisions page exists. The eight Basin decisions are in content/decisions/.</Prompt>
+{/* DRAFT (Claude, Nov 3) from Emily's own logged lines in content/decisions/;
+    she edits. The point of the section: the model generated options at every
+    fork, and the calls below are hers, several of them against the model. */}
+
+Basin was built with an AI in the room from the first night. It generated options at every fork and argued for most of them. These are the five calls I made, and what I was looking at when I made them.
+
+**One timeline, not one per trial.** The model proposed parallel trials, each with its own photo series. I kept one timeline: a photo belongs to a date, and a trial is whatever span of dates carried that tag, derived when you look. There is no trials table, on purpose. A second record of "what am I testing" is a second thing that can disagree with the photos.
+
+**The photo is the hinge.** You cannot start a trial without taking a photo; the only function in the app that creates a trial takes an image. A trial that exists before its day-one photo has nowhere to write itself. Starting one on a past day attaches it to that day's photo and carries it forward.
+
+**The user is the only clock, and then a check-in.** The model wanted expectation windows per product type, check-ins at weeks 2, 4, 8 and 12, a countdown. None of it shipped. Basin does not decide when someone is allowed to look at their own face. Then I used it for a month and watched my own trials sit open with nobody deciding. So one thing came back, in the form the rule allows: a four-week check-in that asks "Still testing?", where "still testing" is a complete answer. Four weeks is one skin-cell turnover, the floor for judging almost anything.
+
+**Worked / Didn't work.** The first verdicts were Kept and Stopped: facts about what you did, because "worked" is a claim the photos can't prove. I changed them. People say things worked or didn't work for them all the time; it's a person's verdict about their own face, in the words they'd use. No colour carries the verdict, either.
+
+**On this phone, and nowhere else.** No account, no server, nothing uploaded. Export everything as a zip with a letter; hold to erase, with no dialog. The About page is a heading, one sentence and two buttons, because privacy is a feature here, not a policy page.
