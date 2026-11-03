@@ -5,7 +5,8 @@ import path from "node:path";
  * Three phone screens fanned out: the outer two tilt away, the middle one
  * sits in front. For a first look at the app rather than a close read; each
  * screen is a pre-framed image (transparent margin, its own shadow).
- * Placeholder until a file lands.
+ * Every slot is the same fixed width so the fan holds its shape whether a
+ * slot holds the image or, until the file lands, a placeholder.
  */
 export function Fan({
   screens,
@@ -17,34 +18,40 @@ export function Fan({
   aspect?: string;
 }) {
   const n = screens.length;
+  const mid = (n - 1) / 2;
   return (
     <figure className="flex flex-col gap-3">
-      <div className="flex items-end justify-center px-[6%] py-4">
+      <div className="flex items-center justify-center overflow-hidden py-6">
         {screens.map((s, i) => {
           const exists = fs.existsSync(path.join(process.cwd(), "public", s.src));
-          const mid = (n - 1) / 2;
           const d = i - mid; // -1, 0, 1
-          const style: React.CSSProperties = {
-            width: `${100 / n + 8}%`,
-            marginLeft: i === 0 ? 0 : "-8%",
-            transform: `rotate(${d * 7}deg) translateY(${Math.abs(d) * 4}%) scale(${d === 0 ? 1.06 : 1})`,
-            transformOrigin: "50% 100%",
-            zIndex: d === 0 ? 2 : 1,
-            aspectRatio: aspect,
-          };
-          return exists ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={s.src} src={`/${s.src}`} alt={s.alt} loading="lazy" style={style} className="block" />
-          ) : (
+          return (
             <div
               key={s.src}
-              role="img"
-              aria-label={s.alt}
-              style={style}
-              className="flex flex-col items-start justify-end gap-1 rounded-[11%/5.5%] border border-dashed border-line bg-ground p-3"
+              className="flex-none"
+              style={{
+                width: "44%",
+                marginLeft: i === 0 ? 0 : "-14%",
+                transform: `rotate(${d * 6}deg) translateY(${Math.abs(d) * 3}%) scale(${d === 0 ? 1.04 : 0.96})`,
+                transformOrigin: "50% 60%",
+                zIndex: d === 0 ? 2 : 1,
+                position: "relative",
+              }}
             >
-              <span className="text-meta text-ink-3">{s.src}</span>
-              <span className="text-meta text-ink-2">{s.alt}</span>
+              {exists ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={`/${s.src}`} alt={s.alt} loading="lazy" style={{ aspectRatio: aspect }} className="block w-full" />
+              ) : (
+                <div
+                  role="img"
+                  aria-label={s.alt}
+                  style={{ aspectRatio: aspect }}
+                  className="flex w-full flex-col items-start justify-end gap-1 overflow-hidden rounded-[11%/5.5%] border border-dashed border-line bg-ground p-3"
+                >
+                  <span className="text-meta text-ink-3">{s.src}</span>
+                  <span className="text-meta text-ink-2">{s.alt}</span>
+                </div>
+              )}
             </div>
           );
         })}
