@@ -21,7 +21,7 @@ export function Fan({
   const mid = (n - 1) / 2;
   return (
     <figure className="flex flex-col gap-3">
-      <div className="flex items-center justify-center overflow-hidden py-6">
+      <div className="flex items-center justify-center py-6">
         {screens.map((s, i) => {
           const exists = fs.existsSync(path.join(process.cwd(), "public", s.src));
           const d = i - mid; // -1, 0, 1
@@ -30,8 +30,8 @@ export function Fan({
               key={s.src}
               className="flex-none"
               style={{
-                width: "44%",
-                marginLeft: i === 0 ? 0 : "-14%",
+                width: "38%",
+                marginLeft: i === 0 ? 0 : "-11%",
                 transform: `rotate(${d * 6}deg) translateY(${Math.abs(d) * 3}%) scale(${d === 0 ? 1.04 : 0.96})`,
                 transformOrigin: "50% 60%",
                 zIndex: d === 0 ? 2 : 1,
