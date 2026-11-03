@@ -17,12 +17,12 @@ export default function Page() {
         <Name as="p" />
       </nav>
       <header className="flex flex-col gap-2">
-        <h1 className="text-title font-medium text-ink">Basin</h1>
+        <h1 className="text-heading font-medium text-ink">Basin</h1>
         <p className="text-body text-ink-2">
           A skincare companion app
         </p>
       </header>
-      <article className="flex flex-col gap-6" data-accent="lime">
+      <article className="case flex flex-col gap-6" data-accent="lime">
         <Content />
       </article>
     </main>
