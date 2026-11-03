@@ -27,10 +27,10 @@ export default function Home() {
       <Section title="Work">
         <List>
           <Row href="/work/basin" title="Basin">
-            Your skincare, tested on the only face that matters.
+            A skincare companion app
           </Row>
           <Row href="/work/easy-care" title="Easy Care">
-            A year of your pet&apos;s preventive care, set up in one vet visit.
+            A year of your pet&apos;s preventive care, set up in one vet visit
           </Row>
         </List>
       </Section>

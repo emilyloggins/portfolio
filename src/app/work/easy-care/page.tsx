@@ -12,7 +12,7 @@ export default function Page() {
       <header className="flex flex-col gap-2">
         <h1 className="text-title font-medium text-ink">Easy Care</h1>
         <p className="text-body text-ink-2">
-          A year of your pet&apos;s preventive care, set up in one vet visit.
+          A year of your pet&apos;s preventive care, set up in one vet visit
         </p>
       </header>
       <article className="flex flex-col gap-6">
