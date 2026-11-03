@@ -94,6 +94,22 @@ p {
   transform: translateY(-1.55em);
 }
 
+/* The minute changing: the new time rises into place and settles. */
+@keyframes tick {
+  from {
+    opacity: 0;
+    transform: translateY(0.3em);
+  }
+}
+.tick {
+  animation: tick 520ms var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tick {
+    animation: none;
+  }
+}
+
 
 
 

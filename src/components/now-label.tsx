@@ -23,9 +23,18 @@ export function NowLabel() {
       tick();
       interval = window.setInterval(tick, 60_000);
     }, toNextMinute);
+    // Background tabs get their timers throttled, so the minute can arrive
+    // late; re-read the clock the moment the tab is looked at again.
+    const onVisible = () => {
+      if (document.visibilityState === "visible") tick();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onVisible);
     return () => {
       window.clearTimeout(timeout);
       if (interval) window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onVisible);
     };
   }, []);
 
@@ -33,7 +42,15 @@ export function NowLabel() {
     <>
       Now
       {time ? (
-        <span className="font-normal text-ink-3">, {time} in Brooklyn</span>
+        <span className="font-normal text-ink-3">
+          ,{" "}
+          {/* Keyed by the minute: a new element each tick, so the new time
+              settles in on the `tick` animation instead of snapping. */}
+          <span key={time} className="tick inline-block">
+            {time}
+          </span>{" "}
+          in Brooklyn
+        </span>
       ) : null}
     </>
   );
