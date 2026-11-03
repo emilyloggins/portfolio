@@ -116,15 +116,9 @@ p {
   box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-thread) 60%, var(--color-ink));
 }
 
-/* Case study type. The opener (every paragraph before the first heading)
-   sits one step up from body, so the page starts with a voice and settles
-   into the gallery. The facts list stays meta-sized. */
-.case > p:not(h2 ~ p) {
-  font-size: var(--text-lead);
-  line-height: var(--text-lead--line-height);
-  letter-spacing: var(--text-lead--letter-spacing);
-  color: var(--color-ink);
-}
+/* Case study: same scale as the home page. One larger heading (the page
+   title); section headings, prose and rows stay at body. The facts list
+   is meta, like the Now label. */
 .case > ul:first-child {
   font-size: var(--text-meta);
   line-height: var(--text-meta--line-height);
