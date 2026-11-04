@@ -1,8 +1,9 @@
+import Link from "next/link";
 import { EmailRow } from "@/components/email-row";
 import { List } from "@/components/list";
 import { Name } from "@/components/name";
 import { NowLabel } from "@/components/now-label";
-import { Row, Section } from "@/components/row";
+import { HistoryRow, Row, Section, Todo } from "@/components/row";
 
 /**
  * Home. One narrow column, left-aligned, no hero: a name, a role line,
@@ -14,7 +15,16 @@ export default function Home() {
     <main className="arrive mx-auto flex w-full max-w-[34rem] flex-1 flex-col gap-16 px-6 py-24">
       <header className="flex flex-col">
         <Name />
-        <p className="text-body text-ink-2">Design Engineer</p>
+        <p className="text-body text-ink-2">
+          Design Engineer
+          <span className="text-ink-3">, </span>
+          <Link
+            href="/about"
+            className="press inline-block text-ink-2 no-underline transition-colors duration-(--duration-fast) hover:text-ink"
+          >
+            about
+          </Link>
+        </p>
       </header>
 
       <Section title={<NowLabel />}>
@@ -26,18 +36,41 @@ export default function Home() {
 
       <Section title="Work">
         <List>
-          <Row href="/work/basin" title="Basin">
-            A skincare companion app
+          <Row href="/work/basin" title="Basin" tags={["Consumer wellness", "iOS app"]}>
+            A skincare companion app that tells you what actually worked
           </Row>
-          <Row href="/work/easy-care" title="Easy Care">
-            A year of your pet&apos;s preventive care, set up in one vet visit
+          <Row href="/work/easy-care" title="Easy Care" tags={["B2B", "Web application"]}>
+            How vet clinics set a pet up with a year of preventive care, in one visit
           </Row>
         </List>
       </Section>
 
-      {/* Contact is one line, not a section: the email, copy on click. */}
+      {/* History: the resume, abridged. Where, what in plain words, the
+          industry as a tag. Emily fills these in; the shape is the point. */}
+      <Section title="History">
+        <div className="flex flex-col">
+          <HistoryRow place="IDEXX" tags={["Veterinary software"]}>
+            <Todo>TODO(emily): plain words, e.g. I worked on a tvOS app for the waiting room</Todo>
+          </HistoryRow>
+          <HistoryRow place={"TODO(emily): company"} tags={["TODO(emily): industry"]}>
+            <Todo>TODO(emily): what you did there, one line</Todo>
+          </HistoryRow>
+          <HistoryRow place={"TODO(emily): company"} tags={["TODO(emily): industry"]}>
+            <Todo>TODO(emily): what you did there, one line</Todo>
+          </HistoryRow>
+        </div>
+      </Section>
+
+      {/* Contact: three rows, no heading. Email copies on click; the other
+          two open in a new tab. */}
       <List>
         <EmailRow address="em.loggins7@gmail.com" />
+        <Row href="https://www.linkedin.com/in/TODO-emily" title="LinkedIn" external>
+          TODO(emily): your LinkedIn handle in the href
+        </Row>
+        <Row href="https://github.com/emilyloggins" title="GitHub" external>
+          github.com/emilyloggins
+        </Row>
       </List>
     </main>
   );
