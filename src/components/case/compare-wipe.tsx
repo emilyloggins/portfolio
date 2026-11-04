@@ -148,7 +148,7 @@ export function CompareWipe({
       <div
         role="presentation"
         {...photoDrag}
-        style={{ aspectRatio: aspect, cursor: "ew-resize" }}
+        style={{ aspectRatio: aspect }}
         className="relative w-full overflow-hidden rounded-md bg-ground-2 select-none"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -196,7 +196,6 @@ export function CompareWipe({
           aria-valuetext={`${Math.round(percent)}% toward ${afterLabel}`}
           onKeyDown={onKeyDown}
           {...drag}
-          style={{ cursor: "ew-resize" }}
           className="relative h-10 flex-1 touch-none rounded-md select-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
         >
           <div className="pointer-events-none absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-ink/12" />
