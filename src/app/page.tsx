@@ -37,10 +37,10 @@ export default function Home() {
       <Section title="Work">
         <List>
           <Row href="/work/basin" title="Basin" tags={["Consumer wellness", "iOS app"]}>
-            A skincare companion app that tells you what actually worked
+            A skincare companion app that tracks one product at a time, with your face as the evidence
           </Row>
           <Row href="/work/easy-care" title="Easy Care" tags={["B2B", "Web application"]}>
-            How vet clinics set a pet up with a year of preventive care, in one visit
+            A platform that lets vet clinics enroll a pet in a year of preventive care, in one visit
           </Row>
         </List>
       </Section>
