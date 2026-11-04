@@ -8,11 +8,32 @@
 - Product designer
 - Idexx, in partnership with MWI
 
-Easy Care is how a vet clinic sells a year of care in one conversation. A monthly plan replaces the big annual bill, preventives ship to the pet parent each month, and the clinic gets what a plan is really for: a pet that shows up all year.
+Easy Care is how a vet clinic sells a year of care in one conversation. A receptionist or tech sets a pet up at the front desk, a doctor signs the prescriptions between patients, and the preventives ship to the pet parent each month. A monthly plan replaces the big annual bill, and the clinic gets what a plan is really for: a pet that shows up all year.
+
+## Impact
+
+{/* TODO(emily): real numbers only. Three to five, each a figure and what it
+    measures, in the product's own units. Candidates to confirm or replace: */}
+
+<Strip>
+  <Screen src="work/easy-care/impact-placeholder-1.png" alt="Impact figure" aspect="8 / 5" caption="TODO(emily): clinics live on Easy Care, or enrollments in the first N months." />
+  <Screen src="work/easy-care/impact-placeholder-2.png" alt="Impact figure" aspect="8 / 5" caption="TODO(emily): time to enroll a pet, before and after, or steps cut from the flow." />
+  <Screen src="work/easy-care/impact-placeholder-3.png" alt="Impact figure" aspect="8 / 5" caption="TODO(emily): share of enrollments signed within a day; or the one number leadership cared about." />
+</Strip>
+
+<Prompt>If you'd rather the numbers be type, not tiles, say so: three figures in a row, each with one line under it, is the other shape.</Prompt>
 
 ## Enrollment
 
-The core flow.
+The core flow, live. Five steps, one card, the tracker from the shipped product.
+
+<EnrollmentFlow />
+
+The step that carries the most rules, rebuilt so you can push on them.
+
+<CoveragePicker />
+
+The shipped screens.
 
 <Screen src="work/easy-care/01-who.png" alt="Enrollment step 1, Who: client, pets, weight" aspect="1440 / 893" caption="A pet parent is in the clinic, ready to enroll their dog Cricket. The flow was built so that any clinician or doctor can enroll at any point in their busy workflow. This screen asks for only three things: the client, the pet, and an accurate weight." />
 
@@ -30,7 +51,9 @@ Built on HeroUI's kit, themed to MWI by repointing fourteen tokens, and extended
 
 ## Prescription approval
 
-The doctor's half of the flow.
+The doctor's half of the flow. The product card, live: sign it, remove it, undo.
+
+<SignCard />
 
 <Screen src="work/easy-care/10-queue.png" alt="Prescriptions queue: pending enrollments waiting for the doctor's signature, oldest first" aspect="1440 / 900" caption="Between patients, Dr. Williams opens her queue. Everything here is already paid for, and nothing ships until she signs, so the list runs oldest first and says how long each pet has been waiting." />
 
