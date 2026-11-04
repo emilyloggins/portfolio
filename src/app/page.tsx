@@ -29,8 +29,8 @@ export default function Home() {
 
       <Section title={<NowLabel />}>
         <p className="text-body text-ink-2">
-          At IDEXX, building features end to end. Often not talking to anyone all day except
-          my shorkie Cricket.
+          At IDEXX, building features end to end. Living with my husband and 6 year old
+          Shorkie, Cricket.
         </p>
       </Section>
 
