@@ -10,7 +10,13 @@
 
 <div className="h-10" />
 
-<Compare before="work/basin/00-before.jpg" after="work/basin/00-after.jpg" beforeLabel="Sep 16" afterLabel="Sep 30" alt="Two of Emily's own photos weeks apart, lined up on the same face" aspect="4 / 5" />
+<Fan
+  screens={[
+    { src: "work/basin/20-loading.webp", alt: "Opening: the wordmark alone on the glacier surface" },
+    { src: "work/basin/21-onboarding.webp", alt: "Here's how: three steps, pick one thing, take a photo, watch what changes" },
+    { src: "work/basin/04-trial-card.webp", alt: "Trials: Start a trial, and a running Volufiline card" },
+  ]}
+/>
 
 Standing in front of the mirror each morning is a gamble when you have bad skin. For most of my life, before I even get out of bed, I wonder: "did that product I put on last night work?"
 
@@ -20,13 +26,7 @@ Basin is the witness to the expedition for clear skin.
 
 <div className="h-10" />
 
-<Fan
-  screens={[
-    { src: "work/basin/20-loading.webp", alt: "Opening: the wordmark alone on the glacier surface" },
-    { src: "work/basin/21-onboarding.webp", alt: "Here's how: three steps, pick one thing, take a photo, watch what changes" },
-    { src: "work/basin/04-trial-card.webp", alt: "Trials: Start a trial, and a running Volufiline card" },
-  ]}
-/>
+<Compare before="work/basin/00-before.jpg" after="work/basin/00-after.jpg" beforeLabel="Sep 16" afterLabel="Sep 30" alt="Two of Emily's own photos weeks apart, lined up on the same face" aspect="4 / 5" />
 
 ## Start a trial
 
@@ -60,6 +60,27 @@ Decide what worked and what didn't, at your pace.
 All your photos live on your phone. Privacy is a feature. Export all your progress pictures whenever you want to.
 
 <Screen src="work/basin/10-privacy.webp" alt="About: On this phone, and nowhere else. Exported, Erase everything" aspect="900 / 1886" caption="No server, account, or copy anywhere else. Export when you want!" bare narrow />
+
+## The system
+
+Glass over a grainy glacier ground. Lime for the one thing to act on, nothing else.
+
+<Strip>
+  <Screen src="work/basin/30-system-surfaces.png" alt="The glacier pour and the three glass tiers: slab, quiet, dip" aspect="4 / 3" caption="TODO(emily): one line on the surfaces." />
+  <Screen src="work/basin/31-system-type.png" alt="The wordmark face and Inter, the type roles" aspect="4 / 3" caption="TODO(emily): one line on type." />
+</Strip>
+
+{/* DRAFT (Claude, Nov 4) from the tokens and decisions in the repo; Emily edits. */}
+
+**Surfaces.** The ground is a poured gradient with grain, and everything raised on it is frosted glass in three tiers: a slab for cards and sheets, a quieter glass for secondary controls, a dip for empty day tiles. One blur, one lip, one tint, so the tiers read as the same material at different thicknesses.
+
+**One colour.** Lime is reserved for the thing to act on: the shutter, the wipe, a decision. The verdicts carry no colour at all. Everything else is ink on glass.
+
+**Two typefaces, a hard line.** The wordmark face appears only as the wordmark. Inter for everything a person reads, at four sizes, two weights.
+
+**Three radii.** 8 for small things, 12 for controls, 20 for slabs; a shape inside a padded one takes the outer radius minus the padding, so corners run concentric.
+
+**One curve, two durations.** Every transition decelerates on the same curve, at 160ms for a press or a fade and 280ms for anything that moves across the screen. The opening clearing and the face map's breathing are the two named exceptions.
 
 ## Decisions
 
