@@ -36,8 +36,8 @@ export default function About() {
       <Section title="Elsewhere">
         <List>
           <EmailRow address="em.loggins7@gmail.com" />
-          <Row href="https://www.linkedin.com/in/TODO-emily" title="LinkedIn" external>
-            TODO(emily): your LinkedIn handle in the href
+          <Row href="https://www.linkedin.com/in/emilyloggins" title="LinkedIn" external>
+            linkedin.com/in/emilyloggins
           </Row>
           <Row href="https://github.com/emilyloggins" title="GitHub" external>
             github.com/emilyloggins

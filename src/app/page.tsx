@@ -49,14 +49,18 @@ export default function Home() {
           industry as a tag. Emily fills these in; the shape is the point. */}
       <Section title="History">
         <div className="flex flex-col">
-          <HistoryRow place="IDEXX" tags={["Veterinary software"]}>
-            <Todo>TODO(emily): plain words, e.g. I worked on a tvOS app for the waiting room</Todo>
+          <HistoryRow place="IDEXX" tags={["Veterinary software", "2025 to now"]}>
+            UX designer and developer. <Todo>TODO(emily): plain words, e.g. I worked on a tvOS app for the waiting room</Todo>
           </HistoryRow>
-          <HistoryRow place={"TODO(emily): company"} tags={["TODO(emily): industry"]}>
-            <Todo>TODO(emily): what you did there, one line</Todo>
+          <HistoryRow place="Sarah Cannon Research Institute" tags={["Cancer research, HCA Healthcare", "2023 to 2024"]}>
+            Data analyst. <Todo>TODO(emily): plain words, what you actually did</Todo>
           </HistoryRow>
-          <HistoryRow place={"TODO(emily): company"} tags={["TODO(emily): industry"]}>
-            <Todo>TODO(emily): what you did there, one line</Todo>
+          <HistoryRow place="Kroll" tags={["Financial and risk advisory", "2021 to 2022"]}>
+            Software engineer. <Todo>TODO(emily): plain words, what you built</Todo>
+          </HistoryRow>
+          <HistoryRow place="Sarah Cannon Research Institute" tags={["Cancer research, HCA Healthcare", "2019 to 2021"]}>
+            Application engineer on a full-stack design and development team, building enterprise
+            applications for the cancer institute of HCA Healthcare.
           </HistoryRow>
         </div>
       </Section>
@@ -65,8 +69,8 @@ export default function Home() {
           two open in a new tab. */}
       <List>
         <EmailRow address="em.loggins7@gmail.com" />
-        <Row href="https://www.linkedin.com/in/TODO-emily" title="LinkedIn" external>
-          TODO(emily): your LinkedIn handle in the href
+        <Row href="https://www.linkedin.com/in/emilyloggins" title="LinkedIn" external>
+          linkedin.com/in/emilyloggins
         </Row>
         <Row href="https://github.com/emilyloggins" title="GitHub" external>
           github.com/emilyloggins
