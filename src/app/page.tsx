@@ -49,16 +49,13 @@ export default function Home() {
           industry as a tag. Emily fills these in; the shape is the point. */}
       <Section title="History">
         <div className="flex flex-col">
-          <HistoryRow place="IDEXX" tags={["Veterinary software", "2025 to now"]}>
+          <HistoryRow place="IDEXX" tags={["Veterinary software"]}>
             UX designer and developer. <Todo>TODO(emily): plain words, e.g. I worked on a tvOS app for the waiting room</Todo>
           </HistoryRow>
-          <HistoryRow place="Sarah Cannon Research Institute" tags={["Cancer research, HCA Healthcare", "2023 to 2024"]}>
-            Data analyst. <Todo>TODO(emily): plain words, what you actually did</Todo>
-          </HistoryRow>
-          <HistoryRow place="Kroll" tags={["Financial and risk advisory", "2021 to 2022"]}>
+          <HistoryRow place="Kroll" tags={["Financial and risk advisory"]}>
             Software engineer. <Todo>TODO(emily): plain words, what you built</Todo>
           </HistoryRow>
-          <HistoryRow place="Sarah Cannon Research Institute" tags={["Cancer research, HCA Healthcare", "2019 to 2021"]}>
+          <HistoryRow place="Sarah Cannon Research Institute" tags={["Cancer research, HCA Healthcare"]}>
             Application engineer on a full-stack design and development team, building enterprise
             applications for the cancer institute of HCA Healthcare.
           </HistoryRow>
