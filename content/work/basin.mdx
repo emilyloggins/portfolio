@@ -80,6 +80,8 @@ Glass over a grainy glacier ground. Lime for the one thing to act on, nothing el
 
 **Three radii.** 8 for small things, 12 for controls, 20 for slabs; a shape inside a padded one takes the outer radius minus the padding, so corners run concentric.
 
+**Built with.** Next.js 16 as a static export, so one build ships to Vercel and inside the iOS binary; React 19 and TypeScript; Tailwind v4 with the tokens in CSS; Motion for the sheets and the clearing; IndexedDB with four stores and no server; Capacitor for iOS (camera, haptics, files, share). No component library: the calendar, the compare wipe, the capture stack, the face map, the cards, the sheets and the nav are all this app's own.
+
 **One curve, two durations.** Every transition decelerates on the same curve, at 160ms for a press or a fade and 280ms for anything that moves across the screen. The opening clearing and the face map's breathing are the two named exceptions.
 
 ## Decisions
