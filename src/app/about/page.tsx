@@ -39,9 +39,6 @@ export default function About() {
           <Row href="https://www.linkedin.com/in/emilyloggins" title="LinkedIn" external>
             linkedin.com/in/emilyloggins
           </Row>
-          <Row href="https://github.com/emilyloggins" title="GitHub" external>
-            github.com/emilyloggins
-          </Row>
         </List>
       </Section>
     </main>

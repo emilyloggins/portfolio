@@ -62,15 +62,12 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Contact: three rows, no heading. Email copies on click; the other
-          two open in a new tab. */}
+      {/* Contact: two rows, no heading. Email copies on click; LinkedIn opens
+          in a new tab. */}
       <List>
         <EmailRow address="em.loggins7@gmail.com" />
         <Row href="https://www.linkedin.com/in/emilyloggins" title="LinkedIn" external>
           linkedin.com/in/emilyloggins
-        </Row>
-        <Row href="https://github.com/emilyloggins" title="GitHub" external>
-          github.com/emilyloggins
         </Row>
       </List>
     </main>
