@@ -34,7 +34,7 @@ export function Row({
     </>
   );
   // Rows with tags are one line taller; every row in that list shares it.
-  const cls = tags?.length ? rowClass.replace("min-h-[4.25rem]", "min-h-[5.25rem]") : rowClass;
+  const cls = tags?.length ? rowClass.replace("min-h-[4.25rem]", "min-h-[6.25rem] gap-1 py-3") : rowClass;
   return external ? (
     <a href={href} data-row className={cls} target="_blank" rel="noreferrer">
       {body}
@@ -48,7 +48,7 @@ export function Row({
 
 /** The breadth, as a quiet third line: meta type, grey, no chips. */
 export function Tags({ items }: { items: string[] }) {
-  return <span className="mt-0.5 text-meta text-ink-3">{items.join(", ")}</span>;
+  return <span className="mt-1 text-meta text-ink-3">{items.join(", ")}</span>;
 }
 
 /**
@@ -65,7 +65,7 @@ export function HistoryRow({
   tags?: string[];
 }) {
   return (
-    <div className="-mx-3 flex min-h-[5.25rem] flex-col justify-center px-3">
+    <div className="-mx-3 flex min-h-[6.25rem] flex-col justify-center gap-1 px-3 py-3">
       <span className="text-body text-ink">{place}</span>
       <span className="text-body text-ink-2">{children}</span>
       {tags?.length ? <Tags items={tags} /> : null}
