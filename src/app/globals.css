@@ -131,3 +131,38 @@ p {
   background: var(--color-thread);
   box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-thread) 60%, var(--color-ink));
 }
+
+/* The resume prints to one Letter page in the site's own type. The grain,
+   the tuner and the arrive animation stay on screen only. */
+@media print {
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  html,
+  body {
+    background: #fff;
+  }
+  body::before {
+    display: none;
+  }
+  .resume {
+    font-size: 10.5pt;
+  }
+  .resume .text-body {
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+  .resume .text-meta {
+    font-size: 8.5pt;
+  }
+  .resume a {
+    color: inherit;
+  }
+  .arrive {
+    animation: none;
+  }
+  .fixed {
+    display: none;
+  }
+}
