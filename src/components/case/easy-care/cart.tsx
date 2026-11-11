@@ -20,7 +20,7 @@ type Item = {
 const ITEMS: Item[] = [
   { id: "plan", kind: "plan", name: "Small Dog Plan v1", sub: "9 services, billed monthly", price: 54 },
   { id: "heartgard", kind: "product", name: "Heartgard Plus", sub: "Heartworm, 6 to 25 lbs" },
-  { id: "nexgard", kind: "product", name: "NexGard", sub: "Fleas and ticks, 10 to 24 lbs" },
+  { id: "nexgard", kind: "product", name: "NexGard", sub: "Fleas, ticks, 10 to 24 lbs" },
   { id: "nails", kind: "addon", name: "Nail trim, 3", price: 12 },
   { id: "fecal", kind: "addon", name: "Fecal", price: 2 },
 ];
@@ -69,11 +69,11 @@ export function Cart() {
   });
 
   return (
-    <figure className="@container relative left-1/2 my-2 w-[min(52rem,calc(100vw-2rem))] -translate-x-1/2">
-      <div className="grid overflow-hidden rounded-md border border-line bg-ground @[42rem]:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+    <figure className="@container my-2">
+      <div className="grid overflow-hidden rounded-md border border-line bg-ground @[34rem]:grid-cols-2">
         {/* The product, running */}
         <div
-          className="ec flex h-[31rem] items-start justify-center border-b border-line bg-[var(--ec-bg)] p-4 text-[var(--ec-fg)] @[42rem]:border-r @[42rem]:border-b-0"
+          className="ec flex h-[31rem] items-start justify-center border-b border-line bg-[var(--ec-bg)] p-4 text-[var(--ec-fg)] @[34rem]:border-r @[34rem]:border-b-0"
           style={EC_VARS}
           onPointerEnter={() => setHeld(true)}
           onPointerLeave={() => setHeld(false)}
@@ -177,21 +177,16 @@ export function Cart() {
         </div>
 
         {/* What it is doing */}
-        <div className="flex flex-col justify-center gap-3 p-6 @[42rem]:h-[31rem] @[42rem]:p-8">
-          <p className="text-meta tracking-wide text-ink-3 uppercase">The cart</p>
-          <h3 className="text-title font-medium text-ink">
-            Enrollment is a checkout, so the cart never leaves the screen.
+        <div className="flex flex-col justify-center gap-3 p-6 @[34rem]:h-[31rem]">
+          <p className="text-body text-ink-3">Lorem ipsum</p>
+          <h3 className="text-body font-medium text-ink">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </h3>
           <p className="text-body text-ink-2">
-            It fills as the plan is built: the plan first, then the preventive products, then the
-            optional add-ons. The monthly total settles after each one, so the person at the counter
-            can always answer what the pet parent is paying.
+            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+            veniam, quis nostrud exercitation ullamco laboris.
           </p>
-          <p className="text-body text-ink-2">
-            Products are included in the plan price, so they land without moving the number. Only
-            the plan and the add-ons change it.
-          </p>
-          <p className="hidden text-meta text-ink-3 [@media(hover:hover)]:block">Hover to pause.</p>
+          <p className="hidden text-body text-ink-3 [@media(hover:hover)]:block">Hover to pause.</p>
         </div>
       </div>
 
