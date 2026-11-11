@@ -2,13 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Stage } from "./stage";
+import { EC_VARS } from "./stage";
 
 /**
- * The cart from the What screen, filling itself. A clinic user picks a plan,
- * then products, then add-ons; the monthly total settles after each one.
- * Products are included in the plan price, so they land without moving the
- * number: the rule the screen is built on, shown rather than written.
+ * The cart from the What screen, filling itself, beside a note on what it is
+ * doing. The stage is a fixed height so the page never shifts as rows land:
+ * the card grows inside reserved space, top-anchored.
  */
 type Item = {
   id: string;
@@ -33,8 +32,8 @@ const LABEL: Record<Item["kind"], string> = {
 };
 
 /** Unhurried: each item lands, then the eye gets a beat before the next. */
-const STEP_MS = [700, 900, 700, 950, 700];
-const HOLD_MS = 2800;
+const STEP_MS = [1000, 1250, 1000, 1300, 1000];
+const HOLD_MS = 3600;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const money = (n: number) => `$${n.toFixed(2)}`;
@@ -70,107 +69,129 @@ export function Cart() {
   });
 
   return (
-    <Stage caption="The cart on the What screen, filling as the plan is built. Products are included in the plan price, so they land without moving the total; only the plan and add-ons do.">
-      <div
-        className="flex min-h-[27rem] items-start justify-center py-2"
-        onPointerEnter={() => setHeld(true)}
-        onPointerLeave={() => setHeld(false)}
-      >
+    <figure className="my-2">
+      <div className="grid overflow-hidden rounded-md border border-line bg-ground sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+        {/* The product, running */}
         <div
-          className="w-full max-w-[21rem] rounded-xl bg-[var(--ec-card)] p-5 shadow-[0_0_0_1px_var(--ec-200)]"
-          aria-hidden="true"
+          className="ec flex h-[31rem] items-start justify-center border-b border-line bg-[var(--ec-bg)] p-4 text-[var(--ec-fg)] sm:border-r sm:border-b-0"
+          style={EC_VARS}
+          onPointerEnter={() => setHeld(true)}
+          onPointerLeave={() => setHeld(false)}
         >
-          <p className="text-[14px] leading-5 font-semibold">Cricket&rsquo;s enrollment</p>
-
-          <motion.ul layout className="mt-3 flex flex-col">
-            <AnimatePresence initial={false} mode="popLayout">
-              {rows.map(({ key, label, item }) =>
-                label ? (
-                  <motion.li
-                    key={key}
-                    layout
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.45, ease: EASE }}
-                    className="pt-3 pb-1 text-[11px] leading-4 tracking-wide text-[var(--ec-500)] uppercase"
-                  >
-                    {label}
-                  </motion.li>
-                ) : item ? (
-                  <motion.li
-                    key={key}
-                    layout
-                    initial={{ opacity: 0, y: 12, filter: "blur(5px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, y: -6, filter: "blur(4px)" }}
-                    transition={{ duration: 0.55, ease: EASE }}
-                    className="relative flex items-baseline justify-between gap-4 border-t border-[var(--ec-200)] py-2.5 first:border-t-0"
-                  >
-                    {/* the just-added flush, fading out behind the row */}
-                    <motion.span
-                      aria-hidden
-                      initial={{ opacity: 0.55 }}
-                      animate={{ opacity: 0 }}
-                      transition={{ duration: 1.1, ease: "easeOut" }}
-                      className="pointer-events-none absolute -inset-x-2 -inset-y-0.5 rounded-md bg-[var(--ec-primary-50)]"
-                    />
-                    <span className="relative flex min-w-0 flex-col">
-                      <span className="truncate text-[14px] leading-5">{item.name}</span>
-                      {item.sub ? (
-                        <span className="truncate text-[12px] leading-4 text-[var(--ec-500)]">
-                          {item.sub}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="relative shrink-0 text-[14px] leading-5">
-                      {item.price != null ? (
-                        money(item.price)
-                      ) : (
-                        <span className="text-[var(--ec-500)]">Included</span>
-                      )}
-                    </span>
-                  </motion.li>
-                ) : null,
-              )}
-
-              {n === 0 ? (
-                <motion.li
-                  key="empty"
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4, ease: EASE }}
-                  className="py-2.5 text-[13px] leading-5 text-[var(--ec-500)]"
-                >
-                  Pick a plan to start.
-                </motion.li>
-              ) : null}
-            </AnimatePresence>
-          </motion.ul>
-
-          <motion.div
-            layout
-            transition={{ duration: 0.55, ease: EASE }}
-            className="mt-3 flex items-baseline justify-between gap-4 border-t-2 border-[var(--ec-fg)] pt-3"
+          <div
+            className="w-full max-w-[19rem] rounded-xl bg-[var(--ec-card)] p-4 shadow-[0_0_0_1px_var(--ec-200)]"
+            aria-hidden="true"
           >
-            <span className="text-[14px] leading-5 font-medium">Monthly total</span>
-            <span className="relative block h-7 overflow-hidden text-right">
+            <p className="text-[14px] leading-5 font-semibold">Cricket&rsquo;s enrollment</p>
+
+            <motion.ul layout className="mt-2.5 flex flex-col">
               <AnimatePresence initial={false} mode="popLayout">
-                <motion.span
-                  key={total}
-                  initial={{ y: "0.8em", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: "-0.8em", opacity: 0 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                  className="block text-[20px] leading-7 font-medium"
-                >
-                  {money(total)}
-                </motion.span>
+                {rows.map(({ key, label, item }) =>
+                  label ? (
+                    <motion.li
+                      key={key}
+                      layout
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.6, ease: EASE }}
+                      className="pt-2.5 pb-1 text-[11px] leading-4 tracking-wide text-[var(--ec-500)] uppercase"
+                    >
+                      {label}
+                    </motion.li>
+                  ) : item ? (
+                    <motion.li
+                      key={key}
+                      layout
+                      initial={{ opacity: 0, y: 12, filter: "blur(5px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: -6, filter: "blur(4px)" }}
+                      transition={{ duration: 0.75, ease: EASE }}
+                      className="relative flex items-baseline justify-between gap-4 border-t border-[var(--ec-200)] py-2 first:border-t-0"
+                    >
+                      {/* the just-added flush, fading out behind the row */}
+                      <motion.span
+                        aria-hidden
+                        initial={{ opacity: 0.55 }}
+                        animate={{ opacity: 0 }}
+                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        className="pointer-events-none absolute -inset-x-2 -inset-y-0.5 rounded-md bg-[var(--ec-primary-50)]"
+                      />
+                      <span className="relative flex min-w-0 flex-col">
+                        <span className="truncate text-[14px] leading-5">{item.name}</span>
+                        {item.sub ? (
+                          <span className="truncate text-[12px] leading-4 text-[var(--ec-500)]">
+                            {item.sub}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="relative shrink-0 text-[14px] leading-5">
+                        {item.price != null ? (
+                          money(item.price)
+                        ) : (
+                          <span className="text-[var(--ec-500)]">Included</span>
+                        )}
+                      </span>
+                    </motion.li>
+                  ) : null,
+                )}
+
+                {n === 0 ? (
+                  <motion.li
+                    key="empty"
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease: EASE }}
+                    className="py-2 text-[13px] leading-5 text-[var(--ec-500)]"
+                  >
+                    Pick a plan to start.
+                  </motion.li>
+                ) : null}
               </AnimatePresence>
-            </span>
-          </motion.div>
+            </motion.ul>
+
+            <motion.div
+              layout
+              transition={{ duration: 0.75, ease: EASE }}
+              className="mt-2.5 flex items-baseline justify-between gap-4 border-t-2 border-[var(--ec-fg)] pt-2.5"
+            >
+              <span className="text-[14px] leading-5 font-medium">Monthly total</span>
+              <span className="relative block h-7 overflow-hidden text-right">
+                <AnimatePresence initial={false} mode="popLayout">
+                  <motion.span
+                    key={total}
+                    initial={{ y: "0.8em", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: "-0.8em", opacity: 0 }}
+                    transition={{ duration: 0.68, ease: EASE }}
+                    className="block text-[20px] leading-7 font-medium"
+                  >
+                    {money(total)}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* What it is doing */}
+        <div className="flex flex-col justify-center gap-3 p-6 sm:h-[31rem] sm:p-8">
+          <p className="text-meta tracking-wide text-ink-3 uppercase">The cart</p>
+          <h3 className="text-title font-medium text-ink">
+            Enrollment is a checkout, so the cart never leaves the screen.
+          </h3>
+          <p className="text-body text-ink-2">
+            It fills as the plan is built: the plan first, then the preventive products, then the
+            optional add-ons. The monthly total settles after each one, so the person at the counter
+            can always answer what the pet parent is paying.
+          </p>
+          <p className="text-body text-ink-2">
+            Products are included in the plan price, so they land without moving the number. Only
+            the plan and the add-ons change it.
+          </p>
+          <p className="hidden text-meta text-ink-3 sm:block">Hover to pause.</p>
         </div>
       </div>
 
@@ -178,6 +199,6 @@ export function Cart() {
         A cart filling with a plan at $54.00 a month, two included products, and two add-ons at
         $12.00 and $2.00, for a monthly total of $68.00.
       </p>
-    </Stage>
+    </figure>
   );
 }

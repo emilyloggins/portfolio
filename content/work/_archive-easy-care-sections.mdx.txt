@@ -1,0 +1,76 @@
+{/* Easy Care case study. Shape: one paragraph, then a heading, one line and
+    screens per area, like a gallery with captions. Prose through Enrollment is
+    a DRAFT in Emily's own words from the decision log; she edits. Decisions
+    live in content/decisions/ and are linked at the bottom, not inlined.
+    Screens live in public/work/easy-care/; a placeholder renders until the
+    file exists. Framing: this is the design of Easy Care, not a redesign. */}
+
+- Product designer
+- Idexx, in partnership with MWI
+
+<Screen src="work/easy-care/hero-scene.jpg" alt="Easy Care's enrollment screen on a laptop on a wooden table" aspect="4 / 3" bare />
+
+Easy Care is how a vet clinic sells a year of care in one conversation. A receptionist or tech sets a pet up at the front desk, a doctor signs the prescriptions between patients, and the preventives ship to the pet parent each month. A monthly plan replaces the big annual bill, and the clinic gets what a plan is really for: a pet that shows up all year.
+
+## Impact
+
+{/* TODO(emily): real numbers only. Three to five, each a figure and what it
+    measures, in the product's own units. Candidates to confirm or replace: */}
+
+<Strip>
+  <Screen src="work/easy-care/impact-placeholder-1.png" alt="Impact figure" aspect="8 / 5" caption="TODO(emily): clinics live on Easy Care, or enrollments in the first N months." />
+  <Screen src="work/easy-care/impact-placeholder-2.png" alt="Impact figure" aspect="8 / 5" caption="TODO(emily): time to enroll a pet, before and after, or steps cut from the flow." />
+  <Screen src="work/easy-care/impact-placeholder-3.png" alt="Impact figure" aspect="8 / 5" caption="TODO(emily): share of enrollments signed within a day; or the one number leadership cared about." />
+</Strip>
+
+<Prompt>If you'd rather the numbers be type, not tiles, say so: three figures in a row, each with one line under it, is the other shape.</Prompt>
+
+## Enrollment
+
+The core flow, live. Five steps, one card, the tracker from the shipped product.
+
+<EnrollmentFlow />
+
+The step that carries the most rules, rebuilt so you can push on them.
+
+<CoveragePicker />
+
+The cart is the running answer to "what am I paying for?", so it is the one thing on the screen that never leaves.
+
+<Cart />
+
+The shipped screens.
+
+<Screen src="work/easy-care/01-who.png" alt="Enrollment step 1, Who: client, pets, weight" aspect="1440 / 893" caption="A pet parent is in the clinic, ready to enroll their dog Cricket. The flow was built so that any clinician or doctor can enroll at any point in their busy workflow. This screen asks for only three things: the client, the pet, and an accurate weight." />
+
+<Screen src="work/easy-care/02-what.png" alt="Enrollment step 2, What: plan, products by the clinic's categories, add-ons, cart" aspect="1440 / 1227" caption="This is where the plan takes shape. A base plan covers a year of included services, the preventive products ship to the pet parent each month. Only products sized for Cricket's weight are offered, and the monthly total updates with every optional add on." />
+
+<Screen src="work/easy-care/03-sign-off.png" alt="Enrollment step 3, Sign-off: doctor, prescription notes, payment, consent" aspect="1440 / 1037" caption="When the plan is set, a doctor is assigned to review and sign the prescription, and the pet parent pays. Consent to the monthly charge is captured in one line, and the button states exactly what will be charged." />
+
+<Screen src="work/easy-care/04-success.png" alt="Enrollment complete: what happens next, print summary" aspect="1440 / 900" caption="Payment is complete, but the enrollment is not. Cricket's prescriptions will go to the doctor's queue to be signed, and the first doses ship after that, straight to Cricket's home." />
+
+## The system
+
+Built on HeroUI's kit, themed to MWI by repointing fourteen tokens, and extended only where the kit had nothing.
+
+<Screen src="work/easy-care/system-theme.png" alt="Tokens: the MWI colour ramp, the fourteen aliases and what each colour means. Components: buttons, input and select, option rows, check rows, nav items and steps" aspect="1440 / 689" caption="One ramp added to the primitives and fourteen aliases repointed, and every component rethemed. Two kit variants and four new components cover all five flows. Colour carries meaning: purple navigates, green is a plan running as intended, amber is paid but blocked on a person, red changes the system and always confirms." />
+
+## Prescription approval
+
+The doctor's half of the flow. The product card, live: sign it, remove it, undo.
+
+<SignCard />
+
+<Screen src="work/easy-care/10-queue.png" alt="Prescriptions queue: pending enrollments waiting for the doctor's signature, oldest first" aspect="1440 / 900" caption="Between patients, Dr. Williams opens her queue. Everything here is already paid for, and nothing ships until she signs, so the list runs oldest first and says how long each pet has been waiting." />
+
+<Screen src="work/easy-care/11-edit-and-sign.png" alt="Sign prescriptions page for Cricket: enrollment facts, one prescription per product with quantity, refills, route, dates, directions, notes and a signature row" aspect="1440 / 1903" caption="She opens Cricket's prescriptions. Each product carries its coverage and weight band next to the pet's weight, so a 12.3 lb dog on a 6 to 25 lb chew is checked at a glance. She can edit any field, remove a product or add one, and reassign the enrollment to another doctor." />
+
+<Screen src="work/easy-care/12-sign.png" alt="Signature dialog: the prescription restated, a field to type the doctor's full name, and the legal line" aspect="1440 / 900" caption="Signing means typing her name. The prescription is restated once more above the field, and the order goes to the pharmacy only when every product on the page is signed. A clinic admin can sign on her behalf, with both names kept on the record." />
+
+## Client profile
+
+Where the clinic looks a client up.
+
+<Screen src="work/easy-care/20-client.png" alt="Client page for Dillon Johnson: contact, pets with plan status, billing, previous plans" aspect="1440 / 884" caption="Dillon calls the front desk. One page holds his contact details, every pet with the state of its plan, the card on file and the next charges. Cricket is paid but waiting on the doctor's signature; Pocky has no plan and an Enroll link; Biscuit is seven months in." />
+
+<Screen src="work/easy-care/21-pet.png" alt="Pet page for Biscuit: plan line, services, add-ons and products tables, billing and shipping, previous plans" aspect="1440 / 1333" caption="Opening Biscuit shows the plan the clinic is delivering: every service and add-on with its uses, last redemption and invoice, every product with its shipments, and the billing that runs underneath. Cancelling the plan or removing the pet sits at the very bottom, in red." />
