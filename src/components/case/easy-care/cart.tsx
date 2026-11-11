@@ -69,11 +69,11 @@ export function Cart() {
   });
 
   return (
-    <figure className="my-2">
-      <div className="grid overflow-hidden rounded-md border border-line bg-ground sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+    <figure className="@container relative left-1/2 my-2 w-[min(52rem,calc(100vw-2rem))] -translate-x-1/2">
+      <div className="grid overflow-hidden rounded-md border border-line bg-ground @[42rem]:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
         {/* The product, running */}
         <div
-          className="ec flex h-[31rem] items-start justify-center border-b border-line bg-[var(--ec-bg)] p-4 text-[var(--ec-fg)] sm:border-r sm:border-b-0"
+          className="ec flex h-[31rem] items-start justify-center border-b border-line bg-[var(--ec-bg)] p-4 text-[var(--ec-fg)] @[42rem]:border-r @[42rem]:border-b-0"
           style={EC_VARS}
           onPointerEnter={() => setHeld(true)}
           onPointerLeave={() => setHeld(false)}
@@ -177,7 +177,7 @@ export function Cart() {
         </div>
 
         {/* What it is doing */}
-        <div className="flex flex-col justify-center gap-3 p-6 sm:h-[31rem] sm:p-8">
+        <div className="flex flex-col justify-center gap-3 p-6 @[42rem]:h-[31rem] @[42rem]:p-8">
           <p className="text-meta tracking-wide text-ink-3 uppercase">The cart</p>
           <h3 className="text-title font-medium text-ink">
             Enrollment is a checkout, so the cart never leaves the screen.
@@ -191,7 +191,7 @@ export function Cart() {
             Products are included in the plan price, so they land without moving the number. Only
             the plan and the add-ons change it.
           </p>
-          <p className="hidden text-meta text-ink-3 sm:block">Hover to pause.</p>
+          <p className="hidden text-meta text-ink-3 [@media(hover:hover)]:block">Hover to pause.</p>
         </div>
       </div>
 
