@@ -16,7 +16,8 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
  * two-tone title, a light grey surface with a hairline border, no dividers,
  * a pill for the money action. Springs for anything that moves, tweens only
  * for colour and opacity. The stage is a fixed height so the page never
- * shifts; the card grows and shrinks inside it on a spring.
+ * shifts: the card is a fixed size, like a real checkout panel, with the
+ * total and the pay button pinned to its bottom.
  */
 const ecSans = localFont({
   src: "../../../app/fonts/instrument-sans-latin-wght-normal.woff2",
@@ -32,6 +33,8 @@ const C = {
   edge: "#EEEEF0",
   mid: "#F3F3F5",
   border: "#E4E4E7",
+  disabledBg: "#E6E6EA",
+  disabledInk: "#A1A1AA",
   track: "#E7E7EA",
 };
 
@@ -197,7 +200,7 @@ export function Cart() {
     <figure className="my-2">
       <div
         ref={stageRef}
-        className={`${ecSans.className} flex h-[42rem] flex-col items-center pt-2`}
+        className={`${ecSans.className} flex flex-col items-center pt-2`}
         style={{ color: C.ink, fontFeatureSettings: '"tnum"' }}
         aria-hidden="true"
       >
@@ -243,15 +246,16 @@ export function Cart() {
           })}
         </ol>
 
-        {/* Cart: hugs its rows, which fold open and closed, inside the fixed stage */}
+        {/* Cart: a fixed size, like a real checkout panel. Items fill from the
+            top; the total and the pay button stay pinned to the bottom. */}
         <div
-          className="mt-9 w-full max-w-[30rem] overflow-hidden rounded-[24px]"
+          className="mt-9 flex h-[36rem] w-full max-w-[30rem] flex-col overflow-hidden rounded-[24px]"
           style={{
             background: `linear-gradient(180deg, ${C.edge} 0%, ${C.mid} 40%, ${C.mid} 85%, ${C.edge} 100%)`,
             boxShadow: `inset 0 0 0 1px ${C.border}`,
           }}
         >
-          <div className="px-7 pt-7 pb-6">
+          <div className="flex min-h-0 flex-1 flex-col px-7 pt-7 pb-6">
             <p className="text-[24px] leading-[30px] tracking-[-0.01em]">
               <span style={{ color: C.accent }}>Cricket&rsquo;s</span>{" "}
               enrollment
@@ -263,7 +267,7 @@ export function Cart() {
               Shih tzu, 12.3 lbs, for Dillon Johnson
             </p>
 
-            <ul className="mt-4 flex flex-col">
+            <ul className="mt-4 flex min-h-0 flex-1 flex-col">
               <AnimatePresence initial={false}>
                 {p === 0 ? (
                   <Fold
@@ -312,72 +316,51 @@ export function Cart() {
                 />
               </div>
 
-              <AnimatePresence initial={false}>
-                {payVisible ? (
-                  <motion.div
-                    key="pay"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{
-                      opacity: 0,
-                      height: 0,
-                      transition: {
-                        height: SPRING,
-                        opacity: { duration: 0.2 },
-                      },
-                    }}
-                    transition={{
-                      height: SPRING,
-                      opacity: { duration: 0.35, delay: 0.08 },
-                    }}
-                  >
-                    <div className="pt-5">
-                      <motion.div
-                        className="relative flex h-12 items-center justify-center rounded-full text-[15px] font-medium text-white"
-                        initial={false}
-                        animate={{
-                          backgroundColor: paid ? C.accent : C.primary,
-                          scale: processing ? [1, 0.97, 1] : 1,
-                          boxShadow: paid
-                            ? [
-                                `0 0 0 0px ${C.accent}66`,
-                                `0 0 0 10px ${C.accent}00`,
-                              ]
-                            : `0 0 0 0px ${C.accent}00`,
-                        }}
-                        transition={{
-                          backgroundColor: { duration: 0.5, ease: EASE },
-                          scale: { duration: 0.32, ease: EASE },
-                          boxShadow: { duration: 0.9, ease: "easeOut" },
-                        }}
-                      >
-                        <AnimatePresence initial={false} mode="popLayout">
-                          <motion.span
-                            key={
-                              paid ? "paid" : processing ? "processing" : "pay"
-                            }
-                            className="flex items-center gap-2"
-                            initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
-                            transition={{ duration: 0.35, ease: EASE }}
-                          >
-                            {paid ? (
-                              <>
-                                <DrawnCheck size={16} /> Payment successful
-                              </>
-                            ) : processing ? (
-                              <Spinner />
-                            ) : (
-                              `Pay $${total.toFixed(2)}`
-                            )}
-                          </motion.span>
-                        </AnimatePresence>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                ) : null}
-              </AnimatePresence>
+              <div className="pt-5">
+                <motion.div
+                  className="relative flex h-12 items-center justify-center rounded-full text-[15px] font-medium"
+                  initial={false}
+                  animate={{
+                    backgroundColor: paid
+                      ? C.accent
+                      : payVisible
+                        ? C.primary
+                        : C.disabledBg,
+                    color: payVisible ? "#ffffff" : C.disabledInk,
+                    scale: processing ? [1, 0.97, 1] : 1,
+                    boxShadow: paid
+                      ? [`0 0 0 0px ${C.accent}66`, `0 0 0 10px ${C.accent}00`]
+                      : `0 0 0 0px ${C.accent}00`,
+                  }}
+                  transition={{
+                    backgroundColor: { duration: 0.5, ease: EASE },
+                    color: { duration: 0.5, ease: EASE },
+                    scale: { duration: 0.32, ease: EASE },
+                    boxShadow: { duration: 0.9, ease: "easeOut" },
+                  }}
+                >
+                  <AnimatePresence initial={false} mode="popLayout">
+                    <motion.span
+                      key={paid ? "paid" : processing ? "processing" : "pay"}
+                      className="flex items-center gap-2"
+                      initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
+                      transition={{ duration: 0.35, ease: EASE }}
+                    >
+                      {paid ? (
+                        <>
+                          <DrawnCheck size={16} /> Payment successful
+                        </>
+                      ) : processing ? (
+                        <Spinner />
+                      ) : (
+                        `Pay $${total.toFixed(2)}`
+                      )}
+                    </motion.span>
+                  </AnimatePresence>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>
