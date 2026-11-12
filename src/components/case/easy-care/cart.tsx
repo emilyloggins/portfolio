@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 /**
- * Enrollment, playing itself: the Who / What / Sign off stepper fills in
+ * Enrollment, playing itself: the Plan / Products / Add-ons / Pay stepper fills in
  * step by step while the cart below it builds. Styled in the Nov 11 Easy
  * Care direction (Hers-inspired): Instrument Sans, regular-weight two-tone
  * title, a soft lavender surface with no dividers, a pill for the money
@@ -66,16 +66,24 @@ const LABEL: Record<Item["kind"], string> = {
 };
 
 /**
- * One phase per beat: 0 idle, 1 Who active, 2 pet chosen and What active,
- * then one phase per item, then Sign off with the pay pill, the payment
- * processing, and paid. Loops for as long as it is on screen.
+ * The stepper narrates the cart: each step lights up, then its items land.
+ * Phases: 0 idle, 1 Plan active, 2 plan lands, 3 Products active,
+ * 4 Heartgard, 5 NexGard, 6 Add-ons active, 7 nail trim, 8 Pay active with
+ * the pay pill, 9 processing, 10 paid, 11 the cart fades out before the loop
+ * restarts. Loops for as long as it is on screen.
  */
-const ITEM_MS = [1000, 1250, 1000, 1300];
-const PHASE_MS = [1100, 1100, 1200, ...ITEM_MS, 1500, 1400, 3600, 550];
-const SIGN = 3 + ITEMS.length; // pay pill shown, Sign off active
-const PROCESSING = SIGN + 1;
-const PAID = SIGN + 2;
-const CLEAR = SIGN + 3; // the cart fades out as one before the loop restarts
+const PHASE_MS = [
+  1000, 700, 1200, 700, 1000, 1200, 700, 1200, 1400, 1400, 3600, 550,
+];
+/** The phase at which each item in ITEMS lands, in order. */
+const ITEM_AT = [2, 4, 5, 7];
+const PLAN_ON = 1;
+const PRODUCTS_ON = 3;
+const ADDONS_ON = 6;
+const PAY_ON = 8;
+const PROCESSING = 9;
+const PAID = 10;
+const CLEAR = 11;
 const LAST = PHASE_MS.length - 1;
 const EASE = [0.16, 1, 0.3, 1] as const;
 const money = (n: number) => `$${n.toFixed(2)}`;
@@ -117,19 +125,18 @@ export function Cart() {
     return () => window.clearTimeout(t);
   }, [p, running]);
 
+  const stepState = (on: number, next: number): StepState =>
+    p < on ? "upcoming" : p < next ? "active" : "done";
   const steps: Array<{ label: string; state: StepState }> = [
-    { label: "Who", state: p < 1 ? "upcoming" : p === 1 ? "active" : "done" },
-    { label: "What", state: p < 2 ? "upcoming" : p < SIGN ? "active" : "done" },
-    {
-      label: "Sign off",
-      state: p < SIGN ? "upcoming" : p < PAID ? "active" : "done",
-    },
+    { label: "Plan", state: stepState(PLAN_ON, PRODUCTS_ON) },
+    { label: "Products", state: stepState(PRODUCTS_ON, ADDONS_ON) },
+    { label: "Add-ons", state: stepState(ADDONS_ON, PAY_ON) },
+    { label: "Pay", state: stepState(PAY_ON, PAID) },
   ];
-  const pet = p >= 2;
-  const n = Math.max(0, Math.min(ITEMS.length, p - 2));
+  const n = ITEM_AT.filter((at) => p >= at).length;
   const shown = ITEMS.slice(0, n);
   const total = shown.reduce((s, it) => s + (it.price ?? 0), 0);
-  const payVisible = p >= SIGN;
+  const payVisible = p >= PAY_ON;
   const processing = p === PROCESSING;
   const paid = p >= PAID;
   const clearing = p === CLEAR;
@@ -150,36 +157,38 @@ export function Cart() {
         aria-hidden="true"
       >
         {/* Stepper */}
-        <ol className="flex w-full max-w-[23rem] items-center">
-          {steps.map((s, i) => (
-            <li
-              key={s.label}
-              className={`flex items-center ${i < steps.length - 1 ? "flex-1" : ""}`}
-            >
-              <Step index={i + 1} label={s.label} state={s.state} />
-              {i < steps.length - 1 ? (
-                <span
-                  className="relative mx-3 h-[2px] flex-1 overflow-hidden rounded-full"
-                  style={{ background: C.track }}
-                >
-                  <motion.span
-                    className="absolute inset-y-0 left-0 rounded-full"
-                    style={{ background: C.accent }}
-                    initial={false}
-                    animate={{
-                      width: steps[i].state === "done" ? "100%" : "0%",
-                    }}
-                    transition={{ duration: 0.7, ease: EASE }}
-                  />
-                </span>
-              ) : null}
-            </li>
-          ))}
+        <ol className="flex w-full max-w-[30rem] items-center">
+          {steps.flatMap((s, i) => {
+            const step = (
+              <li key={s.label} className="flex shrink-0 items-center">
+                <Step index={i + 1} label={s.label} state={s.state} />
+              </li>
+            );
+            if (i === steps.length - 1) return [step];
+            // Lines are their own items so all three share the space equally.
+            const line = (
+              <li
+                key={`${s.label}-line`}
+                aria-hidden
+                className="relative mx-2.5 h-[2px] min-w-6 flex-1 overflow-hidden rounded-full"
+                style={{ background: C.track }}
+              >
+                <motion.span
+                  className="absolute inset-y-0 left-0 rounded-full"
+                  style={{ background: C.accent }}
+                  initial={false}
+                  animate={{ width: s.state === "done" ? "100%" : "0%" }}
+                  transition={{ duration: 0.7, ease: EASE }}
+                />
+              </li>
+            );
+            return [step, line];
+          })}
         </ol>
 
         {/* Cart */}
         <div
-          className="mt-9 w-full max-w-[23rem] rounded-[24px] px-7 pt-7 pb-6"
+          className="mt-9 w-full max-w-[30rem] rounded-[24px] px-7 pt-7 pb-6"
           style={{
             background: `linear-gradient(180deg, ${C.edge} 0%, ${C.mid} 40%, ${C.mid} 85%, ${C.edge} 100%)`,
             boxShadow: `inset 0 0 0 1px ${C.border}`,
@@ -194,35 +203,17 @@ export function Cart() {
             }}
             transition={{ duration: 0.45, ease: EASE }}
           >
-            <div className="relative h-[52px]">
-              <AnimatePresence initial={false} mode="popLayout">
-                <motion.div
-                  key={pet ? "pet" : "new"}
-                  initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -6, filter: "blur(4px)" }}
-                  transition={{ duration: 0.6, ease: EASE }}
-                >
-                  <p className="text-[24px] leading-[30px] tracking-[-0.01em]">
-                    {pet ? (
-                      <>
-                        <span style={{ color: C.accent }}>Cricket&rsquo;s</span>{" "}
-                        enrollment
-                      </>
-                    ) : (
-                      "New enrollment"
-                    )}
-                  </p>
-                  <p
-                    className="mt-1 text-[13px] leading-[18px]"
-                    style={{ color: C.muted }}
-                  >
-                    {pet
-                      ? "Shih tzu, 12.3 lbs, for Dillon Johnson"
-                      : "Pick a pet to start."}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+            <div>
+              <p className="text-[24px] leading-[30px] tracking-[-0.01em]">
+                <span style={{ color: C.accent }}>Cricket&rsquo;s</span>{" "}
+                enrollment
+              </p>
+              <p
+                className="mt-1 text-[13px] leading-[18px]"
+                style={{ color: C.muted }}
+              >
+                Shih tzu, 12.3 lbs, for Dillon Johnson
+              </p>
             </div>
 
             <motion.ul layout className="mt-4 flex flex-col">
@@ -281,7 +272,7 @@ export function Cart() {
                     </motion.li>
                   ) : null,
                 )}
-                {pet && n === 0 ? (
+                {n === 0 ? (
                   <motion.li
                     key="empty"
                     layout
@@ -377,10 +368,10 @@ export function Cart() {
       </div>
 
       <p className="sr-only">
-        An enrollment playing out: the Who, What and Sign off steps fill in one
-        by one while the cart adds Cricket, a Small Dog Plan at $54.00 a month,
-        two included products, and a nail trim add-on at $12.00, for a monthly
-        total of $66.00, then the payment goes through.
+        An enrollment for Cricket playing out: the Plan, Products, Add-ons and
+        Pay steps fill in one by one while the cart adds a Small Dog Plan at
+        $54.00 a month, two included products, and a nail trim add-on at $12.00,
+        for a monthly total of $66.00, then the payment goes through.
       </p>
     </figure>
   );
