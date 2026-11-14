@@ -46,7 +46,7 @@ export function Lightbox({
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Open ${alt} full size`}
-        className={`block w-full cursor-pointer rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${bare ? "" : "border border-line"}`}
+        className={`block w-full cursor-default rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${bare ? "" : "border border-line"}`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} className="block w-full rounded-md" />
