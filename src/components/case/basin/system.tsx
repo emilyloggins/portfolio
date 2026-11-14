@@ -31,7 +31,7 @@ export function BasinSystem() {
             <div className="pb-0.5">
               <p className="text-[17px] leading-6 font-medium">Inter</p>
               <p className="text-[13px] leading-[18px]" style={{ color: C.muted }}>
-                Regular and Medium, four sizes. The wordmark is the only other face.
+                Regular and Medium, four sizes.
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@ export function BasinSystem() {
           </div>
           <p className="text-[13px] leading-[19px] text-pretty" style={{ color: C.muted }}>
             One saturated colour, kept for the shutter, the wipe and a decision. Everything else is ink on frosted
-            glass over a grainy glacier gradient: three radii, one motion curve, no colour on a verdict.
+            glass over a grainy glacier gradient.
           </p>
         </section>
       </div>
