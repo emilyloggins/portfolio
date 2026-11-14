@@ -15,7 +15,7 @@ export default function Page() {
           A skincare companion app that tracks one product at a time, with your face as the evidence
         </p>
       </header>
-      <article className="flex flex-col gap-6" data-accent="lime">
+      <article className="flex flex-col gap-6">
         <Content />
       </article>
     </main>

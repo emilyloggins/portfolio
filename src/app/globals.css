@@ -113,24 +113,6 @@ p {
 
 
 
-/* A project's own colour as a thread through its page, nowhere else.
-   Basin: its lime, as a dot before each section heading. */
-[data-accent="lime"] {
-  --color-thread: #d6eb6e;
-}
-[data-accent] h2 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-[data-accent] h2::before {
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 9999px;
-  background: var(--color-thread);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-thread) 60%, var(--color-ink));
-}
 
 /* The resume prints to one Letter page in the site's own type. The grain,
    the tuner and the arrive animation stay on screen only. */
