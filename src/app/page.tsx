@@ -3,7 +3,7 @@ import { EmailRow } from "@/components/email-row";
 import { List } from "@/components/list";
 import { Name } from "@/components/name";
 import { NowLabel } from "@/components/now-label";
-import { HistoryRow, Row, Section, Todo } from "@/components/row";
+import { HistoryRow, Row, Section } from "@/components/row";
 
 /**
  * Home. One narrow column, left-aligned, no hero: a name, a role line,
@@ -50,14 +50,16 @@ export default function Home() {
       <Section title="History">
         <div className="flex flex-col">
           <HistoryRow place="IDEXX" tags={["Veterinary software"]}>
-            UX designer and developer. <Todo>TODO(emily): plain words, e.g. I worked on a tvOS app for the waiting room</Todo>
+            I designed Easy Care, a wellness plan platform for vet clinics, and built
+            tools for Greenline&rsquo;s core business: coupon and rebate processing.
           </HistoryRow>
           <HistoryRow place="Kroll" tags={["Financial and risk advisory"]}>
-            Software engineer. <Todo>TODO(emily): plain words, what you built</Todo>
+            I led a UI team on a new React app and rebuilt a legacy Angular codebase
+            around shared components.
           </HistoryRow>
           <HistoryRow place="Sarah Cannon Research Institute" tags={["Cancer research, HCA Healthcare"]}>
-            Application engineer on a full-stack design and development team, building enterprise
-            applications for the cancer institute of HCA Healthcare.
+            I built an Angular application that ran clinical trials at 300+
+            locations worldwide, then maintained the institute&rsquo;s data pipelines and dashboards.
           </HistoryRow>
         </div>
       </Section>
