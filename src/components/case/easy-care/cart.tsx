@@ -208,7 +208,6 @@ export function Cart() {
               <li key={s.label} className="flex shrink-0 items-center">
                 <Step
                   index={i + 1}
-                  label={s.label}
                   state={s.state}
                   delay={rewinding ? 0.55 + (steps.length - 1 - i) * 0.11 : 0}
                 />
@@ -496,12 +495,10 @@ function Digit({ d, delay = 0 }: { d: number; delay?: number }) {
 
 function Step({
   index,
-  label,
   state,
   delay = 0,
 }: {
   index: number;
-  label: string;
   state: StepState;
   /** Used on rewind so the steps uncheck in reverse, one after another. */
   delay?: number;
@@ -519,7 +516,7 @@ function Step({
   const bg =
     shown === "upcoming" ? C.edge : shown === "active" ? C.primary : C.accent;
   return (
-    <span className="flex items-center gap-2.5">
+    <span className="flex items-center">
       <span className="relative flex size-7 items-center justify-center">
         <motion.span
           className="flex size-7 items-center justify-center rounded-full text-[13px]"
@@ -559,16 +556,6 @@ function Step({
           </AnimatePresence>
         </motion.span>
       </span>
-      <motion.span
-        // On narrow screens only the current step keeps its label, so the
-        // stepper fits a phone without scrolling sideways.
-        className={`whitespace-nowrap text-[14px] leading-5 ${shown === "active" ? "" : "hidden sm:inline"}`}
-        initial={false}
-        animate={{ color: shown === "upcoming" ? C.muted : C.ink }}
-        transition={{ duration: 0.45, ease: EASE }}
-      >
-        {label}
-      </motion.span>
     </span>
   );
 }
