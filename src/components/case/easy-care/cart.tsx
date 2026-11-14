@@ -218,7 +218,7 @@ export function Cart() {
             const line = (
               <li
                 key={`${s.label}-line`}
-                className="relative mx-2.5 h-[2px] min-w-6 flex-1 overflow-hidden rounded-full"
+                className="relative mx-2 h-[2px] min-w-4 flex-1 overflow-hidden rounded-full sm:mx-2.5 sm:min-w-6"
                 style={{ background: C.track }}
               >
                 <motion.span
@@ -560,7 +560,9 @@ function Step({
         </motion.span>
       </span>
       <motion.span
-        className="whitespace-nowrap text-[14px] leading-5"
+        // On narrow screens only the current step keeps its label, so the
+        // stepper fits a phone without scrolling sideways.
+        className={`whitespace-nowrap text-[14px] leading-5 ${shown === "active" ? "" : "hidden sm:inline"}`}
         initial={false}
         animate={{ color: shown === "upcoming" ? C.muted : C.ink }}
         transition={{ duration: 0.45, ease: EASE }}
