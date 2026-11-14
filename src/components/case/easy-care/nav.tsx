@@ -5,11 +5,11 @@ import localFont from "next/font/local";
 import { motion, useReducedMotion } from "motion/react";
 
 /**
- * Easy Care's side navigation, assembling itself: the product name and clinic
- * stay put while each section drops in, bounces and settles. It holds for a
- * couple of beats, then everything falls away and it starts again. Same
- * on-page container as the sign dialog (white, hairline border, no shadow);
- * fixed size, so the page never shifts.
+ * Easy Care's side navigation, assembling itself as you reach it: the product
+ * name and clinic stay put while each section drops in, bounces and settles.
+ * Scroll on past and the sections fall away; come back and they drop in
+ * again. Same on-page container as the sign dialog (white, hairline border,
+ * no shadow); fixed size, so the page never shifts.
  */
 const ecSans = localFont({
   src: "../../../app/fonts/instrument-sans-latin-wght-normal.woff2",
@@ -36,48 +36,52 @@ const ITEMS = [
 ];
 const ROW = 36; // px per nav row
 
-type Phase = "in" | "hold" | "out" | "gap";
-/** How long each phase lasts before the next begins. */
-const PHASE_MS: Record<Phase, number> = { in: 1400, hold: 2200, out: 950, gap: 350 };
-const NEXT: Record<Phase, Phase> = { in: "hold", hold: "out", out: "gap", gap: "in" };
-
 const DROP = { type: "spring", stiffness: 430, damping: 17, mass: 0.9 } as const;
 const FALL = [0.55, 0, 0.9, 0.4] as const; // gravity: slow start, fast finish
 const SOFT = [0.16, 1, 0.3, 1] as const;
 
 export function Nav() {
   const reduce = useReducedMotion();
-  const [phase, setPhase] = useState<Phase>("in");
+  /** waiting: above, before the first drop. in: dropped and settled. out: fallen. */
+  const [state, setState] = useState<"waiting" | "in" | "out">("waiting");
   const [cycle, setCycle] = useState(0);
   const stageRef = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(true);
-  const [tabVisible, setTabVisible] = useState(true);
 
   useEffect(() => {
     const el = stageRef.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.15 });
-    io.observe(el);
-    const onVis = () => setTabVisible(document.visibilityState === "visible");
-    document.addEventListener("visibilitychange", onVis);
+    if (!el) return;
+    // Track where the nav's middle sits on screen. It drops in once it reaches
+    // the middle band, and falls while still in sight as you scroll past (or
+    // back above) it. The gap between the two bands keeps it from flickering.
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const mid = (r.top + r.height / 2) / vh;
+      if (mid > 0.38 && mid < 0.8) {
+        setState((s) => {
+          if (s !== "in") setCycle((c) => c + 1); // remount so items start above again
+          return "in";
+        });
+      } else if (mid < 0.3 || mid > 0.95) {
+        setState((s) => (s === "in" ? "out" : s));
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
-      io.disconnect();
-      document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
-  const running = !reduce && inView && tabVisible;
-  useEffect(() => {
-    if (!running) return;
-    const t = window.setTimeout(() => {
-      const next = NEXT[phase];
-      if (next === "in") setCycle((c) => c + 1); // remount so items start above again
-      setPhase(next);
-    }, PHASE_MS[phase]);
-    return () => window.clearTimeout(t);
-  }, [phase, running]);
-
-  const shown = reduce ? "hold" : phase;
+  const shown = reduce ? "in" : state;
   const last = ITEMS.length - 1;
 
   return (
@@ -90,8 +94,9 @@ export function Nav() {
       >
         <div className="w-[13rem] pt-9">
           <div className="px-3 pb-5">
-            <p className="text-[17px] leading-5 font-medium tracking-[-0.01em]">Easy Care</p>
-            <p className="mt-1 text-[12.5px] leading-4" style={{ color: C.muted }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/work/easy-care/easy-care-logo.png" alt="Easy Care" width={290} height={50} className="block h-[22px] w-auto" />
+            <p className="mt-2 text-[12.5px] leading-4" style={{ color: C.muted }}>
               K9 Resort Clinic Spa
             </p>
           </div>
@@ -105,7 +110,9 @@ export function Nav() {
                   style={{ height: ROW, color: C.muted, transformOrigin: "50% 0%" }}
                   initial={reduce ? false : { y: -34, opacity: 0, filter: "blur(6px)" }}
                   animate={
-                    shown === "out" || shown === "gap"
+                    shown === "waiting"
+                      ? { y: -34, opacity: 0, filter: "blur(6px)", transition: { duration: 0 } }
+                      : shown === "out"
                       ? {
                           y: 140 + (last - i) * 6,
                           opacity: 0,
