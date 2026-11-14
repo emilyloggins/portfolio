@@ -111,19 +111,16 @@ export function Sign() {
     <figure className="my-2">
       <div
         ref={stageRef}
-        className={`${ecSans.className} flex justify-center rounded-[24px] px-4 py-10 sm:px-10`}
-        style={{
-          color: C.ink,
-          background: `linear-gradient(180deg, ${C.edge} 0%, ${C.mid} 40%, ${C.mid} 85%, ${C.edge} 100%)`,
-          boxShadow: `inset 0 0 0 1px ${C.border}`,
-        }}
+        className={`${ecSans.className} mx-auto w-full max-w-[30rem] py-4`}
+        style={{ color: C.ink }}
         aria-hidden="true"
       >
+        {/* The dialog sits on the page, the same width as the enrollment cart. */}
         <div
-          className="w-full max-w-[28rem] rounded-[28px] bg-white px-7 pt-8 pb-7"
+          className="w-full rounded-[28px] bg-white px-7 pt-8 pb-7"
           style={{
             boxShadow:
-              "0 1px 2px rgba(17,19,31,0.05), 0 12px 32px -8px rgba(33,19,89,0.14), 0 32px 64px -24px rgba(33,19,89,0.18)",
+              "0 0 0 1px #E4E4E7, 0 1px 2px rgba(17,19,31,0.05), 0 12px 32px -8px rgba(33,19,89,0.12), 0 32px 64px -24px rgba(33,19,89,0.16)",
           }}
         >
           {/* Title */}
@@ -190,7 +187,7 @@ export function Sign() {
               transition={{ duration: 0.6, ease: EASE }}
             />
           </div>
-          <p className="mt-2.5 text-[12.5px] leading-[18px]" style={{ color: C.muted }}>
+          <p className="mt-2.5 text-[12.5px] leading-[18px] text-balance" style={{ color: C.muted }}>
             Typing your name is your legal signature on this prescription. It will be sent to MWI.
           </p>
 
