@@ -20,9 +20,7 @@ const ecSans = localFont({
 const C = {
   ink: "#16131F",
   muted: "#85809C",
-  accent: "#9387D0",
   border: "#E4E4E7",
-  tint: "#F4F2FB",
 };
 
 const ITEMS = [
@@ -99,23 +97,12 @@ export function Nav() {
           </div>
 
           <div className="relative">
-            {/* Selected state lands once the list has settled */}
-            <motion.span
-              className="absolute inset-x-0 top-0 rounded-full"
-              style={{ height: ROW, background: C.tint, boxShadow: `inset 0 0 0 1px ${C.accent}55` }}
-              initial={false}
-              animate={
-                shown === "hold"
-                  ? { opacity: 1, scale: 1, transition: { duration: 0.5, ease: SOFT, delay: reduce ? 0 : 0.15 } }
-                  : { opacity: 0, scale: 0.96, transition: { duration: 0.2 } }
-              }
-            />
             <ul key={cycle} className="relative">
               {ITEMS.map((label, i) => (
                 <motion.li
                   key={label}
                   className="flex items-center px-3 text-[14.5px]"
-                  style={{ height: ROW, color: i === 0 ? C.ink : C.muted, transformOrigin: "50% 0%" }}
+                  style={{ height: ROW, color: C.muted, transformOrigin: "50% 0%" }}
                   initial={reduce ? false : { y: -34, opacity: 0, filter: "blur(6px)" }}
                   animate={
                     shown === "out" || shown === "gap"
