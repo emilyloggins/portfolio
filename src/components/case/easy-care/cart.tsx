@@ -192,9 +192,6 @@ export function Cart() {
   // Exit delay for each row, so a rewind lifts them out from the bottom up.
   const exitDelay = (i: number) =>
     REWIND_ROW_START + (rows.length - 1 - i) * REWIND_ROW_STAGGER;
-  // On rewind the full cart (every heading and item) leaves; the empty state waits for it.
-  const rewindSpan =
-    REWIND_ROW_START + (KINDS.length + ITEMS.length) * REWIND_ROW_STAGGER;
 
   return (
     <figure className="my-2">
@@ -269,20 +266,6 @@ export function Cart() {
 
             <ul className="mt-4 flex min-h-0 flex-1 flex-col">
               <AnimatePresence initial={false}>
-                {p === 0 ? (
-                  <Fold
-                    key="empty"
-                    enterDelay={rewinding ? rewindSpan + 0.3 : 0}
-                    exitDelay={0}
-                  >
-                    <p
-                      className="pt-4 text-[13px] leading-[18px]"
-                      style={{ color: C.muted }}
-                    >
-                      Pick a plan to start.
-                    </p>
-                  </Fold>
-                ) : null}
                 {rows.map((r, i) =>
                   r.type === "label" ? (
                     <Fold key={r.key} exitDelay={exitDelay(i)}>
