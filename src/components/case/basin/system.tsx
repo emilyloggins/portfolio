@@ -11,9 +11,9 @@ const C = {
 };
 
 const COLORS = [
-  { name: "Lime", hex: "#d6eb6e", use: "The thing to act on" },
-  { name: "Glacier", hex: "#d5e0ea", use: "The ground, poured" },
-  { name: "Glass", hex: "#fbfcfd", use: "Everything raised", glass: true },
+  { name: "Lime", hex: "#d6eb6e", use: "Action" },
+  { name: "Glacier", hex: "#d5e0ea", use: "Surface" },
+  { name: "Glass", hex: "#fbfcfd", use: "Raised", glass: true },
   { name: "Ink", hex: "#1e2a33", use: "Text" },
 ];
 
