@@ -115,19 +115,19 @@ export function Sign() {
         style={{ color: C.ink }}
         aria-hidden="true"
       >
-        {/* The dialog sits on the page, the same width as the enrollment cart. */}
+        {/* Same on-page container as the enrollment cart: soft grey, hairline border, no shadow. */}
         <div
-          className="w-full rounded-[28px] bg-white px-7 pt-8 pb-7"
+          className="w-full rounded-[24px] px-7 pt-8 pb-7"
           style={{
-            boxShadow:
-              "0 0 0 1px #E4E4E7, 0 1px 2px rgba(17,19,31,0.05), 0 12px 32px -8px rgba(33,19,89,0.12), 0 32px 64px -24px rgba(33,19,89,0.16)",
+            background: `linear-gradient(180deg, ${C.edge} 0%, ${C.mid} 40%, ${C.mid} 85%, ${C.edge} 100%)`,
+            boxShadow: `inset 0 0 0 1px ${C.border}`,
           }}
         >
           {/* Title */}
           <div className="flex items-center gap-3.5">
             <span
               className="flex size-11 shrink-0 items-center justify-center rounded-full"
-              style={{ background: `linear-gradient(180deg, ${C.edge}, ${C.mid})` }}
+              style={{ background: "#FFFFFF", boxShadow: `inset 0 0 0 1px ${C.border}` }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M12 20h9" stroke={C.primary} strokeWidth="1.75" strokeLinecap="round" />
@@ -147,7 +147,7 @@ export function Sign() {
           {/* Prescription */}
           <dl
             className="mt-6 grid grid-cols-[6rem_1fr] gap-x-4 gap-y-3 rounded-[18px] px-5 py-4 text-[14px] leading-5"
-            style={{ background: `linear-gradient(180deg, ${C.edge} 0%, ${C.mid} 45%, ${C.mid} 85%, ${C.edge} 100%)` }}
+            style={{ background: "#FFFFFF", boxShadow: `inset 0 0 0 1px ${C.border}` }}
           >
             {[
               ["Drug", "NexGard (afoxolaner) soft chewable"],
