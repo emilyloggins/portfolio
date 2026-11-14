@@ -111,13 +111,13 @@ export function Sign() {
     <figure className="my-2">
       <div
         ref={stageRef}
-        className={`${ecSans.className} mx-auto w-full max-w-[30rem] py-4`}
+        className={`${ecSans.className} mx-auto w-full max-w-[30rem] py-2`}
         style={{ color: C.ink }}
         aria-hidden="true"
       >
         {/* Same on-page container as the enrollment cart: white, hairline border, no shadow. */}
         <div
-          className="w-full rounded-[24px] bg-white px-7 pt-8 pb-7"
+          className="w-full rounded-[24px] bg-white p-8"
           style={{
             boxShadow: `inset 0 0 0 1px ${C.border}`,
           }}

@@ -252,7 +252,7 @@ export function Cart() {
             boxShadow: `inset 0 0 0 1px ${C.border}`,
           }}
         >
-          <div className="flex min-h-0 flex-1 flex-col px-7 pt-7 pb-6">
+          <div className="flex min-h-0 flex-1 flex-col p-7">
             <p className="text-[24px] leading-[30px] tracking-[-0.01em]">
               <span style={{ color: C.accent }}>Cricket&rsquo;s</span>{" "}
               enrollment
