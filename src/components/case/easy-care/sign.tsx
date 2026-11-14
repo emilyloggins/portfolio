@@ -32,6 +32,8 @@ const C = {
 };
 
 const NAME = "Maron Williams";
+/** Letters typed before Sign becomes available. */
+const MIN_CHARS = 3;
 const EASE = [0.16, 1, 0.3, 1] as const;
 const SOFT = { type: "spring", stiffness: 170, damping: 26 } as const;
 
@@ -99,7 +101,8 @@ export function Sign() {
     return () => window.clearTimeout(t);
   }, [phase, n, running]);
 
-  const enabled = phase === "ready" || phase === "processing" || phase === "signed";
+  // The button becomes available as soon as a few letters are in, like the product.
+  const enabled = phase === "processing" || phase === "signed" || n >= MIN_CHARS;
   const processing = phase === "processing";
   const signed = phase === "signed";
   const caret = phase === "idle" || phase === "typing" || phase === "ready" || phase === "erasing";
