@@ -88,19 +88,63 @@ export default function Resume() {
           </li>
         </Entry>
 
+        <Entry place="Sarah Cannon Research Institute" role="Data Analyst II" when="2023 to 2024" meta="Cancer research, HCA Healthcare, Nashville">
+          <li>
+            Migrated databases across different systems, maintaining system roles and security
+          </li>
+          <li>
+            Developed reports requested by the business using SQL Server Management Studio
+          </li>
+          <li>
+            Monitored server space, pipeline failures, and databases
+          </li>
+          <li>
+            Supervised the pipeline deployment process
+          </li>
+          <li>
+            Updated pipelines in Azure Data Factory
+          </li>
+          <li>
+            Designed an Operational Support Dashboard in Power BI
+          </li>
+        </Entry>
+
         <Entry place="Kroll" role="Software Engineer II" when="2021 to 2022" meta="Financial and risk advisory, Nashville">
           <li>
-            <Todo>TODO(emily): one or two lines. What you built, the stack, who used it.</Todo>
+            Led a UI team on a React greenfield project, acting as the main point of contact for the business
+          </li>
+          <li>
+            Rearchitected a large Angular legacy code base by modularizing components, creating shared components, and minimizing unused or repetitive code
+          </li>
+          <li>
+            Transitioned an app&apos;s UI components from one library to another while maintaining complex logic
+          </li>
+          <li>
+            Formulated best practices for the growing team
+          </li>
+          <li>
+            Mentored new developers
           </li>
         </Entry>
 
         <Entry place="Sarah Cannon Research Institute" role="Application Engineer" when="2019 to 2021" meta="Cancer research, HCA Healthcare, Nashville">
           <li>
-            Embedded on a full-stack design and development team, building enterprise applications
-            for the cancer institute of HCA Healthcare.
+            Developed an Angular application used to run clinical trials at more than 300 locations worldwide
           </li>
           <li>
-            <Todo>TODO(emily): one concrete thing. A tool, a number, a before and after.</Todo>
+            Programmed data-intensive screens for all screen sizes
+          </li>
+          <li>
+            Contributed to the creation of multiple node packages and a widely used component library
+          </li>
+          <li>
+            Collaborated closely with the UX designer and developed off of high fidelity prototypes
+          </li>
+          <li>
+            Integrated compliant coding practices modeled after ADA regulations
+          </li>
+          <li>
+            Developed other notable projects, including a stroke registry for the American Heart Association, the world&apos;s first patient COVID-19 registry, and a portal for clinical trial participants
           </li>
         </Entry>
       </Section>
@@ -133,7 +177,8 @@ export default function Resume() {
       </Section>
 
       <Section title="Education">
-        <Entry place={"TODO(emily): school"} role="TODO(emily): degree, music" when="TODO(emily): years" />
+        <Entry place="Belmont University" role="Bachelor of Music" when="" />
+        <Entry place="Nashville Software School" role="Full Stack Web Development Bootcamp" when="2019" />
       </Section>
     </main>
   );

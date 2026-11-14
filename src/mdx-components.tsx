@@ -12,6 +12,7 @@ import { SignCard } from "@/components/case/easy-care/sign-card";
 import { Cart } from "@/components/case/easy-care/cart";
 import { Sign } from "@/components/case/easy-care/sign";
 import { Nav } from "@/components/case/easy-care/nav";
+import { System } from "@/components/case/easy-care/system";
 
 /**
  * Global MDX components. Case studies are written in markdown and drop
@@ -32,6 +33,7 @@ const components: MDXComponents = {
   Cart,
   Sign,
   Nav,
+  System,
   h2: (props) => <h2 className="mt-8 text-title font-medium text-ink" {...props} />,
   h3: (props) => <h3 className="mt-4 text-body font-medium text-ink" {...props} />,
   p: (props) => <p className="text-body text-ink-2" {...props} />,
